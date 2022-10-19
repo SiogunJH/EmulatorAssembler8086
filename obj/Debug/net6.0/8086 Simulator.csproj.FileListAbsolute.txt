@@ -1,0 +1,15 @@
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\8086 Simulator.exe
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\8086 Simulator.deps.json
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\8086 Simulator.runtimeconfig.json
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\8086 Simulator.dll
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\ref\8086 Simulator.dll
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\bin\Debug\net6.0\8086 Simulator.pdb
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.csproj.AssemblyReference.cache
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.AssemblyInfoInputs.cache
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.AssemblyInfo.cs
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.csproj.CoreCompileInputs.cache
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.dll
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\ref\8086 Simulator.dll
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.pdb
+E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
