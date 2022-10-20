@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Skróty Paska Narzędzi\\Studia\\Projekty\\8086 Simulator\\8086 Simulator.csproj",
+      "projectUniqueName": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
       "projectName": "8086 Simulator",
-      "projectPath": "E:\\Skróty Paska Narzędzi\\Studia\\Projekty\\8086 Simulator\\8086 Simulator.csproj",
+      "projectPath": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
       "packagesPath": "C:\\Users\\homar\\.nuget\\packages\\",
-      "outputPath": "E:\\Skróty Paska Narzędzi\\Studia\\Projekty\\8086 Simulator\\obj\\",
+      "outputPath": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\homar\\AppData\\Roaming\\NuGet\\NuGet.Config"

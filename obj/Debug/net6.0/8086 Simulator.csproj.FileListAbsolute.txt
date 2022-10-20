@@ -13,3 +13,18 @@ E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 
 E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\ref\8086 Simulator.dll
 E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.pdb
 E:\Skróty Paska Narzędzi\Studia\Projekty\8086 Simulator\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.exe
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.deps.json
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.runtimeconfig.json
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.dll
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\ref\8086 Simulator.dll
+E:\Studia\Projekty\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.pdb
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.AssemblyReference.cache
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfoInputs.cache
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfo.cs
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.CoreCompileInputs.cache
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.dll
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\ref\8086 Simulator.dll
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.pdb
+E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
