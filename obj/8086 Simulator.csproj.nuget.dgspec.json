@@ -1,24 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj": {}
+    "D:\\Users\\jakub.hojda\\MyData\\Wprowadzenie do Programowania\\ProjektSemestralnyASK1\\8086 Simulator.csproj": {}
   },
   "projects": {
-    "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj": {
+    "D:\\Users\\jakub.hojda\\MyData\\Wprowadzenie do Programowania\\ProjektSemestralnyASK1\\8086 Simulator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
+        "projectUniqueName": "D:\\Users\\jakub.hojda\\MyData\\Wprowadzenie do Programowania\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
         "projectName": "8086 Simulator",
-        "projectPath": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
-        "packagesPath": "C:\\Users\\homar\\.nuget\\packages\\",
-        "outputPath": "E:\\Studia\\Projekty\\ProjektSemestralnyASK1\\obj\\",
+        "projectPath": "D:\\Users\\jakub.hojda\\MyData\\Wprowadzenie do Programowania\\ProjektSemestralnyASK1\\8086 Simulator.csproj",
+        "packagesPath": "D:\\Users\\jakub.hojda\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\jakub.hojda\\MyData\\Wprowadzenie do Programowania\\ProjektSemestralnyASK1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\homar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "D:\\Users\\jakub.hojda\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
@@ -40,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -49,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.110\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

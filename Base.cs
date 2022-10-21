@@ -10,6 +10,8 @@
             Console.WriteLine("~quit - exits the simulator");
             Console.WriteLine("");
 
+            int[] registerH = GenerateData.RegisterH();
+
             //Program
             string userInput;
             do
