@@ -1,6 +1,6 @@
 ﻿namespace System
 {
-    class Command
+    public class Command
     {
         public static void Recognize(string command)
         {
@@ -237,29 +237,42 @@
                     break;
 
                 //FLAGS
-                case "CLC": //TODO
-
+                case "CLC":
+                    //This instruction resets the carry flag CF to 0.
+                    Global.Flags.CF = false;
                     break;
-                case "CLD": //TODO
-
+                case "CLD":
+                    //This instruction resets the direction flag DF to 0.
+                    Global.Flags.DF = false;
                     break;
-                case "CLI": //TODO
-
+                case "CLI":
+                    //This instruction resets the interrupt flag IF to 0.
+                    Global.Flags.IF = false;
                     break;
-                case "CMC": //TODO
-
+                case "CMC":
+                    //Inverts value of CF.
+                    if (Global.Flags.CF)
+                        Global.Flags.CF = false;
+                    else
+                        Global.Flags.CF = true;
                     break;
-                case "STC": //TODO
-
+                case "STC":
+                    //Set carry flag CF to 1.
+                    Global.Flags.CF = true;
                     break;
-                case "STD": //TODO
-
+                case "STD":
+                    //Set direction flag DF to 1.
+                    Global.Flags.DF = true;
                     break;
-                case "STI": //TODO
-
+                case "STI":
+                    //Set interrupt flag IF to 1.
+                    Global.Flags.IF = true;
                     break;
-                case "HLT": //TODO
 
+                //CONTROL
+                case "HLT":
+                    //Halt processing. It stops program execution
+                    Base.continueSimulation = false;
                     break;
                 case "NOP": //TODO
 
@@ -314,7 +327,10 @@
 
                 //META
                 case "~QUIT":
-                    Console.WriteLine("Exiting...");
+                    Base.continueSimulation = false;
+                    break;
+                case "~FLAGS":
+                    Global.Flags.Display();
                     break;
 
                 //ERROR
