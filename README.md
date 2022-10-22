@@ -1,15 +1,15 @@
 # 8086 Simulator
 #### Project by Hojda via CSharp
 
-#### Base
-Rrozpoczyna pracę programu
-Odpowiada konsolę i jej zapętlanie
+#### Base.cs
+Rrozpoczyna pracę programu<br>
+Odpowiada za pracę konsoli i jej zapętlanie
 
-#### Command
+#### Command.cs
 Odpowiada za rozpoznanie polecenia i wysłanie informacji zwrotnej
 
-#### Flags
+#### Flags.cs
 Odpowiada za obsługę wartości FLAG
 
-#### Global
-Odpowiada za utworzenie struktur przechowujących dane, które mają być dostępne z dowolnego miejsca w kodzie
+#### Global.cs
+Odpowiada za utworzenie struktur i zmiennych przechowujących dane, które mają być dostępne z dowolnego miejsca w kodzie

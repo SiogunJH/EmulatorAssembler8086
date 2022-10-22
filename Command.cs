@@ -18,8 +18,11 @@
             switch (commandArray[0].ToUpper())
             {
                 //DATA TRANSFER
-                case "MOV": //TODO
-
+                case "MOV": //Syntax: MOV dest, src 
+                    //Moves data from register to register, register to memory, memory to register, memory to accumulator, accumulator to memory, etc.
+                    if (!Tools.CheckForNumOfOperands(command, 2))
+                        return;
+                    //TODO
                     break;
                 case "LDS": //TODO
 
@@ -274,17 +277,20 @@
                     //Halt processing. It stops program execution
                     Base.continueSimulation = false;
                     break;
-                case "NOP": //TODO
-
+                case "NOP":
+                    //Do nothing for one tick
+                    ;
                     break;
-                case "ESC": //TODO
-
+                case "ESC":
+                    //Provides access to the data bus for other resident processors. The CPU treats it as a NOP but places memory operand on bus.
+                    ;
                     break;
-                case "WAIT": //TODO
-
+                case "WAIT": //VERIFY
+                    //Just... waits? I guess?
+                    ;
                     break;
-                case "LOCK": //TODO
-
+                case "LOCK": //VERIFY
+                    //I dunno
                     break;
 
                 //STRING
@@ -331,6 +337,15 @@
                     break;
                 case "~FLAGS":
                     Global.Flags.Display();
+                    break;
+                case "~REGISTER":
+                    Global.Register.Display();
+                    break;
+                case "~SEGMENTS":
+                    Global.Register.Display();
+                    break;
+                case "~POINTERS":
+                    Global.Pointers.Display();
                     break;
 
                 //ERROR
