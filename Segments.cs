@@ -10,7 +10,7 @@ namespace System
         }
         public void Display()
         {
-            Console.WriteLine("\n SS  DS  ES");
+            Console.WriteLine("\n SS   DS   ES");
             Console.Write($"{this.SS:X4} ");
             Console.Write($"{this.DS:X4} ");
             Console.Write($"{this.ES:X4}\n\n");

@@ -11,7 +11,7 @@ namespace System
         }
         public void Display()
         {
-            Console.WriteLine("\n SP  BP  SI  DI");
+            Console.WriteLine("\n SP   BP   SI   DI");
             Console.Write($"{this.SP:X4} ");
             Console.Write($"{this.BP:X4} ");
             Console.Write($"{this.SI:X4} ");

@@ -20,8 +20,7 @@
                 //DATA TRANSFER
                 case "MOV": //Syntax: MOV dest, src 
                     //Moves data from register to register, register to memory, memory to register, memory to accumulator, accumulator to memory, etc.
-                    if (!Tools.CheckForNumOfOperands(command, 2))
-                        return;
+                    Algorithms.MOV(command);
                     //TODO
                     break;
                 case "LDS": //TODO
@@ -342,7 +341,7 @@
                     Global.Register.Display();
                     break;
                 case "~SEGMENTS":
-                    Global.Register.Display();
+                    Global.Segments.Display();
                     break;
                 case "~POINTERS":
                     Global.Pointers.Display();

@@ -8,10 +8,33 @@ namespace System
             string[] commandArray = command.Split(",");
             if (commandArray.Length != expectedNumOfOperands)
             {
-                Console.WriteLine("Incorrect Syntax!");
+                Console.WriteLine("Incorrect number of Operands!");
                 return false;
             }
             return true;
+        }
+        public static string DetectOperandType(string operand)
+        {
+            if (operand.EndsWith('L') || operand.EndsWith('X') || operand.EndsWith('H')) //REGISTER OPERAND
+                return "R";
+            else if (operand.EndsWith('F')) //FLAG OPERAND
+                return "F";
+            else if (operand.EndsWith('S')) //SEGMENT OPERAND
+                return "S";
+            else if (operand.EndsWith('P') || operand.EndsWith('I')) //POINTER OPERAND
+                return "P";
+            else //NUMBER OPERAND
+                return "N";
+        }
+        public static void ReadDataFromOperand(string operand)
+        {
+            string operandType = DetectOperandType(operand);
+            switch (operandType)
+            {
+                case "R":
+
+                    break;
+            }
         }
     }
 }
