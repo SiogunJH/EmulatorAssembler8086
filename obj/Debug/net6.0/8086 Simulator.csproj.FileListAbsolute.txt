@@ -28,3 +28,18 @@ E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.dll
 E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\ref\8086 Simulator.dll
 E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.pdb
 E:\Studia\Projekty\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.exe
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.deps.json
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.runtimeconfig.json
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.dll
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.pdb
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.AssemblyReference.cache
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfoInputs.cache
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfo.cs
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.CoreCompileInputs.cache
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.dll
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\refint\8086 Simulator.dll
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.pdb
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
+D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\ref\8086 Simulator.dll
