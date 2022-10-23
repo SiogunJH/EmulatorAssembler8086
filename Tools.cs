@@ -26,14 +26,15 @@ namespace System
             else //NUMBER OPERAND
                 return "N";
         }
-        public static void ReadDataFromOperand(string operand)
+        public static int ReadDataFromOperand(string operand)
         {
             string operandType = DetectOperandType(operand);
             switch (operandType)
             {
                 case "R":
-
-                    break;
+                    return Storage.Register[operand];
+                default:
+                    return -1;
             }
         }
     }

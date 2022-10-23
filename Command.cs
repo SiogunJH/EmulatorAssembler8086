@@ -241,34 +241,34 @@
                 //FLAGS
                 case "CLC":
                     //This instruction resets the carry flag CF to 0.
-                    Global.Flags.CF = false;
+                    Storage.Flags["CF"] = 0;
                     break;
                 case "CLD":
                     //This instruction resets the direction flag DF to 0.
-                    Global.Flags.DF = false;
+                    Storage.Flags["DF"] = 0;
                     break;
                 case "CLI":
                     //This instruction resets the interrupt flag IF to 0.
-                    Global.Flags.IF = false;
+                    Storage.Flags["IF"] = 0;
                     break;
                 case "CMC":
                     //Inverts value of CF.
-                    if (Global.Flags.CF)
-                        Global.Flags.CF = false;
+                    if (Storage.Flags["CF"] == 1)
+                        Storage.Flags["CF"] = 0;
                     else
-                        Global.Flags.CF = true;
+                        Storage.Flags["CF"] = 1;
                     break;
                 case "STC":
                     //Set carry flag CF to 1.
-                    Global.Flags.CF = true;
+                    Storage.Flags["CF"] = 1;
                     break;
                 case "STD":
                     //Set direction flag DF to 1.
-                    Global.Flags.DF = true;
+                    Storage.Flags["DF"] = 1;
                     break;
                 case "STI":
                     //Set interrupt flag IF to 1.
-                    Global.Flags.IF = true;
+                    Storage.Flags["IF"] = 1;
                     break;
 
                 //CONTROL
@@ -280,7 +280,7 @@
                     //Do nothing for one tick
                     ;
                     break;
-                case "ESC":
+                case "ESC": //VERIFY
                     //Provides access to the data bus for other resident processors. The CPU treats it as a NOP but places memory operand on bus.
                     ;
                     break;
@@ -335,16 +335,16 @@
                     Base.continueSimulation = false;
                     break;
                 case "~FLAGS":
-                    Global.Flags.Display();
+                    Storage.FlagsDisplay();
                     break;
                 case "~REGISTER":
-                    Global.Register.Display();
+                    Storage.RegisterDisplay();
                     break;
                 case "~SEGMENTS":
-                    Global.Segments.Display();
+                    Storage.SegmentsDisplay();
                     break;
                 case "~POINTERS":
-                    Global.Pointers.Display();
+                    Storage.PointersDisplay();
                     break;
 
                 //ERROR

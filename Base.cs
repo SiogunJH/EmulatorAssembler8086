@@ -15,16 +15,10 @@
             Console.WriteLine("~POINTERS - show all POINTERS values");
             Console.WriteLine("");
 
-            var temp = new Collections.Generic.Dictionary<String, Int32>();
-            temp.Add("AH", 0);
-            temp.Add("BH", 1);
-            temp.Add("CH", 2);
-            temp.Add("DH", 3);
-            Console.WriteLine(temp["AH"]);
-            Console.WriteLine(temp["BH"]);
-            var t = "AH";
-            temp[t] = 10;
-            Console.WriteLine(temp["AH"]);
+            Storage.RegisterInit();
+            Storage.FlagsInit();
+            Storage.SegmentsInit();
+            Storage.PointersInit();
 
             //Program
             string userInput;
