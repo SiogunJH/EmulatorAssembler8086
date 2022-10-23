@@ -254,9 +254,15 @@
                 case "CMC":
                     //Inverts value of CF.
                     if (Storage.Flags["CF"] == 1)
+                    {
+                        //Console.WriteLine("CF: 1->0");
                         Storage.Flags["CF"] = 0;
+                    }
                     else
+                    {
+                        //Console.WriteLine("CF: 0->1");
                         Storage.Flags["CF"] = 1;
+                    }
                     break;
                 case "STC":
                     //Set carry flag CF to 1.
@@ -331,20 +337,23 @@
                     break;
 
                 //META
-                case "~QUIT":
+                case "!QUIT":
                     Base.continueSimulation = false;
                     break;
-                case "~FLAGS":
+                case "!FLAGS":
                     Storage.FlagsDisplay();
                     break;
-                case "~REGISTER":
+                case "!REGISTER":
                     Storage.RegisterDisplay();
                     break;
-                case "~SEGMENTS":
+                case "!SEGMENTS":
                     Storage.SegmentsDisplay();
                     break;
-                case "~POINTERS":
+                case "!POINTERS":
                     Storage.PointersDisplay();
+                    break;
+                case "!STORAGE":
+                    Tools.StorageDisplay();
                     break;
 
                 //ERROR

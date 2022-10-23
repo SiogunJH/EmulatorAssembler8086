@@ -2,6 +2,32 @@ namespace System
 {
     class Tools
     {
+        public static void WelcomeMessage()
+        {
+            Console.WriteLine("\nWelcome to 8086 Simulator made by Hojda");
+            Console.WriteLine("Here is a list of meta-commands available:\n");
+            Console.WriteLine("!QUIT - exit the simulator");
+            Console.WriteLine("!FLAGS - show all FLAG values");
+            Console.WriteLine("!REGISTER - show all REGISTER values");
+            Console.WriteLine("!SEGMENTS - show all SEGMENTS values");
+            Console.WriteLine("!POINTERS - show all POINTERS values");
+            Console.WriteLine("!STORAGE - show all data");
+            Console.WriteLine("");
+        }
+        public static void StorageInit()
+        {
+            Storage.RegisterInit();
+            Storage.FlagsInit();
+            Storage.SegmentsInit();
+            Storage.PointersInit();
+        }
+        public static void StorageDisplay()
+        {
+            Storage.RegisterDisplay();
+            Storage.FlagsDisplay();
+            Storage.SegmentsDisplay();
+            Storage.PointersDisplay();
+        }
         public static bool CheckForNumOfOperands(string command, int expectedNumOfOperands)
         {
             command = command.Substring(command.Split(' ')[0].Length);
