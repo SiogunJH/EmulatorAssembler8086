@@ -39,29 +39,71 @@ namespace System
             }
             return true;
         }
-        public static string DetectOperandType(string operand)
+        public static string DetectOperandType(string operand) //TODO: FIX DETECTION
         {
-            if (operand.EndsWith('L') || operand.EndsWith('X') || operand.EndsWith('H')) //REGISTER OPERAND
-                return "R";
-            else if (operand.EndsWith('F')) //FLAG OPERAND
-                return "F";
-            else if (operand.EndsWith('S')) //SEGMENT OPERAND
-                return "S";
-            else if (operand.EndsWith('P') || operand.EndsWith('I')) //POINTER OPERAND
-                return "P";
-            else //NUMBER OPERAND
-                return "N";
+            if ("AH;BH;CH;DH;AL;BL;CL;DL;AX;BX;CX;DX".Contains(operand)) //REGISTER OPERAND
+                return "register";
+            else if ("OF;DF;IF;TF;SF;ZF;AF;PF;CF".Contains(operand)) //FLAG OPERAND
+                return "flag";
+            else if ("SS;DS;ES".Contains(operand)) //SEGMENT OPERAND
+                return "segment";
+            else if ("SP;BP;SI;DI".Contains(operand)) //POINTER OPERAND
+                return "pointer";
+            else if (int.TryParse(operand, out int temp))//NUMBER OPERAND
+                return "number";
+            /*else if (false) //MEMORY
+                return "memory";*/
+            else
+                return "error";
         }
-        public static int ReadDataFromOperand(string operand)
+        public static int ReadDataFromOperand(string operand, string operandType) //TODO: FIX THIS SO IT READS HEX NUMBERS
         {
-            string operandType = DetectOperandType(operand);
             switch (operandType)
             {
-                case "R":
+                case "register": //REGISTER
+                    operand = operand.Replace('X', 'L');
                     return Storage.Register[operand];
-                default:
-                    return -1;
+                case "flag": //FLAG
+                    return Storage.Flags[operand];
+                case "segment": //SEGMENT
+                    return Storage.Segments[operand];
+                case "pointer": //POINTER
+                    return Storage.Pointers[operand];
+                case "number": //NUMBER
+                    return int.Parse(operand);
             }
+            //ERROR
+            Console.WriteLine($"Incorrect operand type of '{operandType}' for operand '{operand}'");
+            return -1;
+        }
+        public static bool WriteDataToOperand(string operand, string operandType, int value)
+        {
+            switch (operandType)
+            {
+                case "register": //REGISTER
+                    operand = operand.Replace('X', 'L');
+                    if (!(value >= 0 && value <= 255))
+                        break;
+                    Storage.Register[operand] = value;
+                    return true;
+                case "flag": //FLAG
+                    if (!(value >= 0 && value <= 1))
+                        break;
+                    Storage.Flags[operand] = value;
+                    return true;
+                case "segment": //SEGMENT
+                    if (!(value >= 0 && value <= 255))
+                        break;
+                    Storage.Segments[operand] = value;
+                    return true;
+                case "pointer": //POINTER
+                    if (!(value >= 0 && value <= 255))
+                        break;
+                    Storage.Pointers[operand] = value;
+                    return true;
+            }
+            Console.WriteLine($"Couldn't write '{value}' to '{operandType}' operand named '{operand}'");
+            return false;
         }
     }
 }

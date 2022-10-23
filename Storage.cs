@@ -65,7 +65,7 @@ namespace System
         public static void SegmentsDisplay()
         {
             Console.WriteLine("\n SS   DS   ES");
-            Console.Write("{0:X4} ", Storage.Segments["SS"]);
+            Console.Write("{0:X4} ", Segments["SS"]);
             Console.Write("{0:X4} ", Segments["DS"]);
             Console.WriteLine("{0:X4}\n", Segments["ES"]);
         }

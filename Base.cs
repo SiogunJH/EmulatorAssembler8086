@@ -5,8 +5,11 @@
         public static bool continueSimulation = true;
         static void Main()
         {
+            //Startup
             Tools.WelcomeMessage();
             Tools.StorageInit();
+
+            //Testfield
 
             //Program
             string userInput;
