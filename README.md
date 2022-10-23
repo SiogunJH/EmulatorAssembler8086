@@ -11,7 +11,7 @@ Odpowiada za rozpoznanie polecenia i wysłanie informacji zwrotnej
 #### Algorithms.cs
 Odpowiada za wykonywanie złożonych instrukcji
 
-#### Global.cs
+#### Storage.cs
 Odpowiada za utworzenie struktur i zmiennych przechowujących dane, które mają być dostępne z dowolnego miejsca w kodzie
 
 #### Tools.cs
