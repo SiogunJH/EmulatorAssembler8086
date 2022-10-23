@@ -76,33 +76,34 @@ namespace System
             Console.WriteLine($"Incorrect operand type of '{operandType}' for operand '{operand}'");
             return -1;
         }
-        public static bool WriteDataToOperand(string operand, string operandType, int value)
+        public static bool WriteDataToOperand(string operand, string operandType, int operandValue)
         {
+            //Console.WriteLine($"Writing {operandValue} to {operandType} operand, named {operand}");
             switch (operandType)
             {
                 case "register": //REGISTER
                     operand = operand.Replace('X', 'L');
-                    if (!(value >= 0 && value <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 255))
                         break;
-                    Storage.Register[operand] = value;
+                    Storage.Register[operand] = operandValue;
                     return true;
                 case "flag": //FLAG
-                    if (!(value >= 0 && value <= 1))
+                    if (!(operandValue >= 0 && operandValue <= 1))
                         break;
-                    Storage.Flags[operand] = value;
+                    Storage.Flags[operand] = operandValue;
                     return true;
                 case "segment": //SEGMENT
-                    if (!(value >= 0 && value <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 255))
                         break;
-                    Storage.Segments[operand] = value;
+                    Storage.Segments[operand] = operandValue;
                     return true;
                 case "pointer": //POINTER
-                    if (!(value >= 0 && value <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 255))
                         break;
-                    Storage.Pointers[operand] = value;
+                    Storage.Pointers[operand] = operandValue;
                     return true;
             }
-            Console.WriteLine($"Couldn't write '{value}' to '{operandType}' operand named '{operand}'");
+            Console.WriteLine($"Couldn't write '{operandValue}' to '{operandType}' operand named '{operand}'");
             return false;
         }
     }
