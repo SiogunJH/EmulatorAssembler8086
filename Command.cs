@@ -15,7 +15,7 @@
             //Detect command
             string[] commandArray = command.Split(" ", StringSplitOptions.RemoveEmptyEntries); // commandArray[] = {Instruction, Operand1, Operand2}
 
-            switch (commandArray[0].ToUpper())
+            switch (commandArray[0])
             {
                 //DATA TRANSFER
                 case "MOV": //Syntax: MOV dest, src 

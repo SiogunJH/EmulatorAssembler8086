@@ -43,3 +43,18 @@ D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1
 D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.pdb
 D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
 D:\Users\jakub.hojda\MyData\Wprowadzenie do Programowania\ProjektSemestralnyASK1\obj\Debug\net6.0\ref\8086 Simulator.dll
+E:\Git\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.exe
+E:\Git\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.deps.json
+E:\Git\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.runtimeconfig.json
+E:\Git\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.dll
+E:\Git\ProjektSemestralnyASK1\bin\Debug\net6.0\8086 Simulator.pdb
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.AssemblyReference.cache
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfoInputs.cache
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.AssemblyInfo.cs
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.csproj.CoreCompileInputs.cache
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.dll
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\refint\8086 Simulator.dll
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.pdb
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\8086 Simulator.genruntimeconfig.cache
+E:\Git\ProjektSemestralnyASK1\obj\Debug\net6.0\ref\8086 Simulator.dll

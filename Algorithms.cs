@@ -21,10 +21,7 @@ namespace System
 
             //Check for incorrect operands
             if (Array.IndexOf(operandType, "error") != -1)
-            {
-                Console.WriteLine($"Incorrect operand type, for operand '{operand[Array.IndexOf(operandType, "error")]}'");
                 return;
-            }
 
             //Check if operation is allowed
             //TODO
@@ -45,6 +42,7 @@ namespace System
                 return;
 
             //Write operand1 value
+            //TODO: USE BOOL FOR FILE VERIFICATION
             bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue);
             return;
         }

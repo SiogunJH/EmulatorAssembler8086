@@ -28,6 +28,11 @@ namespace System
             Storage.SegmentsDisplay();
             Storage.PointersDisplay();
         }
+        public static int Parse(string number, string numberType)
+        {
+            return 0;
+        }
+
         public static bool CheckForNumOfOperands(string command, int expectedNumOfOperands)
         {
             command = command.Substring(command.Split(' ')[0].Length);
@@ -43,18 +48,29 @@ namespace System
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL;AX;BX;CX;DX".Contains(operand)) //REGISTER OPERAND
                 return "register";
-            else if ("OF;DF;IF;TF;SF;ZF;AF;PF;CF".Contains(operand)) //FLAG OPERAND
+            if ("OF;DF;IF;TF;SF;ZF;AF;PF;CF".Contains(operand)) //FLAG OPERAND
                 return "flag";
-            else if ("SS;DS;ES".Contains(operand)) //SEGMENT OPERAND
+            if ("SS;DS;ES".Contains(operand)) //SEGMENT OPERAND
                 return "segment";
-            else if ("SP;BP;SI;DI".Contains(operand)) //POINTER OPERAND
+            if ("SP;BP;SI;DI".Contains(operand)) //POINTER OPERAND
                 return "pointer";
-            else if (int.TryParse(operand, out int temp))//NUMBER OPERAND
-                return "number";
-            /*else if (false) //MEMORY
+            if (int.TryParse(operand, out int temp))//NUMBER OPERAND
+                return "numberD";
+            if (operand.EndsWith("H"))
+                //TODO: TEST IF CORRECT
+                return "numberH";
+            if (operand.EndsWith("Q") || operand.EndsWith("O"))
+                //TODO: TEST IF CORRECT
+                return "numberQ";
+            if (operand.EndsWith("B"))
+                //TODO: TEST IF CORRECT
+                return "numberB";
+            /*if (false) //MEMORY
                 return "memory";*/
-            else
-                return "error";
+            
+            Console.WriteLine($"Operand {operand} was not recognized!");
+            return "error";
+            
         }
         public static int ReadDataFromOperand(string operand, string operandType) //TODO: FIX THIS SO IT READS HEX NUMBERS
         {
@@ -69,8 +85,16 @@ namespace System
                     return Storage.Segments[operand];
                 case "pointer": //POINTER
                     return Storage.Pointers[operand];
-                case "number": //NUMBER
+                case "numberD": //NUMBER DECIMAL
                     return int.Parse(operand);
+                case "numberH":
+                    return Tools.Parse(operand.Substring(0,operand.Length-1), "H");
+                case "numberQ":
+                    return Tools.Parse(operand.Substring(0,operand.Length-1), "Q");
+                case "numberB":
+                    return Tools.Parse(operand.Substring(0,operand.Length-1), "B");
+                
+
             }
             //ERROR
             Console.WriteLine($"Incorrect operand type of '{operandType}' for operand '{operand}'");

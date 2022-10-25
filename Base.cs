@@ -18,7 +18,7 @@
                 Console.Write("> ");
                 userInput = Console.ReadLine();
 
-                Command.Recognize(userInput);
+                Command.Recognize(userInput.ToUpper());
 
             } while (continueSimulation);
         }
