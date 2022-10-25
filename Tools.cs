@@ -30,6 +30,7 @@ namespace System
         }
         public static int Parse(string number, string numberType)
         {
+            //int temp = unchecked((int)Convert.ToInt64(hexValue, 16));
             return 0;
         }
 
@@ -67,10 +68,10 @@ namespace System
                 return "numberB";
             /*if (false) //MEMORY
                 return "memory";*/
-            
+
             Console.WriteLine($"Operand {operand} was not recognized!");
             return "error";
-            
+
         }
         public static int ReadDataFromOperand(string operand, string operandType) //TODO: FIX THIS SO IT READS HEX NUMBERS
         {
@@ -88,12 +89,12 @@ namespace System
                 case "numberD": //NUMBER DECIMAL
                     return int.Parse(operand);
                 case "numberH":
-                    return Tools.Parse(operand.Substring(0,operand.Length-1), "H");
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "H");
                 case "numberQ":
-                    return Tools.Parse(operand.Substring(0,operand.Length-1), "Q");
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "Q");
                 case "numberB":
-                    return Tools.Parse(operand.Substring(0,operand.Length-1), "B");
-                
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "B");
+
 
             }
             //ERROR
