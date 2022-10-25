@@ -30,7 +30,20 @@ namespace System
         }
         public static int Parse(string number, string numberType)
         {
-            //int temp = unchecked((int)Convert.ToInt64(hexValue, 16));
+            /*
+            string value = "100000";
+		int temp = 0;
+		try
+		{
+		temp = unchecked((int)Convert.ToInt64(value, 2));
+		}
+		catch (Exception e)
+		{
+			if (e!=null)
+				Console.WriteLine("Niepoprawna wartość numeryczna 'value'");
+		};
+		Console.WriteLine(temp);
+            */
             return 0;
         }
 
