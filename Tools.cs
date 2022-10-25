@@ -28,23 +28,25 @@ namespace System
             Storage.SegmentsDisplay();
             Storage.PointersDisplay();
         }
-        public static int Parse(string number, string numberType)
+        public static int Parse(string number, int systemSize)
         {
-            /*
-            string value = "100000";
-		int temp = 0;
-		try
-		{
-		temp = unchecked((int)Convert.ToInt64(value, 2));
-		}
-		catch (Exception e)
-		{
-			if (e!=null)
-				Console.WriteLine("Niepoprawna wartość numeryczna 'value'");
-		};
-		Console.WriteLine(temp);
-            */
-            return 0;
+
+            //Define what characters are allowed in a system
+            string systemNumbers = "0123456789ABCDEF";
+            systemNumbers = systemNumbers.Substring(0, systemSize);
+            //Console.WriteLine(systemNumbers);
+
+            //Check if all characters are correct for a number system
+            char[] numberArray = number.ToCharArray();
+            for (int i = 0; i < numberArray.Length; i++)
+            {
+                if (!(systemNumbers.Contains(numberArray[i])))
+                {
+                    Console.WriteLine($"Niepoprawna wartość numeryczna '{number}'");
+                    return -1;
+                }
+            }
+            return unchecked((int)Convert.ToInt64(number, systemSize));
         }
 
         public static bool CheckForNumOfOperands(string command, int expectedNumOfOperands)
@@ -101,12 +103,12 @@ namespace System
                     return Storage.Pointers[operand];
                 case "numberD": //NUMBER DECIMAL
                     return int.Parse(operand);
-                case "numberH":
-                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "H");
-                case "numberQ":
-                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "Q");
-                case "numberB":
-                    return Tools.Parse(operand.Substring(0, operand.Length - 1), "B");
+                case "numberH": //NUMBER HEXA
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), 16);
+                case "numberQ": //NUMBER OCTAL
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), 8);
+                case "numberB": //NUMBER BINARY
+                    return Tools.Parse(operand.Substring(0, operand.Length - 1), 2);
 
 
             }
