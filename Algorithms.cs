@@ -25,7 +25,9 @@ namespace System
 
             //Check if operation is allowed
             //TODO
-            //VERIFY: WHAT IS SREG, SYNTAX OF MEMORY
+            //VERIFY: SYNTAX OF MEMORY
+            //SREG: DS, ES, SS, and only as second operand: CS.
+            //REG: AX = AHAL
             // MOV REG, memory
             // MOV REG, REG
             // MOV REG, immediate

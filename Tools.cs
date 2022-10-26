@@ -62,8 +62,10 @@ namespace System
         }
         public static string DetectOperandType(string operand) //TODO: FIX DETECTION
         {
-            if ("AH;BH;CH;DH;AL;BL;CL;DL;AX;BX;CX;DX".Contains(operand)) //REGISTER OPERAND
+            if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
                 return "register";
+            if ("AX;BX;CX;DX".Contains(operand)) //REGISTER H+L OPERAND
+                return "registerX";
             if ("OF;DF;IF;TF;SF;ZF;AF;PF;CF".Contains(operand)) //FLAG OPERAND
                 return "flag";
             if ("SS;DS;ES".Contains(operand)) //SEGMENT OPERAND
@@ -93,8 +95,9 @@ namespace System
             switch (operandType)
             {
                 case "register": //REGISTER
-                    operand = operand.Replace('X', 'L');
                     return Storage.Register[operand];
+                case "registerX": //REGISTER H+L
+                    return 0;
                 case "flag": //FLAG
                     return Storage.Flags[operand];
                 case "segment": //SEGMENT
