@@ -18,10 +18,8 @@
             switch (commandArray[0])
             {
                 //DATA TRANSFER
-                case "MOV": //Syntax: MOV dest, src 
-                    //Moves data from register to register, register to memory, memory to register, memory to accumulator, accumulator to memory, etc.
+                case "MOV":
                     Algorithms.MOV(command);
-                    //TODO
                     break;
                 case "LDS": //TODO
 
@@ -62,11 +60,11 @@
                     break;
 
                 //ARITHMETIC
-                case "ADD": //TODO
-
+                case "ADD":
+                    Algorithms.ADD(command);
                     break;
-                case "ADC": //TODO
-
+                case "ADC":
+                    Algorithms.ADC(command);
                     break;
                 case "SUB": //TODO
 
