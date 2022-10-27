@@ -337,23 +337,28 @@
                     break;
 
                 //META
-                case "!QUIT":
+                case "QUIT":
                     Base.continueSimulation = false;
                     break;
-                case "!FLAGS":
+                case "FLAGS":
                     Storage.FlagsDisplay();
                     break;
-                case "!REGISTER":
+                case "REGISTER":
                     Storage.RegisterDisplay();
                     break;
-                case "!SEGMENTS":
+                case "SEGMENTS":
                     Storage.SegmentsDisplay();
                     break;
-                case "!POINTERS":
+                case "POINTERS":
                     Storage.PointersDisplay();
                     break;
-                case "!STORAGE":
+                case "STORAGE":
                     Tools.StorageDisplay();
+                    break;
+                case "CLEAR":
+                case "CLS":
+                case "CLEANSE":
+                    Console.Clear();
                     break;
 
                 //ERROR

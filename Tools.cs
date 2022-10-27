@@ -6,12 +6,13 @@ namespace System
         {
             Console.WriteLine("\nWelcome to 8086 Simulator made by Hojda");
             Console.WriteLine("Here is a list of meta-commands available:\n");
-            Console.WriteLine("!QUIT - exit the simulator");
-            Console.WriteLine("!FLAGS - show all FLAG values");
-            Console.WriteLine("!REGISTER - show all REGISTER values");
-            Console.WriteLine("!SEGMENTS - show all SEGMENTS values");
-            Console.WriteLine("!POINTERS - show all POINTERS values");
-            Console.WriteLine("!STORAGE - show all data");
+            Console.WriteLine("QUIT - exit the simulator");
+            Console.WriteLine("FLAGS - show all FLAG values");
+            Console.WriteLine("REGISTER - show all REGISTER values");
+            Console.WriteLine("SEGMENTS - show all SEGMENTS values");
+            Console.WriteLine("POINTERS - show all POINTERS values");
+            Console.WriteLine("STORAGE - show all data");
+            Console.WriteLine("CLEAR - clear console buffer");
             Console.WriteLine("");
         }
         public static void StorageInit()
@@ -93,7 +94,7 @@ namespace System
                 case "register": //REGISTER
                     return Storage.Register[operand];
                 case "registerX": //REGISTER H+L
-                    return 0;
+                    return Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "H")] * 256 + Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "L")];
                 case "flag": //FLAG
                     return Storage.Flags[operand];
                 case "segment": //SEGMENT
@@ -117,7 +118,6 @@ namespace System
         }
         public static bool WriteDataToOperand(string operand, string operandType, int operandValue)
         {
-            //Console.WriteLine($"Writing {operandValue} to {operandType} operand, named {operand}");
             switch (operandType)
             {
                 case "register": //REGISTER
@@ -128,8 +128,8 @@ namespace System
                 case "registerX": //REGISTER H+L
                     if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
-                    Storage.Register[String.Format("{0}{1}", operand.Substring(0,1), "H")] = operandValue/256;
-                    Storage.Register[String.Format("{0}{1}", operand.Substring(0,1), "L")] = operandValue%256;
+                    Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "H")] = operandValue / 256;
+                    Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "L")] = operandValue % 256;
                     return true;
                 case "flag": //FLAG
                     if (!(operandValue >= 0 && operandValue <= 1))

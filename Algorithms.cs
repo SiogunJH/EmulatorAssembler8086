@@ -27,10 +27,15 @@ namespace System
             if (
                 //NO WRITING TO NUMBER OR FLAG
                 ("numberD;numberB;numberH;numberQ;flag".Contains(operandType[0])) ||
-                //NO WRITING MEMORY TO MEMORY
-                ("memory".Contains(operandType[0]) && "memory;flag".Contains(operandType[1])) ||
-                //NO WRITING NUMBER, SEGMENT, FLAG OR REGISTER H/L TO SEGMENT
-                ("segment".Contains(operandType[0]) && "segment;numberD;numberB;numberH;numberQ;register;flag".Contains(operandType[1]))
+                //NO WRITING FROM FLAG
+                ("flag".Contains(operandType[1])) ||
+                //NO WRITING FROM REGISTER TO REGISTER H+L AND VICE VERSA
+                ("register".Contains(operandType[0]) && "registerX".Contains(operandType[1])) ||
+                ("registerX".Contains(operandType[0]) && "register".Contains(operandType[1])) ||
+                //NO WRITING FROM MEMORY TO MEMORY
+                ("memory".Contains(operandType[0]) && "memory".Contains(operandType[1])) ||
+                //NO WRITING FROM NUMBER, SEGMENT, FLAG OR REGISTER H/L TO SEGMENT
+                ("segment".Contains(operandType[0]) && "segment;numberD;numberB;numberH;numberQ;register".Contains(operandType[1]))
             )
             {
                 Console.WriteLine($"Illegal operation: Cannot write '{operandType[1]}' to '{operandType[0]}'");
