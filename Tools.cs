@@ -125,7 +125,7 @@ namespace System
                         break;
                     Storage.Register[operand] = operandValue;
                     return true;
-                case "registerX":
+                case "registerX": //REGISTER H+L
                     if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
                     Storage.Register[String.Format("{0}{1}", operand.Substring(0,1), "H")] = operandValue/256;

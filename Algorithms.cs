@@ -24,19 +24,18 @@ namespace System
                 return;
 
             //Check if operation is allowed
-            //TODO
-            //VERIFY: SYNTAX OF MEMORY
-            //SREG: DS, ES, SS, and only as second operand: CS.
-            //REG: AX = AHAL
-            // MOV REG, memory
-            // MOV REG, REG
-            // MOV REG, immediate
-            // MOV REG, SREG
-            // MOV memory, REG
-            // MOV memory, immediate
-            // MOV memory, SREG
-            // MOV SREG, memory
-            // MOV SREG, REG
+            if (
+                //NO WRITING TO NUMBER OR FLAG
+                ("numberD;numberB;numberH;numberQ;flag".Contains(operandType[0])) ||
+                //NO WRITING MEMORY TO MEMORY
+                ("memory".Contains(operandType[0]) && "memory;flag".Contains(operandType[1])) ||
+                //NO WRITING NUMBER, SEGMENT, FLAG OR REGISTER H/L TO SEGMENT
+                ("segment".Contains(operandType[0]) && "segment;numberD;numberB;numberH;numberQ;register;flag".Contains(operandType[1]))
+            )
+            {
+                Console.WriteLine($"Illegal operation: Cannot write '{operandType[1]}' to '{operandType[0]}'");
+                return;
+            }
 
             //Read operand2 value
             int operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
@@ -44,7 +43,6 @@ namespace System
                 return;
 
             //Write operand1 value
-            //TODO: USE BOOL FOR FILE VERIFICATION
             bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue);
             return;
         }
