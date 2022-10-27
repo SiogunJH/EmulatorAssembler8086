@@ -34,7 +34,6 @@ namespace System
             //Define what characters are allowed in a system
             string systemNumbers = "0123456789ABCDEF";
             systemNumbers = systemNumbers.Substring(0, systemSize);
-            //Console.WriteLine(systemNumbers);
 
             //Check if all characters are correct for a number system
             char[] numberArray = number.ToCharArray();
@@ -75,13 +74,10 @@ namespace System
             if (int.TryParse(operand, out int temp))//NUMBER OPERAND
                 return "numberD";
             if (operand.EndsWith("H"))
-                //TODO: TEST IF CORRECT
                 return "numberH";
             if (operand.EndsWith("Q") || operand.EndsWith("O"))
-                //TODO: TEST IF CORRECT
                 return "numberQ";
             if (operand.EndsWith("B"))
-                //TODO: TEST IF CORRECT
                 return "numberB";
             /*if (false) //MEMORY
                 return "memory";*/
@@ -125,10 +121,15 @@ namespace System
             switch (operandType)
             {
                 case "register": //REGISTER
-                    operand = operand.Replace('X', 'L');
                     if (!(operandValue >= 0 && operandValue <= 255))
                         break;
                     Storage.Register[operand] = operandValue;
+                    return true;
+                case "registerX":
+                    if (!(operandValue >= 0 && operandValue <= 65535))
+                        break;
+                    Storage.Register[String.Format("{0}{1}", operand.Substring(0,1), "H")] = operandValue/256;
+                    Storage.Register[String.Format("{0}{1}", operand.Substring(0,1), "L")] = operandValue%256;
                     return true;
                 case "flag": //FLAG
                     if (!(operandValue >= 0 && operandValue <= 1))
