@@ -60,7 +60,7 @@ namespace System
             }
             return true;
         }
-        public static string DetectOperandType(string operand) //TODO: FIX DETECTION
+        public static string DetectOperandType(string operand) //TODO: ADD MEMORY
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
                 return "register";

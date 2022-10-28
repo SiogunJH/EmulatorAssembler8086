@@ -66,14 +66,14 @@
                 case "ADC":
                     Algorithms.ADC(command);
                     break;
-                case "SUB": //TODO
-
+                case "SUB":
+                    Algorithms.SUB(command);
                     break;
-                case "SBB": //TODO
-
+                case "SBB":
+                    Algorithms.SBB(command);
                     break;
-                case "MUL": //TODO
-
+                case "MUL":
+                    Algorithms.MUL(command);
                     break;
                 case "IMUL": //TODO
 
