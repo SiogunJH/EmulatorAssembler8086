@@ -29,6 +29,10 @@ namespace System
             Storage.SegmentsDisplay();
             Storage.PointersDisplay();
         }
+
+        //Parse string number to a decimal
+        //number - value to be parsed
+        //systemSize - system size of a number that will be parsed
         public static int Parse(string number, int systemSize)
         {
 
@@ -47,6 +51,18 @@ namespace System
                 }
             }
             return unchecked((int)Convert.ToInt64(number, systemSize));
+        }
+        //Test for number bit parity, returns true/false
+        //number - the decimal value, that will be tested 
+        public static void UpdateParityFlag(int number)
+        {
+            char[] binary = Convert.ToString(number, 2).ToCharArray(); //[int] to [binary char array]
+            int length = Array.FindAll(binary, element => element == '1').Length;
+            if (length % 2 == 0)
+                Storage.Flags["PF"] = 1;
+            else
+                Storage.Flags["PF"] = 0;
+            return;
         }
 
         public static bool CheckForNumOfOperands(string command, int expectedNumOfOperands)
@@ -137,12 +153,12 @@ namespace System
                     Storage.Flags[operand] = operandValue;
                     return true;
                 case "segment": //SEGMENT
-                    if (!(operandValue >= 0 && operandValue <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
                     Storage.Segments[operand] = operandValue;
                     return true;
                 case "pointer": //POINTER
-                    if (!(operandValue >= 0 && operandValue <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
                     Storage.Pointers[operand] = operandValue;
                     return true;

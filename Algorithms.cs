@@ -32,8 +32,12 @@ namespace System
                 return;
 
             //Write operand1 value
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0] + operandValue[1] + Storage.Flags["CF"]);
-            return;
+            int valueToWrite = operandValue[0] + operandValue[1] + Storage.Flags["CF"];
+            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+            if (!result) return;
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
 
         //Adds specified operands
@@ -66,8 +70,12 @@ namespace System
                 return;
 
             //Write operand1 value
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0] + operandValue[1]);
-            return;
+            int valueToWrite = operandValue[0] + operandValue[1];
+            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+            if (!result) return;
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
 
         //Moves data from register to register, register to memory, memory to register, memory to accumulator, accumulator to memory, etc.
@@ -98,8 +106,12 @@ namespace System
                 return;
 
             //Write operand1 value
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue);
-            return;
+            int valueToWrite = operandValue;
+            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+            if (!result) return;
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
 
         //Multiplies AL by an operand, and saves the result in AX; if AH is empty afterwards, set OF and CF to 0; if not, set OF and CF to 1
@@ -130,10 +142,13 @@ namespace System
                 return;
 
             //Write results value
-            bool result = Tools.WriteDataToOperand("AX", "registerX", operandValue * Storage.Register["AL"]);
+            int valueToWrite = operandValue * Storage.Register["AL"];
+            bool result = Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
+            if (!result) return;
 
             //Modify flags
-            if (Storage.Register["AH"] == 0)
+            Tools.UpdateParityFlag(valueToWrite); //PF
+            if (Storage.Register["AH"] == 0) //OF i CF
             {
                 Storage.Flags["OF"] = 0;
                 Storage.Flags["CF"] = 0;
@@ -143,7 +158,6 @@ namespace System
                 Storage.Flags["OF"] = 1;
                 Storage.Flags["CF"] = 1;
             }
-            return;
         }
 
         //Substract specified operands and substract one extra if the carry flag is up
@@ -176,8 +190,12 @@ namespace System
                 return;
 
             //Write operand1 value
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0] - operandValue[1] - Storage.Flags["CF"]);
-            return;
+            int valueToWrite = operandValue[0] - operandValue[1] - Storage.Flags["CF"];
+            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+            if (!result) return;
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
 
         //Adds specified operands and the carry status
@@ -210,8 +228,12 @@ namespace System
                 return;
 
             //Write operand1 value
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0] - operandValue[1]);
-            return;
+            int valueToWrite = operandValue[0] - operandValue[1];
+            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+            if (!result) return;
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
     }
 }
