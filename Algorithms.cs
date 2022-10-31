@@ -86,7 +86,7 @@ namespace System
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
-            if (!"register;registerX;segment;pointer;memory".Contains(operandType[0])) throw new Exception("Operand type for DIV instruction should only be 'register' or 'memory'");
+            if (!"register;registerX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for DIV instruction should only be 'register' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
