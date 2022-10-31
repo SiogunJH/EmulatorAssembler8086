@@ -278,7 +278,7 @@
                 //CONTROL
                 case "HLT":
                     //Halt processing. It stops program execution
-                    Base.continueSimulation = false;
+                    Base.ContinueSimulation = false;
                     break;
                 case "NOP":
                     //Do nothing for one tick
@@ -336,7 +336,7 @@
 
                 //META
                 case "QUIT":
-                    Base.continueSimulation = false;
+                    Base.ContinueSimulation = false;
                     break;
                 case "FLAGS":
                     Storage.FlagsDisplay();
@@ -352,6 +352,18 @@
                     break;
                 case "STORAGE":
                     Tools.StorageDisplay();
+                    break;
+                case "DEBUG":
+                    if (Base.DebugMode)
+                    {
+                        Base.DebugMode = false;
+                        Console.WriteLine("Debug Mode is Off");
+                    }
+                    else
+                    {
+                        Base.DebugMode = true;
+                        Console.WriteLine("Debug Mode is On");
+                    }
                     break;
                 case "CLEAR":
                 case "CLS":

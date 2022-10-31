@@ -2,7 +2,8 @@
 {
     public class Base
     {
-        public static bool continueSimulation = true;
+        public static bool ContinueSimulation = true;
+        public static bool DebugMode = false;
         static void Main()
         {
             //Startup
@@ -15,12 +16,22 @@
             string userInput;
             do
             {
+                //USER INPUT
                 Console.Write("> ");
                 userInput = Console.ReadLine();
 
-                Command.Recognize(userInput.ToUpper());
+                //PROCESS COMMAND
+                try
+                {
+                    Command.Recognize(userInput.ToUpper());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    if (DebugMode) Console.WriteLine(e.StackTrace);
+                }
 
-            } while (continueSimulation);
+            } while (ContinueSimulation);
         }
     }
 }

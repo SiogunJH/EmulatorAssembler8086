@@ -13,6 +13,7 @@ namespace System
             Console.WriteLine("POINTERS - show all POINTERS values");
             Console.WriteLine("STORAGE - show all data");
             Console.WriteLine("CLEAR - clear console buffer");
+            Console.WriteLine("DEBUG - toggle additional information (off by default)");
             Console.WriteLine("");
         }
         public static void StorageInit()
@@ -45,14 +46,11 @@ namespace System
             for (int i = 0; i < numberArray.Length; i++)
             {
                 if (!(systemNumbers.Contains(numberArray[i])))
-                {
-                    Console.WriteLine($"Niepoprawna wartość numeryczna '{number}'");
-                    return -1;
-                }
+                    throw new Exception($"Niepoprawna wartość numeryczna '{number}' dla systemu o rozmiarze '{systemSize}'");
             }
             return unchecked((int)Convert.ToInt64(number, systemSize));
         }
-        //Test for number bit parity, returns true/false
+        //Test number for bit parity and adjust the Parity Flag (PF) accordingly
         //number - the decimal value, that will be tested 
         public static void UpdateParityFlag(int number)
         {
@@ -65,16 +63,15 @@ namespace System
             return;
         }
 
-        public static bool CheckForNumOfOperands(string command, int expectedNumOfOperands)
+        public static void CheckForNumOfOperands(string command, int expectedNumOfOperands)
         {
-            command = command.Substring(command.Split(' ')[0].Length);
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(instruction.Length);
             string[] commandArray = command.Split(",");
             if (commandArray.Length != expectedNumOfOperands)
             {
-                Console.WriteLine("Incorrect number of Operands!");
-                return false;
+                throw new Exception($"Incorrect number of operands for '{instruction}'!\nRecieved '{commandArray.Length}', but expected '{expectedNumOfOperands}'");
             }
-            return true;
         }
         public static string DetectOperandType(string operand) //TODO: ADD MEMORY
         {
@@ -88,19 +85,18 @@ namespace System
                 return "segment";
             if ("SP;BP;SI;DI".Contains(operand)) //POINTER OPERAND
                 return "pointer";
-            if (int.TryParse(operand, out int temp))//NUMBER OPERAND
+            if (int.TryParse(operand, out int temp)) //NUMBER OPERAND DECIMAL
                 return "numberD";
-            if (operand.EndsWith("H"))
+            if (operand.EndsWith("H")) //NUMBER OPERAND HEXADECIMAL
                 return "numberH";
-            if (operand.EndsWith("Q") || operand.EndsWith("O"))
+            if (operand.EndsWith("Q") || operand.EndsWith("O")) //NUMBER OPERAND OCTAL
                 return "numberQ";
-            if (operand.EndsWith("B"))
+            if (operand.EndsWith("B")) //NUMBER OPERAND BINARY
                 return "numberB";
             /*if (false) //MEMORY
                 return "memory";*/
 
-            Console.WriteLine($"Operand {operand} was not recognized!");
-            return "error";
+            throw new Exception($"Operand '{operand}' was not recognized!");
 
         }
         public static int ReadDataFromOperand(string operand, string operandType) //TODO: FIX THIS SO IT READS HEX NUMBERS
@@ -125,46 +121,54 @@ namespace System
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 8);
                 case "numberB": //NUMBER BINARY
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 2);
-
-
             }
-            //ERROR
-            Console.WriteLine($"Incorrect operand type of '{operandType}' for operand '{operand}'");
-            return -1;
+            throw new Exception($"Incorrect operand type of '{operandType}' for operand '{operand}'");
         }
-        public static bool WriteDataToOperand(string operand, string operandType, int operandValue)
+        public static void WriteDataToOperand(string operand, string operandType, int operandValue)
         {
+            if (Base.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");
             switch (operandType)
             {
                 case "register": //REGISTER
-                    if (!(operandValue >= 0 && operandValue <= 255))
+                    if (!(operandValue >= -128 && operandValue <= 255))
                         break;
+                    if (operandValue < 0)
+                        operandValue += 256;
                     Storage.Register[operand] = operandValue;
-                    return true;
+                    return;
+
                 case "registerX": //REGISTER H+L
-                    if (!(operandValue >= 0 && operandValue <= 65535))
+                    if (!(operandValue >= -32768 && operandValue <= 65535))
                         break;
+                    if (operandValue < 0)
+                        operandValue += 65536;
                     Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "H")] = operandValue / 256;
                     Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "L")] = operandValue % 256;
-                    return true;
+                    return;
+
                 case "flag": //FLAG
                     if (!(operandValue >= 0 && operandValue <= 1))
                         break;
                     Storage.Flags[operand] = operandValue;
-                    return true;
+                    return;
+
                 case "segment": //SEGMENT
-                    if (!(operandValue >= 0 && operandValue <= 65535))
+                    if (!(operandValue >= -32768 && operandValue <= 65535))
                         break;
+                    if (operandValue < 0)
+                        operandValue += 65536;
                     Storage.Segments[operand] = operandValue;
-                    return true;
+                    return;
+
                 case "pointer": //POINTER
-                    if (!(operandValue >= 0 && operandValue <= 65535))
+                    if (!(operandValue >= -32768 && operandValue <= 65535))
                         break;
+                    if (operandValue < 0)
+                        operandValue += 65536;
                     Storage.Pointers[operand] = operandValue;
-                    return true;
+                    return;
             }
-            Console.WriteLine($"Couldn't write '{operandValue}' to '{operandType}' operand named '{operand}'");
-            return false;
+            throw new Exception($"Couldn't write '{operandValue}' to operand named '{operand}' with type of '{operandType}'");
         }
     }
 }

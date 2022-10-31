@@ -2,12 +2,13 @@ namespace System
 {
     class Algorithms
     {
-        //Adds specified operands and the carry status
+        //Adds [operand 2] to [operand 1] and save to [operand 1]
+        //Add 1 extra, if [Carry Flag] is 1
+        //Update [Parity Flag] afterwards
         public static void ADC(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 2))
-                return;
+            Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -20,32 +21,25 @@ namespace System
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
-
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (Array.IndexOf(operandValue, -1) != -1)
-                return;
 
             //Write operand1 value
             int valueToWrite = operandValue[0] + operandValue[1] + Storage.Flags["CF"];
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
         }
 
-        //Adds specified operands
+        //Adds [operand 2] to [operand 1] and save to [operand 1]
+        //Update [Parity Flag] afterwards
         public static void ADD(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 2))
-                return;
+            Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -57,33 +51,25 @@ namespace System
             string[] operandType = new string[operand.Length];
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
-
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
 
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (Array.IndexOf(operandValue, -1) != -1)
-                return;
 
             //Write operand1 value
             int valueToWrite = operandValue[0] + operandValue[1];
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
         }
 
-        //Moves data from register to register, register to memory, memory to register, memory to accumulator, accumulator to memory, etc.
+        //Moves (copies) data from [operand 2] to [operand 1]
         public static void MOV(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 2))
-                return;
+            Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -95,31 +81,26 @@ namespace System
             string[] operandType = new string[operand.Length];
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
-
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
 
             //Read operand2 value
             int operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (operandValue == -1)
-                return;
+
+            //Adjust value to write
+            int valueToWrite = operandValue;
 
             //Write operand1 value
-            int valueToWrite = operandValue;
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWrite);
         }
 
-        //Multiplies AL by an operand, and saves the result in AX; if AH is empty afterwards, set OF and CF to 0; if not, set OF and CF to 1
+        //Multiply [AL] by an [operand 1] and save to [AX]
+        //If [AH] is empty afterwards, set [Overflow Flag] and [Carry Flag] to 0 - otherwise, set both to 1
+        //Update [Parity Flag] afterwards
         public static void MUL(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 1))
-                return;
+            Tools.CheckForNumOfOperands(command, 1);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -132,19 +113,13 @@ namespace System
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
-
             //Read operand1 value
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
-            if (operandValue == -1)
-                return;
+
 
             //Write results value
             int valueToWrite = operandValue * Storage.Register["AL"];
-            bool result = Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite); //PF
@@ -160,12 +135,13 @@ namespace System
             }
         }
 
-        //Substract specified operands and substract one extra if the carry flag is up
+        //Substract [operand 2] from [operand 1] and save to [operand 1]
+        //Substract 1 extra, if [Carry Flag] is 1
+        //Update [Parity Flag] afterwards
         public static void SBB(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 2))
-                return;
+            Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -178,32 +154,28 @@ namespace System
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
+
 
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (Array.IndexOf(operandValue, -1) != -1)
-                return;
+
 
             //Write operand1 value
             int valueToWrite = operandValue[0] - operandValue[1] - Storage.Flags["CF"];
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
         }
 
-        //Adds specified operands and the carry status
+        //Substract [operand 2] from [operand 1] and save to [operand 1]
+        //Update [Parity Flag] afterwards
         public static void SUB(string command)
         {
             //Check for number of operands
-            if (!Tools.CheckForNumOfOperands(command, 2))
-                return;
+            Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
@@ -216,21 +188,17 @@ namespace System
             for (int i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
-            //Check for incorrect operands
-            if (Array.IndexOf(operandType, "error") != -1)
-                return;
+
 
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (Array.IndexOf(operandValue, -1) != -1)
-                return;
+
 
             //Write operand1 value
             int valueToWrite = operandValue[0] - operandValue[1];
-            bool result = Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-            if (!result) return;
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
