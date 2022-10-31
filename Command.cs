@@ -78,8 +78,8 @@
                 case "IMUL": //TODO
 
                     break;
-                case "DIV": //TODO
-
+                case "DIV":
+                    Algorithms.DIV(command);
                     break;
                 case "IDIV": //TODO
 
@@ -373,8 +373,7 @@
 
                 //ERROR
                 default:
-                    Console.WriteLine($"Command '{commandArray[0]}' was not recognized - make sure there are no typos and try again");
-                    break;
+                    throw new Exception($"Command '{commandArray[0]}' was not recognized - make sure there are no typos, champ");
             }
         }
     }

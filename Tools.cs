@@ -70,7 +70,7 @@ namespace System
             string[] commandArray = command.Split(",");
             if (commandArray.Length != expectedNumOfOperands)
             {
-                throw new Exception($"Incorrect number of operands for '{instruction}'!\nRecieved '{commandArray.Length}', but expected '{expectedNumOfOperands}'");
+                throw new Exception($"Incorrect number of operands for '{instruction}' - recieved {commandArray.Length}, expected {expectedNumOfOperands}!");
             }
         }
         public static string DetectOperandType(string operand) //TODO: ADD MEMORY
