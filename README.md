@@ -4,39 +4,30 @@
 # Dostępne Instrukcje
 
 ### ADC
-Składnia:
 > ADC operand1, operand2
 
 ### ADD
-Składnia:
 > ADD operand1, operand2
 
 ### DEC
-Składnia:
 > DEC operand1
 
 ### DIV
-Składnia:
 > DIV operand1
 
 ### INC
-Składnia:
 > INC operand1
 
 ### MOV
-Składnia:
 > MOV operand1, operand2
 
 ### MUL
-Składnia:
 > MUL operand1
 
 ### SBB
-Składnia:
 > SBB operand1, operand2
 
 ### SUB
-Składnia:
 > SUB operand1, operand2
 
 # Dostępna Pamięć
