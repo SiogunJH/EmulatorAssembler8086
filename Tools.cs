@@ -86,12 +86,21 @@ namespace System
 
         public static void CheckForNumOfOperands(string command, int expectedNumOfOperands)
         {
+            //Save instruction name
             string instruction = command.Split(' ')[0];
+
+            //Split command into array of operands
             command = command.Substring(instruction.Length);
             string[] commandArray = command.Split(",");
-            if (commandArray.Length != expectedNumOfOperands)
+            int recievedNumOfOperands = commandArray.Length;
+
+            //Check for no operands
+            if (commandArray.Length == 1 && commandArray[0].Trim() == "") recievedNumOfOperands = 0;
+
+            //Throw exception if expected number of operand is not equal to the number of operands recieved
+            if (recievedNumOfOperands != expectedNumOfOperands)
             {
-                throw new Exception($"Incorrect number of operands for '{instruction}' - recieved {commandArray.Length}, expected {expectedNumOfOperands}!");
+                throw new Exception($"Incorrect number of operands for '{instruction}' - recieved {recievedNumOfOperands}, expected {expectedNumOfOperands}!");
             }
         }
 

@@ -69,6 +69,37 @@ namespace System
             Tools.UpdateParityFlag(valueToWrite);
         }
 
+        //Correct the result of addition of two packed BCD values
+        //IF higher nibble of [AL] > 9 or [CF] is up, add 60h to [AL] and set [CF] to 1
+        //If lower nibble of [AL] > 9 or [AF] is up, add 6h to [AL] and set [AF] to 1
+        public static void DAA(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read AL value
+            int valueToWrite = Storage.Register["AL"];
+            if (valueToWrite / 16 > 9 || Storage.Flags["CF"] == 1) //higher nibble
+            {
+                Storage.Flags["CF"] = 1;
+                valueToWrite += 96;
+            }
+            if (valueToWrite % 16 > 9 || Storage.Flags["AF"] == 1) //lower nibble
+            {
+                Storage.Flags["AF"] = 1;
+                valueToWrite += 6;
+            }
+
+            //Determine and adjust final value(s)
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register");
+
+            //Write operand1 value
+            Tools.WriteDataToOperand("AL", "register", valueToWrite);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
+        }
+
         //Decrement [operand 1] and save to [operand 1]
         public static void DEC(string command)
         {

@@ -91,7 +91,7 @@
                     Algorithms.DEC(command);
                     break;
                 case "DAA": //TODO
-
+                    Algorithms.DAA(command);
                     break;
                 case "DAS": //TODO
 
