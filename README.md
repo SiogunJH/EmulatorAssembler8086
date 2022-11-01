@@ -86,9 +86,9 @@ Rejestr segmentów składa się z trzech **16-bitowych komórek**, oznaczonych *
 |--|--|--|
 |16-bit|16-bit|16-bit|
 
-**Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE
-**Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE
-**Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE
+**Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE<br>
+**Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE<br>
+**Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE<br>
 
 ## Rejestr Wskaźników
 Rejestr wskaźników składa się z czterech **16-bitowych komórek**, oznaczonych **SP**, **BP**, **SI** i **DI**.
@@ -97,10 +97,10 @@ Rejestr wskaźników składa się z czterech **16-bitowych komórek**, oznaczony
 |--|--|--|--|
 |16-bit|16-bit|16-bit|16-bit|
 
-**Wskaźnik Stosu** (SP, z ang. *Stack Pointer*) - ZASTOSOWANIE
-**Wskaźnik Bazowy** (BP, z ang. *Base Pointer*) - ZASTOSOWANIE
-**Indeks Źródła** (SI, z ang. *Source Index*) - ZASTOSOWANIE
-**Indeks Celu** (DI, z ang. *Destination Index*) - ZASTOSOWANIE
+**Wskaźnik Stosu** (SP, z ang. *Stack Pointer*) - ZASTOSOWANIE<br>
+**Wskaźnik Bazowy** (BP, z ang. *Base Pointer*) - ZASTOSOWANIE<br>
+**Indeks Źródła** (SI, z ang. *Source Index*) - ZASTOSOWANIE<br>
+**Indeks Celu** (DI, z ang. *Destination Index*) - ZASTOSOWANIE<br>
 
 ## Flagi
 Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **OF**, **DF**, **IF**, **TF**, **SF**, **ZF**, **AF**, **PF** i **CF**.
@@ -109,15 +109,15 @@ Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **O
 |--|--|--|--|--|--|--|--|--|
 |1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|
 
-**Flaga Przelania** (OF, z ang. *Overflow Flag*) - ZASTOSOWANIE
-**Flaga Kierunkowa** (DF, z ang. *Directional Flag*) - ZASTOSOWANIE
-**Flaga Przerwania** (IF, z ang. *Interruption Flag*) - ZASTOSOWANIE
-**Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE
-**Flaga Znaku** (SF, z ang. *Sign Flag*) - ZASTOSOWANIE
-**Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE
-**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - ZASTOSOWANIE
-**Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**
-**Flaga Przeniesienia** (CF, z ang. *Carry Flag*) - ZASTOSOWANIE
+**Flaga Przelania** (OF, z ang. *Overflow Flag*) - ZASTOSOWANIE<br>
+**Flaga Kierunkowa** (DF, z ang. *Directional Flag*) - ZASTOSOWANIE<br>
+**Flaga Przerwania** (IF, z ang. *Interruption Flag*) - ZASTOSOWANIE<br>
+**Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE<br>
+**Flaga Znaku** (SF, z ang. *Sign Flag*) - ZASTOSOWANIE<br>
+**Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE<br>
+**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - ZASTOSOWANIE<br>
+**Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**<br>
+**Flaga Przeniesienia** (CF, z ang. *Carry Flag*) - ZASTOSOWANIE<br>
 
 # Struktura Plików
 #### Base.cs
