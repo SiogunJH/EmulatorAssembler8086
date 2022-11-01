@@ -1,0 +1,4 @@
+#Ignore automaticly created folders
+.vscode
+bin
+obj
