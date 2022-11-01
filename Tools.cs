@@ -36,10 +36,8 @@ namespace System
         //systemSize - system size of a number that will be parsed
         public static int Parse(string number, int systemSize)
         {
-
             //Define what characters are allowed in a system
-            string systemNumbers = "0123456789ABCDEF";
-            systemNumbers = systemNumbers.Substring(0, systemSize);
+            string systemNumbers = "0123456789ABCDEF".Substring(0, systemSize);
 
             //Check if all characters are correct for a number system
             char[] numberArray = number.ToCharArray();
@@ -50,17 +48,40 @@ namespace System
             }
             return unchecked((int)Convert.ToInt64(number, systemSize));
         }
+
         //Test number for bit parity and adjust the Parity Flag (PF) accordingly
         //number - the decimal value, that will be tested 
         public static void UpdateParityFlag(int number)
         {
-            char[] binary = Convert.ToString(number, 2).ToCharArray(); //[int] to [binary char array]
+            //[int] to [binary char array]
+            char[] binary = Convert.ToString(number, 2).ToCharArray();
+
+            //Count 1s and set Parity Flag accordingly
             int length = Array.FindAll(binary, element => element == '1').Length;
             if (length % 2 == 0)
                 Storage.Flags["PF"] = 1;
             else
                 Storage.Flags["PF"] = 0;
-            return;
+        }
+
+        public static int AdjustValue(int operandValue, string operandType)
+        {
+            //Determine max possible value
+            int maxValue;
+            if (operandType == "register") maxValue = 256;
+            else if (operandType == "flag") maxValue = 1;
+            else maxValue = 65536;
+
+            //Check if negative
+            while (operandValue < 0)
+                operandValue += maxValue;
+
+            //Check if above limit
+            if (operandValue >= maxValue)
+                operandValue %= maxValue;
+
+            //Return new value
+            return operandValue;
         }
 
         public static void CheckForNumOfOperands(string command, int expectedNumOfOperands)
@@ -73,6 +94,7 @@ namespace System
                 throw new Exception($"Incorrect number of operands for '{instruction}' - recieved {commandArray.Length}, expected {expectedNumOfOperands}!");
             }
         }
+
         public static string DetectOperandType(string operand) //TODO: ADD MEMORY
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
@@ -97,9 +119,9 @@ namespace System
                 return "memory";*/
 
             throw new Exception($"Operand '{operand}' was not recognized!");
-
         }
-        public static int ReadDataFromOperand(string operand, string operandType) //TODO: FIX THIS SO IT READS HEX NUMBERS
+
+        public static int ReadDataFromOperand(string operand, string operandType)
         {
             switch (operandType)
             {
@@ -124,6 +146,7 @@ namespace System
             }
             throw new Exception($"Incorrect operand type of '{operandType}' for operand '{operand}'");
         }
+
         public static void WriteDataToOperand(string operand, string operandType, int operandValue)
         {
             if (Base.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");

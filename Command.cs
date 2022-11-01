@@ -84,11 +84,11 @@
                 case "IDIV": //TODO
 
                     break;
-                case "INC": //TODO
-
+                case "INC":
+                    Algorithms.INC(command);
                     break;
-                case "DEC": //TODO
-
+                case "DEC":
+                    Algorithms.DEC(command);
                     break;
                 case "DAA": //TODO
 

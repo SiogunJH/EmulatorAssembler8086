@@ -17,15 +17,15 @@ namespace System
         }
         public static void RegisterDisplay()
         {
-            Console.WriteLine("\nAH BH CH DH AL BL CL DL");
+            Console.WriteLine("\nAH AL BH BL CH CL DH DL");
             Console.Write("{0:X2} ", Register["AH"]);
-            Console.Write("{0:X2} ", Register["BH"]);
-            Console.Write("{0:X2} ", Register["CH"]);
-            Console.Write("{0:X2} ", Register["DH"]);
             Console.Write("{0:X2} ", Register["AL"]);
+            Console.Write("{0:X2} ", Register["BH"]);
             Console.Write("{0:X2} ", Register["BL"]);
+            Console.Write("{0:X2} ", Register["CH"]);
             Console.Write("{0:X2} ", Register["CL"]);
-            Console.WriteLine("{0:X2} \n", Register["DL"]);
+            Console.Write("{0:X2} ", Register["DH"]);
+            Console.Write("{0:X2} \n\n", Register["DL"]);
         }
         //FLAGS
         public static Collections.Generic.Dictionary<String, Int32> Flags = new Collections.Generic.Dictionary<String, Int32>();
