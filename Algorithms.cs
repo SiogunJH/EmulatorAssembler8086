@@ -77,18 +77,49 @@ namespace System
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 0);
 
-            //Read AL value
+            //Read and test AL value
             int valueToWrite = Storage.Register["AL"];
-            if (valueToWrite / 16 > 9 || Storage.Flags["CF"] == 1) //higher nibble
-            {
+            if (valueToWrite / 16 > 9) //higher nibble
                 Storage.Flags["CF"] = 1;
-                valueToWrite += 96;
-            }
-            if (valueToWrite % 16 > 9 || Storage.Flags["AF"] == 1) //lower nibble
-            {
+            if (valueToWrite % 16 > 9) //lower nibble
                 Storage.Flags["AF"] = 1;
+
+            //Adjust AL value
+            if (Storage.Flags["CF"] == 1)
+                valueToWrite += 96; // -=6*16
+            if (Storage.Flags["AF"] == 1)
                 valueToWrite += 6;
-            }
+
+            //Determine and adjust final value(s)
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register");
+
+            //Write operand1 value
+            Tools.WriteDataToOperand("AL", "register", valueToWrite);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
+        }
+
+        //Correct the result of subtraction of two packed BCD values
+        //IF higher nibble of [AL] > 9 or [CF] is up, subtract 60h to [AL] and set [CF] to 1
+        //If lower nibble of [AL] > 9 or [AF] is up, subtract 6h to [AL] and set [AF] to 1
+        public static void DAS(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read and test AL value
+            int valueToWrite = Storage.Register["AL"];
+            if (valueToWrite / 16 > 9) //higher nibble
+                Storage.Flags["CF"] = 1;
+            if (valueToWrite % 16 > 9) //lower nibble
+                Storage.Flags["AF"] = 1;
+
+            //Adjust AL value
+            if (Storage.Flags["CF"] == 1)
+                valueToWrite -= 96; // -=6*16
+            if (Storage.Flags["AF"] == 1)
+                valueToWrite -= 6;
 
             //Determine and adjust final value(s)
             valueToWrite = Tools.AdjustValue(valueToWrite, "register");
