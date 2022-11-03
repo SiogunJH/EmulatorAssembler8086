@@ -204,7 +204,7 @@ namespace System
             Tools.UpdateParityFlag(valueToWrite);
         }
 
-        //Correct the result of addition of two ASCII values
+        //Convert byte into signed word
         //If high bit of [AL] is 1:
         //      [AH]=255
         //else:
@@ -215,13 +215,43 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read and test value(s)
-            int valueToWriteAH = Storage.Register["AH"];
 
             //Adjust value(s)
             if (Storage.Register["AL"] / 128 == 1) //Check if high bit is 1
                 Storage.Register["AH"] = 255;
             else
                 Storage.Register["AH"] = 0;
+
+            //Determine and adjust final value(s)
+
+            //Write value(s)
+
+            //Modify flags
+        }
+
+        //Convert word into double word
+        //If high bit of [AX] is 1:
+        //      [DX]=255
+        //else:
+        //      [DX]=0
+        public static void CWD(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read and test value(s)
+
+            //Adjust value(s)
+            if (Storage.Register["AH"] / 128 == 1) //Check if high bit is 1
+            {
+                Storage.Register["DH"] = 255;
+                Storage.Register["DL"] = 255;
+            }
+            else
+            {
+                Storage.Register["DH"] = 0;
+                Storage.Register["DL"] = 0;
+            }
 
             //Determine and adjust final value(s)
 
@@ -290,6 +320,21 @@ namespace System
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+        }
+
+        //Toggles between Normal Mode and Debug Mode
+        public static void DEBUG()
+        {
+            if (Storage.DebugMode)
+            {
+                Storage.DebugMode = false;
+                Console.WriteLine("Debug Mode is Off");
+            }
+            else
+            {
+                Storage.DebugMode = true;
+                Console.WriteLine("Debug Mode is On");
+            }
         }
 
         //Decrement [operand 1] and save to [operand 1]
@@ -439,6 +484,44 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
+        }
+
+        //Negate the value of [operand1] and save to [operand1]
+        public static void NEG(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Save instruction
+            string instruction = command.Split(' ')[0];
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Trim();
+
+            //Detect operand type(s)
+            string operandType = Tools.DetectOperandType(operand);
+
+            //Check if operation is not forbidden
+            if (!"register;registerX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'register', 'registerX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+
+            //Read value(s)
+            int operandValue = Tools.ReadDataFromOperand(operand, operandType);
+            int maxValue;
+
+            //Update value(s)
+            if (operandType == "register" || operandType == "memory") maxValue = 255;
+            else maxValue = 65535;
+
+            //Determine and adjust final value(s)
+            int valueToWrite = maxValue - operandValue;
+            if (Storage.DebugMode) Console.WriteLine("NEG:\n\tOperand: {0:X4}\n\tValue: {1:X4}\n\tNegated Value: {2:X4}\n\tMax Value: {3:X4}\n", operand, operandValue, valueToWrite, maxValue);
+
+            //Write operand1 value
+            Tools.WriteDataToOperand(operand, operandType, valueToWrite);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
         }
 
         //Multiply [AL] by an [operand 1] and save to [AX]

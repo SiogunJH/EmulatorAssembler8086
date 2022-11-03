@@ -111,11 +111,11 @@
                 case "CBW":
                     Algorithms.CBW(command);
                     break;
-                case "CWD": //TODO
-
+                case "CWD":
+                    Algorithms.CWD(command);
                     break;
-                case "NEG": //TODO
-
+                case "NEG":
+                    Algorithms.NEG(command);
                     break;
                 case "CMP": //TODO
 
@@ -354,16 +354,7 @@
                     Tools.StorageDisplay();
                     break;
                 case "DEBUG":
-                    if (Storage.DebugMode)
-                    {
-                        Storage.DebugMode = false;
-                        Console.WriteLine("Debug Mode is Off");
-                    }
-                    else
-                    {
-                        Storage.DebugMode = true;
-                        Console.WriteLine("Debug Mode is On");
-                    }
+                    Algorithms.DEBUG();
                     break;
                 case "CLEAR":
                 case "CLS":
