@@ -90,17 +90,17 @@
                 case "DEC":
                     Algorithms.DEC(command);
                     break;
-                case "DAA": //TODO
+                case "DAA":
                     Algorithms.DAA(command);
                     break;
-                case "DAS": //TODO
-
+                case "DAS":
+                    Algorithms.DAS(command);
                     break;
-                case "AAA": //TODO
-
+                case "AAA":
+                    Algorithms.AAA(command);
                     break;
-                case "AAD": //TODO
-
+                case "AAD":
+                    Algorithms.AAD(command);
                     break;
                 case "AAM": //TODO
 

@@ -2,6 +2,70 @@ namespace System
 {
     class Algorithms
     {
+        //Correct the result of addition of two ASCII values
+        //If lower nibble of [AL] > 9 or [AF] is up, subtract 6h to [AL] and set [AF] to 1
+        public static void AAA(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read and test AL value
+            int valueToWriteAL = Storage.Register["AL"];
+            int valueToWriteAH = Storage.Register["AH"];
+            if (valueToWriteAL % 16 > 9) //lower nibble
+                Storage.Flags["AF"] = 1;
+
+            //Adjust AL and AH values
+            if (Storage.Flags["AF"] == 1)
+            {
+                valueToWriteAL += 6;
+                valueToWriteAH += 1;
+                Storage.Flags["CF"] = 1;
+            }
+            else
+            {
+                Storage.Flags["CF"] = 0;
+            }
+
+            //Determine and adjust final value(s)
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+
+            //Write value(s)
+            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWriteAL); //For AAA, only AL is taken into account for PF
+        }
+
+        //Prepare the ASCII values of AL and AH to division
+        //[AL] = [AH]*10 + [AL]
+        public static void AAD(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read value(s)
+            int valueToWriteAL = Storage.Register["AL"];
+            int valueToWriteAH = Storage.Register["AH"];
+
+            //Update value(s)
+            valueToWriteAL += valueToWriteAH * 10;
+            valueToWriteAH = 0;
+
+            //Adjust value(s)
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+
+            //Write value(s)
+            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWriteAL); //For AAA, only AL is taken into account for PF
+        }
+
         //Add [operand 2] to [operand 1] and save to [operand 1]
         //Add 1 extra, if [Carry Flag] is 1
         //Update [Parity Flag] afterwards
