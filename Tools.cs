@@ -50,7 +50,6 @@ namespace System
         }
 
         //Test number for bit parity and adjust the Parity Flag (PF) accordingly
-        //number - the decimal value, that will be tested 
         public static void UpdateParityFlag(int number)
         {
             //[int] to [binary char array]
@@ -62,6 +61,26 @@ namespace System
                 Storage.Flags["PF"] = 1;
             else
                 Storage.Flags["PF"] = 0;
+        }
+
+        //Check for High Bit value
+        public static void UpdateSignFlag(int number, string operandType)
+        {
+            //[int] to [binary char array]
+            char[] binary = Convert.ToString(number, 2).ToCharArray();
+
+            //Determine number of bits needed to save a specific data type
+            int numOfBits;
+            if (operandType == "register" || operandType == "memory")
+                numOfBits = 8;
+            else
+                numOfBits = 16;
+
+            //Check if binary length of a number is equal to number of bits used to write a specific data type; if so, then high bit is 1 and the number is negative
+            if (binary.Length == numOfBits)
+                Storage.Flags["SF"] = 1;
+            else
+                Storage.Flags["SF"] = 0;
         }
 
         public static int AdjustValue(int operandValue, string operandType, bool modifyFlags)

@@ -3,7 +3,11 @@ namespace System
     class Algorithms
     {
         //Correct the result of addition of two ASCII values
-        //If lower nibble of [AL] > 9 or [AF] is up, subtract 6h to [AL] and set [AF] to 1
+        //If lower nibble of [AL] > 9 or [AF] is up
+        //      [AL]+=6, [AH]+=1, [AF]=1, [CF]=1
+        //else:
+        //      AF=0, CF=0
+        //In both the cases clear the Higher Nibble of AL
         public static void AAA(string command)
         {
             //Check for number of operands
@@ -28,15 +32,16 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
             Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWriteAL); //For AAA, only AL is taken into account for PF
+            Tools.UpdateParityFlag(valueToWriteAL);
+            Tools.UpdateSignFlag(valueToWriteAL, "register");
         }
 
         //Prepare the ASCII values of AL and AH to division
@@ -56,15 +61,16 @@ namespace System
             valueToWriteAH = 0;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
             Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWriteAL); //For AAD, only AL is taken into account for PF
+            Tools.UpdateParityFlag(valueToWriteAL);
+            Tools.UpdateSignFlag(valueToWriteAL, "register");
         }
 
         //Correct the result of multiplication of BCD values
@@ -84,15 +90,17 @@ namespace System
             valueToWriteAL = valueToWriteAL % 10;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
+            valueToWriteAL %= 16; //Clear higher nibble
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
             Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWriteAL); //For AAM, only AL is taken into account for PF
+            Tools.UpdateParityFlag(valueToWriteAL);
+            Tools.UpdateSignFlag(valueToWriteAL, "register");
         }
 
         //Correct the result of addition of two ASCII values
@@ -125,16 +133,17 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
             valueToWriteAL %= 16; //Clear higher nibble
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
             Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWriteAL); //For AAS, only AL is taken into account for PF
+            Tools.UpdateParityFlag(valueToWriteAL);
+            Tools.UpdateSignFlag(valueToWriteAL, "register");
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
@@ -158,17 +167,18 @@ namespace System
 
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
-            operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
-            operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            for (int i = 0; i < operand.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
@@ -191,17 +201,18 @@ namespace System
 
             //Read operand1 and operand2 value
             int[] operandValue = new int[2];
-            operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
-            operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            for (int i = 0; i < operand.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Convert byte into signed word
@@ -282,13 +293,14 @@ namespace System
                 valueToWrite += 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false); //VERIFY
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false);
 
             //Write operand1 value
             Tools.WriteDataToOperand("AL", "register", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, "register");
         }
 
         //Correct the result of subtraction of two packed BCD values
@@ -313,15 +325,17 @@ namespace System
                 valueToWrite -= 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false); //VERIFY
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false);
 
             //Write operand1 value
             Tools.WriteDataToOperand("AL", "register", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, "register");
         }
 
+        //META COMMAND
         //Toggles between Normal Mode and Debug Mode
         public static void DEBUG()
         {
@@ -362,13 +376,14 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0], false);  //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Divide [AX] by [operand 1]
@@ -403,8 +418,8 @@ namespace System
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
 
             //Determine and adjust final value(s)
-            int quotient = Tools.AdjustValue(divident / divisor, operandType[0], false); //VERIFY
-            int reminder = Tools.AdjustValue(divident % divisor, operandType[0], false); //VERIFY
+            int quotient = Tools.AdjustValue(divident / divisor, operandType[0], false);
+            int reminder = Tools.AdjustValue(divident % divisor, operandType[0], false);
 
             //Distinguish Small and Big division, and act accordingly
             if (operandType[0] == "register") //SMALL DIVISION
@@ -448,13 +463,14 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Moves (copies) data from [operand 2] to [operand 1]
@@ -478,7 +494,7 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue, operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -522,6 +538,7 @@ namespace System
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType);
         }
 
         //Multiply [AL] by an [operand 1] and save to [AX]
@@ -533,26 +550,23 @@ namespace System
 
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
-            string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
-                operand[i] = operand[i].Trim();
+            string operand = command.Split(',')[0].Trim();
 
             //Detect operand types
-            string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
-                operandType[i] = Tools.DetectOperandType(operand[i]);
+            string operandType = Tools.DetectOperandType(operand);
 
             //Read operand1 value
-            int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+            int operandValue = Tools.ReadDataFromOperand(operand, operandType);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "registerX", false);  //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "registerX", false);
 
             //Write results value
             Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWrite); //PF
+            Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, "registerX");
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -580,13 +594,14 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -613,13 +628,14 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0], false); //VERIFY
+            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
     }
 }

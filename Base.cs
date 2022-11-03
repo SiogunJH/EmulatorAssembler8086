@@ -5,6 +5,7 @@
         static void Main()
         {
             //Startup
+            Console.Clear();
             Tools.WelcomeMessage();
             Tools.StorageInit();
 
