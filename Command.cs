@@ -108,8 +108,8 @@
                 case "AAS":
                     Algorithms.AAS(command);
                     break;
-                case "CBW": //TODO
-
+                case "CBW":
+                    Algorithms.CBW(command);
                     break;
                 case "CWD": //TODO
 

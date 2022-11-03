@@ -204,6 +204,32 @@ namespace System
             Tools.UpdateParityFlag(valueToWrite);
         }
 
+        //Correct the result of addition of two ASCII values
+        //If high bit of [AL] is 1:
+        //      [AH]=255
+        //else:
+        //      [AH]=0
+        public static void CBW(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read and test value(s)
+            int valueToWriteAH = Storage.Register["AH"];
+
+            //Adjust value(s)
+            if (Storage.Register["AL"] / 128 == 1) //Check if high bit is 1
+                Storage.Register["AH"] = 255;
+            else
+                Storage.Register["AH"] = 0;
+
+            //Determine and adjust final value(s)
+
+            //Write value(s)
+
+            //Modify flags
+        }
+
         //Correct the result of addition of two packed BCD values
         //IF higher nibble of [AL] > 9 or [CF] is up, add 60h to [AL] and set [CF] to 1
         //If lower nibble of [AL] > 9 or [AF] is up, add 6h to [AL] and set [AF] to 1
