@@ -63,7 +63,35 @@ namespace System
             Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
 
             //Modify flags
-            Tools.UpdateParityFlag(valueToWriteAL); //For AAA, only AL is taken into account for PF
+            Tools.UpdateParityFlag(valueToWriteAL); //For AAD, only AL is taken into account for PF
+        }
+
+        //Correct the result of multiplication of BCD values
+        //[AL] = [AL] % 10
+        //[AH] = [AL] / 10
+        public static void AAM(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read value(s)
+            int valueToWriteAL = Storage.Register["AL"];
+            int valueToWriteAH = Storage.Register["AH"];
+
+            //Update value(s)
+            valueToWriteAH = valueToWriteAL / 10;
+            valueToWriteAL = valueToWriteAL % 10;
+
+            //Adjust value(s)
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+
+            //Write value(s)
+            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWriteAL); //For AAM, only AL is taken into account for PF
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
