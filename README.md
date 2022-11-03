@@ -104,7 +104,7 @@ Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **O
 **Flaga Kierunkowa** (DF, z ang. *Directional Flag*) - ZASTOSOWANIE<br>
 **Flaga Przerwania** (IF, z ang. *Interruption Flag*) - ZASTOSOWANIE<br>
 **Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE<br>
-**Flaga Znaku** (SF, z ang. *Sign Flag*) - ZASTOSOWANIE<br>
+**Flaga Znaku** (SF, z ang. *Sign Flag*) - odpowiada za określenie, czy wartość jest dodatnia czy ujemna. Przyjmuje wartość **1** dla liczb ujemnych i wartość **0** dla dodatnich. Rozróżnianie znaku liczby opiera się na **wartości najwyższego bitu liczby**. Jeśli owy bit jest równy 1, liczba uznawana jest za ujemną - prowadzi to do sytuacji, gdzie dodając dwie liczby dodatnie, np. *70h (**0**111 0000)* i *60h (**0**110 0000)*, możemy uzyskać liczbę ujemną *D0h (**1**101 0000)*.<br>
 **Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE<br>
 **Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - ZASTOSOWANIE<br>
 **Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**<br>
