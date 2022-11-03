@@ -389,7 +389,7 @@ namespace System
         //Divide [AX] by [operand 1]
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
-        //Save location depends on wether diviser is of 'register' type (Small Division) or not (Big Division)
+        //Save location depends on wether diviser is of 'register/memory' type (Small Division) or not (Big Division)
         public static void DIV(string command)
         {
             //Check for number of operands

@@ -3,11 +3,35 @@
 
 # Dostępne Instrukcje
 
+### AAA
+> AAA
+
+### AAD
+> AAD
+
+### AAM
+> AAM
+
+### AAS
+> AAS
+
 ### ADC
 > ADC operand1, operand2
 
 ### ADD
 > ADD operand1, operand2
+
+### CBW
+> CBW
+
+### CWD
+> CWD
+
+### DAA
+> DAA
+
+### DAS
+> DAS
 
 ### DEC
 > DEC operand1
@@ -20,6 +44,9 @@
 
 ### MOV
 > MOV operand1, operand2
+
+### NEG
+> NEG operand1
 
 ### MUL
 > MUL operand1
