@@ -4,7 +4,7 @@ namespace System
     {
         public static void WelcomeMessage()
         {
-            Console.WriteLine("\nWelcome to 8086 Simulator made by Hojda");
+            Console.WriteLine("Welcome to 8086 Simulator made by Hojda");
             Console.WriteLine("Here is a list of meta-commands available:\n");
             Console.WriteLine("QUIT - exit the simulator");
             Console.WriteLine("FLAGS - show all FLAG values");
