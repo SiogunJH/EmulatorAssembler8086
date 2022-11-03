@@ -64,7 +64,7 @@ namespace System
                 Storage.Flags["PF"] = 0;
         }
 
-        public static int AdjustValue(int operandValue, string operandType)
+        public static int AdjustValue(int operandValue, string operandType, bool modifyFlags)
         {
             //Determine max possible value
             int maxValue;
@@ -74,11 +74,15 @@ namespace System
 
             //Check if negative
             while (operandValue < 0)
+            {
                 operandValue += maxValue;
+            }
 
             //Check if above limit
             if (operandValue >= maxValue)
+            {
                 operandValue %= maxValue;
+            }
 
             //Return new value
             return operandValue;

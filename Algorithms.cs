@@ -28,8 +28,8 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
@@ -56,8 +56,8 @@ namespace System
             valueToWriteAH = 0;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
@@ -84,8 +84,8 @@ namespace System
             valueToWriteAL = valueToWriteAL % 10;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
@@ -125,9 +125,9 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false); //VERIFY
             valueToWriteAL %= 16; //Clear higher nibble
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false); //VERIFY
 
             //Write value(s)
             Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
@@ -162,7 +162,7 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -195,7 +195,7 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -282,7 +282,7 @@ namespace System
                 valueToWrite += 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register");
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand("AL", "register", valueToWrite);
@@ -313,7 +313,7 @@ namespace System
                 valueToWrite -= 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register");
+            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand("AL", "register", valueToWrite);
@@ -362,7 +362,7 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0], false);  //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -403,8 +403,8 @@ namespace System
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
 
             //Determine and adjust final value(s)
-            int quotient = Tools.AdjustValue(divident / divisor, operandType[0]);
-            int reminder = Tools.AdjustValue(divident % divisor, operandType[0]);
+            int quotient = Tools.AdjustValue(divident / divisor, operandType[0], false); //VERIFY
+            int reminder = Tools.AdjustValue(divident % divisor, operandType[0], false); //VERIFY
 
             //Distinguish Small and Big division, and act accordingly
             if (operandType[0] == "register") //SMALL DIVISION
@@ -448,7 +448,7 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -478,7 +478,7 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue, operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue, operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -546,7 +546,7 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "registerX");
+            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "registerX", false);  //VERIFY
 
             //Write results value
             Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
@@ -580,7 +580,7 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -613,7 +613,7 @@ namespace System
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0]);
+            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0], false); //VERIFY
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
