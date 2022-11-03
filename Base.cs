@@ -2,8 +2,6 @@
 {
     public class Base
     {
-        public static bool ContinueSimulation = true;
-        public static bool DebugMode = false;
         static void Main()
         {
             //Startup
@@ -28,10 +26,10 @@
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    if (DebugMode) Console.WriteLine(e.StackTrace);
+                    if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
                 }
 
-            } while (ContinueSimulation);
+            } while (Storage.ContinueSimulation);
         }
     }
 }

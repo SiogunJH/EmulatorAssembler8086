@@ -2,6 +2,10 @@ namespace System
 {
     class Storage
     {
+        //GLOBAL VARIABLES
+        public static bool ContinueSimulation = true;
+        public static bool DebugMode = false;
+
         //REGISTER
         public static Collections.Generic.Dictionary<String, Int32> Register = new Collections.Generic.Dictionary<String, Int32>();
         public static void RegisterInit()
@@ -27,6 +31,7 @@ namespace System
             Console.Write("{0:X2} ", Register["DH"]);
             Console.Write("{0:X2} \n\n", Register["DL"]);
         }
+
         //FLAGS
         public static Collections.Generic.Dictionary<String, Int32> Flags = new Collections.Generic.Dictionary<String, Int32>();
         public static void FlagsInit()
@@ -54,6 +59,7 @@ namespace System
             Console.Write("{0}  ", Flags["PF"]);
             Console.WriteLine("{0}\n", Flags["CF"]);
         }
+
         //SEGMENTS
         public static Collections.Generic.Dictionary<String, Int32> Segments = new Collections.Generic.Dictionary<String, Int32>();
         public static void SegmentsInit()
@@ -69,6 +75,7 @@ namespace System
             Console.Write("{0:X4} ", Segments["DS"]);
             Console.WriteLine("{0:X4}\n", Segments["ES"]);
         }
+
         //POINTERS
         public static Collections.Generic.Dictionary<String, Int32> Pointers = new Collections.Generic.Dictionary<String, Int32>();
         public static void PointersInit()

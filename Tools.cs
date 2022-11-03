@@ -158,7 +158,7 @@ namespace System
 
         public static void WriteDataToOperand(string operand, string operandType, int operandValue)
         {
-            if (Base.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");
+            if (Storage.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");
             switch (operandType)
             {
                 case "register": //REGISTER
