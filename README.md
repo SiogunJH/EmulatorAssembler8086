@@ -4,57 +4,76 @@
 # Dostępne Instrukcje
 
 ### AAA
+Składnia:
 > AAA
+Algorytm:
 
 ### AAD
+Składnia:
 > AAD
 
 ### AAM
+Składnia:
 > AAM
 
 ### AAS
+Składnia:
 > AAS
 
 ### ADC
+Składnia:
 > ADC operand1, operand2
 
 ### ADD
+Składnia:
 > ADD operand1, operand2
 
 ### CBW
+Składnia:
 > CBW
 
 ### CWD
+Składnia:
 > CWD
 
 ### DAA
+Składnia:
 > DAA
 
 ### DAS
+Składnia:
 > DAS
 
 ### DEC
+Składnia:
 > DEC operand1
 
 ### DIV
+Składnia:
 > DIV operand1
 
 ### INC
+Składnia:
 > INC operand1
 
 ### MOV
+Składnia:
 > MOV operand1, operand2
 
 ### NEG
+Składnia:
 > NEG operand1
 
 ### MUL
+Składnia:
 > MUL operand1
 
 ### SBB
+Składnia:
 > SBB operand1, operand2
 
 ### SUB
+Składnia:
 > SUB operand1, operand2
 
 # Dostępna Pamięć
