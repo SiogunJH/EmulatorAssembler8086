@@ -102,11 +102,11 @@
                 case "AAD":
                     Algorithms.AAD(command);
                     break;
-                case "AAM": //TODO
-
+                case "AAM":
+                    Algorithms.AAM(command);
                     break;
-                case "AAS": //TODO
-
+                case "AAS":
+                    Algorithms.AAS(command);
                     break;
                 case "CBW": //TODO
 

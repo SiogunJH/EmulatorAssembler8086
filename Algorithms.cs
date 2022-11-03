@@ -41,6 +41,7 @@ namespace System
 
         //Prepare the ASCII values of AL and AH to division
         //[AL] = [AH]*10 + [AL]
+        //[AH] = 0
         public static void AAD(string command)
         {
             //Check for number of operands
@@ -92,6 +93,48 @@ namespace System
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL); //For AAM, only AL is taken into account for PF
+        }
+
+        //Correct the result of addition of two ASCII values
+        //If lower nibble of [AL] > 9 or [AF] is up:
+        //      [AL]-=6, [AH]-=1, [AF]=1, [CF]=1
+        //else:
+        //      AF=0, CF=0
+        //In both the cases clear the Higher Nibble of AL
+        public static void AAS(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Read and test value(s)
+            int valueToWriteAL = Storage.Register["AL"];
+            int valueToWriteAH = Storage.Register["AH"];
+            if (valueToWriteAL % 16 > 9) //lower nibble
+                Storage.Flags["AF"] = 1;
+
+            //Adjust value(s)
+            if (Storage.Flags["AF"] == 1)
+            {
+                valueToWriteAL -= 6;
+                valueToWriteAH -= 1;
+                Storage.Flags["CF"] = 1;
+            }
+            else
+            {
+                Storage.Flags["CF"] = 0;
+            }
+
+            //Determine and adjust final value(s)
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register");
+            valueToWriteAL %= 16; //Clear higher nibble
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register");
+
+            //Write value(s)
+            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWriteAL); //For AAS, only AL is taken into account for PF
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
