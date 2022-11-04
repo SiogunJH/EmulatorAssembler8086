@@ -183,7 +183,7 @@ namespace System
                 case "memory":
                     return Tools.ReadDataFromMemory(operand);
                 case "equation":
-                    return Tools.ReadDataFromEquation(operand);
+                    return 0;//Tools.ReadDataFromEquation(operand);
             }
             throw new Exception($"Incorrect operand type of '{operandType}' for operand '{operand}'");
         }
@@ -196,52 +196,15 @@ namespace System
             operand = operand.Substring(1, operand.Length - 2); //Usuń nawiasy kwadratowe
 
             //Określ adres
-            address = Tools.ReadDataFromEquation(operand);
+            address = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
 
             //Odczytaj zawartość konkretnego adresu
-            int results = Storage.Memory[address];
+            int addressValue = 0;
+            bool results = Storage.Memory.TryGetValue(address, out addressValue);
+            if (Storage.DebugMode) Console.WriteLine("Read Data From Memory:\n\tAddress: {0:X4}\n\tValue: {1:X2}\n", address, addressValue);
 
             //Zwróć wynik
-            return results;
-        }
-
-        public static int ReadDataFromEquation(string operand)
-        {
-            //Debug
-            if (Storage.DebugMode) Console.WriteLine($"Calculating equation: {operand}");
-
-            //Prepare variables
-            int results = -1;
-            char[] charArray = operand.ToCharArray(); //Split operand to char array
-            Collections.Generic.List<int> operationIndexes = new Collections.Generic.List<int>();
-            Collections.Generic.List<string> arguments = new Collections.Generic.List<string>();
-
-            //Find all operation sign indexes
-            for (int i = 0; i < charArray.Length; i++)
-                if (charArray[i] == '+' || charArray[i] == '-' || charArray[i] == '/' || charArray[i] == '*')
-                    operationIndexes.Add(i);
-
-            //Find all arguments
-            int startIndex = 0;
-            Console.WriteLine(operationIndexes[0]);
-            for (int i = 0; i < operationIndexes.Count; i++)
-            {
-                int temp = operand.Substring(startIndex, operationIndexes[i]);
-                arguments.Add(temp);
-                startIndex = operationIndexes[i] + 1;
-            }
-            arguments.Add(operand.Substring(startIndex));
-
-            foreach (var item in arguments)
-            {
-                Console.WriteLine(item);
-            }
-
-            //Split and solve equation
-            //results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
-
-            //Return results
-            return results;
+            return addressValue;
         }
 
         public static void WriteDataToOperand(string operand, string operandType, int operandValue)
@@ -289,7 +252,21 @@ namespace System
                     return;
 
                 case "memory": //MEMORY
+                    if (!(operandValue >= -128 && operandValue <= 255))
+                        break;
+                    if (operandValue < 0)
+                        operandValue += 256;
 
+                    //Define address
+                    string addressString = operand.Substring(1, operand.Length - 2);
+                    int address = Tools.ReadDataFromOperand(addressString, Tools.DetectOperandType(addressString));
+
+                    //Save data to address
+                    bool results = Storage.Memory.ContainsKey(address);
+                    if (results) //Memory address is in use
+                        Storage.Memory[address] = operandValue;
+                    else //New memory address
+                        Storage.Memory.Add(address, operandValue);
                     return;
             }
             throw new Exception($"Couldn't write '{operandValue}' to operand named '{operand}' with type of '{operandType}'");

@@ -25,7 +25,7 @@ namespace System
             int i = 0;
             foreach (int key in Memory.Keys)
             {
-                Console.Write("[{0:X4} -> {0:X2}]\t", key, Memory[key]);
+                Console.Write("[{0:X4} -> {1:X2}]\t", key, Memory[key]);
                 if (i == 3)
                 {
                     Console.WriteLine();
@@ -36,7 +36,7 @@ namespace System
                     i++;
                 }
             }
-            Console.WriteLine();
+            Console.WriteLine("\n");
         }
 
         //REGISTER
