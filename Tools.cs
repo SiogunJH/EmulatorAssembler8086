@@ -192,15 +192,14 @@ namespace System
         public static int ReadDataFromMemory(string operand)
         {
             //Przygotuj zmienne
-            int results = 0;
-            if (operand.StartsWith('[') && operand.EndsWith(']'))
-                operand = operand.Substring(1, operand.Length - 2);
+            int address;
+            operand = operand.Substring(1, operand.Length - 2); //Usuń nawiasy kwadratowe
 
-            //Rekurencyjne rozbij i wykonaj działania złożone
-            ; //TODO
-            results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
+            //Określ adres
+            address = Tools.ReadDataFromEquation(operand);
 
-            //Odczytaj konkretny adres
+            //Odczytaj zawartość konkretnego adresu
+            int results = Storage.Memory[address];
 
             //Zwróć wynik
             return results;
@@ -208,24 +207,40 @@ namespace System
 
         public static int ReadDataFromEquation(string operand)
         {
-            //Przygotuj zmienne
-            int results;
-            string[] arguments;
-            string[] operations;
+            //Debug
+            if (Storage.DebugMode) Console.WriteLine($"Calculating equation: {operand}");
 
-            //Split equation into arguments and operations
-            while (operand.Length != 0)
+            //Prepare variables
+            int results = -1;
+            char[] charArray = operand.ToCharArray(); //Split operand to char array
+            Collections.Generic.List<int> operationIndexes = new Collections.Generic.List<int>();
+            Collections.Generic.List<string> arguments = new Collections.Generic.List<string>();
+
+            //Find all operation sign indexes
+            for (int i = 0; i < charArray.Length; i++)
+                if (charArray[i] == '+' || charArray[i] == '-' || charArray[i] == '/' || charArray[i] == '*')
+                    operationIndexes.Add(i);
+
+            //Find all arguments
+            int startIndex = 0;
+            Console.WriteLine(operationIndexes[0]);
+            for (int i = 0; i < operationIndexes.Count; i++)
             {
+                int temp = operand.Substring(startIndex, operationIndexes[i]);
+                arguments.Add(temp);
+                startIndex = operationIndexes[i] + 1;
+            }
+            arguments.Add(operand.Substring(startIndex));
 
+            foreach (var item in arguments)
+            {
+                Console.WriteLine(item);
             }
 
-            //Rekurencyjne rozbij i wykonaj działania złożone
-            ; //TODO
-            results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
+            //Split and solve equation
+            //results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
 
-            //Odczytaj konkretny adres
-
-            //Zwróć wynik
+            //Return results
             return results;
         }
 
