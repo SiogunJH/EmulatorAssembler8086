@@ -11,6 +11,7 @@ namespace System
             Console.WriteLine("REGISTER - show all REGISTER values");
             Console.WriteLine("SEGMENTS - show all SEGMENTS values");
             Console.WriteLine("POINTERS - show all POINTERS values");
+            Console.WriteLine("MEMORY - show all MEMORY values");
             Console.WriteLine("STORAGE - show all data");
             Console.WriteLine("CLEAR - clear console buffer");
             Console.WriteLine("DEBUG - toggle additional information (off by default)");
@@ -22,6 +23,7 @@ namespace System
             Storage.FlagsInit();
             Storage.SegmentsInit();
             Storage.PointersInit();
+            Storage.MemoryInit();
         }
         public static void StorageDisplay()
         {
@@ -29,6 +31,7 @@ namespace System
             Storage.FlagsDisplay();
             Storage.SegmentsDisplay();
             Storage.PointersDisplay();
+            Storage.MemoryDisplay();
         }
 
         //Parse string number to a decimal
@@ -49,7 +52,7 @@ namespace System
             return unchecked((int)Convert.ToInt64(number, systemSize));
         }
 
-        //Test number for bit parity and adjust the Parity Flag (PF) accordingly
+        //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
         public static void UpdateParityFlag(int number)
         {
             //[int] to [binary char array]
@@ -63,7 +66,7 @@ namespace System
                 Storage.Flags["PF"] = 0;
         }
 
-        //Check for High Bit value
+        //Check for High Bit value and adjust the Sign Flag (SF) accordingly
         public static void UpdateSignFlag(int number, string operandType)
         {
             //[int] to [binary char array]
@@ -87,7 +90,7 @@ namespace System
         {
             //Determine max possible value
             int maxValue;
-            if (operandType == "register") maxValue = 256;
+            if (operandType == "register" || operandType == "memory") maxValue = 256;
             else if (operandType == "flag") maxValue = 1;
             else maxValue = 65536;
 
@@ -127,7 +130,7 @@ namespace System
             }
         }
 
-        public static string DetectOperandType(string operand) //TODO: ADD MEMORY
+        public static string DetectOperandType(string operand)
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
                 return "register";
@@ -147,8 +150,10 @@ namespace System
                 return "numberQ";
             if (operand.EndsWith("B")) //NUMBER OPERAND BINARY
                 return "numberB";
-            /*if (false) //MEMORY
-                return "memory";*/
+            if (operand.StartsWith('[') && operand.EndsWith(']')) //MEMORY
+                return "memory";
+            if (false) //TODO
+                return "equation";
 
             throw new Exception($"Operand '{operand}' was not recognized!");
         }
@@ -175,8 +180,28 @@ namespace System
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 8);
                 case "numberB": //NUMBER BINARY
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 2);
+                case "memory":
+                    return Tools.ReadDataFromMemory(operand);
             }
             throw new Exception($"Incorrect operand type of '{operandType}' for operand '{operand}'");
+        }
+
+        public static int ReadDataFromMemory(string operand)
+
+        {
+            //Przygotuj zmienne
+            int results = 0;
+            if (operand.StartsWith('[') && operand.EndsWith(']'))
+                operand = operand.Substring(1, operand.Length - 2);
+
+            //Rekurencyjne rozbij i wykonaj działania złożone
+            ; //TODO
+            results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
+
+            //Odczytaj konkretny adres
+
+            //Zwróć wynik
+            return results;
         }
 
         public static void WriteDataToOperand(string operand, string operandType, int operandValue)
@@ -221,6 +246,10 @@ namespace System
                     if (operandValue < 0)
                         operandValue += 65536;
                     Storage.Pointers[operand] = operandValue;
+                    return;
+
+                case "memory": //MEMORY
+
                     return;
             }
             throw new Exception($"Couldn't write '{operandValue}' to operand named '{operand}' with type of '{operandType}'");

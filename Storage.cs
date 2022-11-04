@@ -6,6 +6,39 @@ namespace System
         public static bool ContinueSimulation = true;
         public static bool DebugMode = false;
 
+        //MEMORY
+        public static Collections.Generic.SortedDictionary<Int32, Int32> Memory = new Collections.Generic.SortedDictionary<Int32, Int32>();
+
+        public static void MemoryInit()
+        {
+            //Some sample memory
+            Memory.Add(0, 0);
+            Memory.Add(3, 23);
+            Memory.Add(7, 55);
+            Memory.Add(13, 123);
+            Memory.Add(5, 5);
+        }
+
+        public static void MemoryDisplay()
+        {
+            Console.WriteLine();
+            int i = 0;
+            foreach (int key in Memory.Keys)
+            {
+                Console.Write("[{0:X4} -> {0:X2}]\t", key, Memory[key]);
+                if (i == 3)
+                {
+                    Console.WriteLine();
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            Console.WriteLine();
+        }
+
         //REGISTER
         public static Collections.Generic.Dictionary<String, Int32> Register = new Collections.Generic.Dictionary<String, Int32>();
         public static void RegisterInit()

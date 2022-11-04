@@ -350,6 +350,9 @@
                 case "POINTERS":
                     Storage.PointersDisplay();
                     break;
+                case "MEMORY":
+                    Storage.MemoryDisplay();
+                    break;
                 case "STORAGE":
                     Tools.StorageDisplay();
                     break;

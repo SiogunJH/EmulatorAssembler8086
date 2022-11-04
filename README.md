@@ -6,7 +6,6 @@
 ### AAA
 Składnia:
 > AAA
-Algorytm:
 
 ### AAD
 Składnia:
