@@ -152,7 +152,7 @@ namespace System
                 return "numberB";
             if (operand.StartsWith('[') && operand.EndsWith(']')) //MEMORY
                 return "memory";
-            if (false) //TODO
+            if (operand.Contains('+') || operand.Contains('-') || operand.Contains('*') || operand.Contains('/')) //TODO
                 return "equation";
 
             throw new Exception($"Operand '{operand}' was not recognized!");
@@ -182,17 +182,42 @@ namespace System
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 2);
                 case "memory":
                     return Tools.ReadDataFromMemory(operand);
+                case "equation":
+                    return Tools.ReadDataFromEquation(operand);
             }
             throw new Exception($"Incorrect operand type of '{operandType}' for operand '{operand}'");
         }
 
+        //Determines the memory address and reads data stored withing that address
         public static int ReadDataFromMemory(string operand)
-
         {
             //Przygotuj zmienne
             int results = 0;
             if (operand.StartsWith('[') && operand.EndsWith(']'))
                 operand = operand.Substring(1, operand.Length - 2);
+
+            //Rekurencyjne rozbij i wykonaj działania złożone
+            ; //TODO
+            results = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
+
+            //Odczytaj konkretny adres
+
+            //Zwróć wynik
+            return results;
+        }
+
+        public static int ReadDataFromEquation(string operand)
+        {
+            //Przygotuj zmienne
+            int results;
+            string[] arguments;
+            string[] operations;
+
+            //Split equation into arguments and operations
+            while (operand.Length != 0)
+            {
+
+            }
 
             //Rekurencyjne rozbij i wykonaj działania złożone
             ; //TODO
