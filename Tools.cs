@@ -53,6 +53,16 @@ namespace System
         }
 
         //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
+        public static void UpdateZeroFlag(int number)
+        {
+            //Check if number is equal to zero
+            if (number == 0)
+                Storage.Flags["ZF"] = 1;
+            else
+                Storage.Flags["ZF"] = 0;
+        }
+
+        //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
         public static void UpdateParityFlag(int number)
         {
             //[int] to [binary char array]
