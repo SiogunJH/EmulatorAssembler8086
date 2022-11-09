@@ -32,16 +32,16 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "regHL", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "regHL", false);
 
             //Write value(s)
-            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
-            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "regHL", valueToWriteAH);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
-            Tools.UpdateSignFlag(valueToWriteAL, "register");
+            Tools.UpdateSignFlag(valueToWriteAL, "regHL");
         }
 
         //Prepare the ASCII values of AL and AH to division
@@ -61,16 +61,16 @@ namespace System
             valueToWriteAH = 0;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "regHL", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "regHL", false);
 
             //Write value(s)
-            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
-            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "regHL", valueToWriteAH);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
-            Tools.UpdateSignFlag(valueToWriteAL, "register");
+            Tools.UpdateSignFlag(valueToWriteAL, "regHL");
         }
 
         //Correct the result of multiplication of BCD values
@@ -90,17 +90,17 @@ namespace System
             valueToWriteAL = valueToWriteAL % 10;
 
             //Adjust value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "regHL", false);
             valueToWriteAL %= 16; //Clear higher nibble
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "regHL", false);
 
             //Write value(s)
-            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
-            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "regHL", valueToWriteAH);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
-            Tools.UpdateSignFlag(valueToWriteAL, "register");
+            Tools.UpdateSignFlag(valueToWriteAL, "regHL");
         }
 
         //Correct the result of addition of two ASCII values
@@ -133,17 +133,17 @@ namespace System
             }
 
             //Determine and adjust final value(s)
-            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "register", false);
+            valueToWriteAL = Tools.AdjustValue(valueToWriteAL, "regHL", false);
             valueToWriteAL %= 16; //Clear higher nibble
-            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "register", false);
+            valueToWriteAH = Tools.AdjustValue(valueToWriteAH, "regHL", false);
 
             //Write value(s)
-            Tools.WriteDataToOperand("AL", "register", valueToWriteAL);
-            Tools.WriteDataToOperand("AH", "register", valueToWriteAH);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWriteAL);
+            Tools.WriteDataToOperand("AH", "regHL", valueToWriteAH);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
-            Tools.UpdateSignFlag(valueToWriteAL, "register");
+            Tools.UpdateSignFlag(valueToWriteAL, "regHL");
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
@@ -293,14 +293,14 @@ namespace System
                 valueToWrite += 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false);
+            valueToWrite = Tools.AdjustValue(valueToWrite, "regHL", false);
 
             //Write operand1 value
-            Tools.WriteDataToOperand("AL", "register", valueToWrite);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
-            Tools.UpdateSignFlag(valueToWrite, "register");
+            Tools.UpdateSignFlag(valueToWrite, "regHL");
         }
 
         //Correct the result of subtraction of two packed BCD values
@@ -325,14 +325,14 @@ namespace System
                 valueToWrite -= 6;
 
             //Determine and adjust final value(s)
-            valueToWrite = Tools.AdjustValue(valueToWrite, "register", false);
+            valueToWrite = Tools.AdjustValue(valueToWrite, "regHL", false);
 
             //Write operand1 value
-            Tools.WriteDataToOperand("AL", "register", valueToWrite);
+            Tools.WriteDataToOperand("AL", "regHL", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
-            Tools.UpdateSignFlag(valueToWrite, "register");
+            Tools.UpdateSignFlag(valueToWrite, "regHL");
         }
 
         //META COMMAND
@@ -370,7 +370,7 @@ namespace System
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
-            if (!"register;registerX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'register', 'registerX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
@@ -389,7 +389,7 @@ namespace System
         //Divide [AX] by [operand 1]
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
-        //Save location depends on wether diviser is of 'register/memory' type (Small Division) or not (Big Division)
+        //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
         public static void DIV(string command)
         {
             //Check for number of operands
@@ -408,7 +408,8 @@ namespace System
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
-            if (!"register;registerX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'register', 'registerX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
             int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"];
@@ -422,7 +423,7 @@ namespace System
             int reminder = Tools.AdjustValue(divident % divisor, operandType[0], false);
 
             //Distinguish Small and Big division, and act accordingly
-            if (operandType[0] == "register") //SMALL DIVISION
+            if (operandType[0] == "regHL") //SMALL DIVISION
             {
                 //Write results value
                 Storage.Register["AH"] = reminder;
@@ -431,8 +432,8 @@ namespace System
             else //BIG DIVISION
             {
                 //Write results value
-                Tools.WriteDataToOperand("DX", "registerX", reminder);
-                Tools.WriteDataToOperand("AX", "registerX", quotient);
+                Tools.WriteDataToOperand("DX", "regX", reminder);
+                Tools.WriteDataToOperand("AX", "regX", quotient);
             }
 
             //Modify flags
@@ -457,7 +458,7 @@ namespace System
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
-            if (!"register;registerX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'register', 'registerX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
             int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
@@ -519,14 +520,14 @@ namespace System
             string operandType = Tools.DetectOperandType(operand);
 
             //Check if operation is not forbidden
-            if (!"register;registerX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'register', 'registerX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
             int operandValue = Tools.ReadDataFromOperand(operand, operandType);
             int maxValue;
 
             //Update value(s)
-            if (operandType == "register" || operandType == "memory") maxValue = 255;
+            if (operandType == "regHL" || operandType == "memory") maxValue = 255;
             else maxValue = 65535;
 
             //Determine and adjust final value(s)
@@ -559,14 +560,14 @@ namespace System
             int operandValue = Tools.ReadDataFromOperand(operand, operandType);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "registerX", false);
+            int valueToWrite = Tools.AdjustValue(operandValue * Storage.Register["AL"], "regX", false);
 
             //Write results value
-            Tools.WriteDataToOperand("AX", "registerX", valueToWrite);
+            Tools.WriteDataToOperand("AX", "regX", valueToWrite);
 
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
-            Tools.UpdateSignFlag(valueToWrite, "registerX");
+            Tools.UpdateSignFlag(valueToWrite, "regX");
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -636,6 +637,48 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+        }
+
+        //Moves (copies) data from [operand 2] to [operand 1]
+        public static void XCHG(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            int[] operandValue = new int[2];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (int i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (int i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+
+            //Check if operation is allowed
+            if (!(
+                ("regHL;memory".Contains(operandType[0]) && ("regHL;memory".Contains(operandType[1]))) ||
+                ("regX;segment;pointer".Contains(operandType[0]) && ("regX;segment;pointer".Contains(operandType[1])))
+                ))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL/memory' to 'regHL/memory' or 'regX/pointer/segment' to 'regX/pointer/segment' - recieved '{operandType[0]}' to '{operandType[1]}'");
+
+
+            //Read operand2 value
+            operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+
+            //Read operand2 value
+            operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+
+            //Determine and adjust final value(s)
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[1]);
+            Tools.WriteDataToOperand(operand[1], operandType[1], operandValue[0]);
+
+            //Modify flags
         }
     }
 }

@@ -143,9 +143,9 @@ namespace System
         public static string DetectOperandType(string operand)
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
-                return "register";
+                return "regHL";
             if ("AX;BX;CX;DX".Contains(operand)) //REGISTER H+L OPERAND
-                return "registerX";
+                return "regX";
             if ("OF;DF;IF;TF;SF;ZF;AF;PF;CF".Contains(operand)) //FLAG OPERAND
                 return "flag";
             if ("SS;DS;ES".Contains(operand)) //SEGMENT OPERAND
@@ -172,9 +172,9 @@ namespace System
         {
             switch (operandType)
             {
-                case "register": //REGISTER
+                case "regHL": //REGISTER
                     return Storage.Register[operand];
-                case "registerX": //REGISTER H+L
+                case "regX": //REGISTER H+L
                     return Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "H")] * 256 + Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "L")];
                 case "flag": //FLAG
                     return Storage.Flags[operand];
@@ -222,7 +222,7 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");
             switch (operandType)
             {
-                case "register": //REGISTER
+                case "regHL": //REGISTER
                     if (!(operandValue >= -128 && operandValue <= 255))
                         break;
                     if (operandValue < 0)
@@ -230,7 +230,7 @@ namespace System
                     Storage.Register[operand] = operandValue;
                     return;
 
-                case "registerX": //REGISTER H+L
+                case "regX": //REGISTER H+L
                     if (!(operandValue >= -32768 && operandValue <= 65535))
                         break;
                     if (operandValue < 0)

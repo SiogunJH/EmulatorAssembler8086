@@ -40,8 +40,8 @@
                 case "XLATB": //TODO
 
                     break;
-                case "XCHG": //TODO
-
+                case "XCHG":
+                    Algorithms.XCHG(command);
                     break;
                 case "PUSH": //TODO
 

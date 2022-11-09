@@ -7,8 +7,6 @@
 Składnia:
 > AAA
 
-Test
-
 ### AAD
 Składnia:
 > AAD
@@ -76,6 +74,10 @@ Składnia:
 ### SUB
 Składnia:
 > SUB operand1, operand2
+
+### XCHG
+Składnie:
+> XCHG operand1, operand2
 
 # Dostępna Pamięć
 ## Rejestr Podstawowy
