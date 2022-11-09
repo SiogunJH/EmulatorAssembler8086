@@ -125,6 +125,7 @@ Rejestr segmentów składa się z trzech **16-bitowych komórek**, oznaczonych *
 |16-bit|16-bit|16-bit|
 
 **Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE
+
 **Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE
 
 **Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE
@@ -136,10 +137,14 @@ Rejestr wskaźników składa się z czterech **16-bitowych komórek**, oznaczony
 |--|--|--|--|
 |16-bit|16-bit|16-bit|16-bit|
 
-**Wskaźnik Stosu** (SP, z ang. *Stack Pointer*) - ZASTOSOWANIE<br>
-**Wskaźnik Bazowy** (BP, z ang. *Base Pointer*) - ZASTOSOWANIE<br>
-**Indeks Źródła** (SI, z ang. *Source Index*) - ZASTOSOWANIE<br>
-**Indeks Celu** (DI, z ang. *Destination Index*) - ZASTOSOWANIE<br>
+**Wskaźnik Stosu** (SP, z ang. *Stack Pointer*) - ZASTOSOWANIE
+
+**Wskaźnik Bazowy** (BP, z ang. *Base Pointer*) - ZASTOSOWANIE
+
+**Indeks Źródła** (SI, z ang. *Source Index*) - ZASTOSOWANIE
+
+**Indeks Celu** (DI, z ang. *Destination Index*) - ZASTOSOWANIE
+
 
 ## Flagi
 Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **OF**, **DF**, **IF**, **TF**, **SF**, **ZF**, **AF**, **PF** i **CF**.
@@ -148,16 +153,26 @@ Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **O
 |--|--|--|--|--|--|--|--|--|
 |1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|1-bit|
 
-**Flaga Przelania** (OF, z ang. *Overflow Flag*) - ZASTOSOWANIE<br>
-**Flaga Kierunkowa** (DF, z ang. *Directional Flag*) - ZASTOSOWANIE<br>
-**Flaga Przerwania** (IF, z ang. *Interruption Flag*) - ZASTOSOWANIE<br>
-**Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE<br>
-**Flaga Znaku** (SF, z ang. *Sign Flag*) - odpowiada za określenie, czy wartość jest dodatnia czy ujemna. Przyjmuje wartość **1** dla liczb ujemnych i wartość **0** dla dodatnich. Rozróżnianie znaku liczby opiera się na **wartości najwyższego bitu liczby**. Jeśli owy bit jest równy 1, liczba uznawana jest za ujemną - prowadzi to do sytuacji, gdzie dodając dwie liczby dodatnie, np. *70h (**0**111 0000)* i *60h (**0**110 0000)*, możemy uzyskać liczbę ujemną *D0h (**1**101 0000)*.<br>
-**Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE<br>
-**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - przyjmuje wartość **1**, jeśli w wyniku operacji arytmetycznej lub logicznej, działania przeprowadzone na **niższych półbajtach** nie mieszczą się w swoim obrębie i wymagają pobrania lub dodania jakiejś wartości do **wyższych półbajtów**.<br>Przykład: DODAĆ PRZYKŁAD<br>
-**Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**<br>
+**Flaga Przelania** (OF, z ang. *Overflow Flag*) - ZASTOSOWANIE
+
+**Flaga Kierunkowa** (DF, z ang. *Directional Flag*) - ZASTOSOWANIE
+
+**Flaga Przerwania** (IF, z ang. *Interruption Flag*) - ZASTOSOWANIE
+
+**Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE
+
+**Flaga Znaku** (SF, z ang. *Sign Flag*) - odpowiada za określenie, czy wartość jest dodatnia czy ujemna. Przyjmuje wartość **1** dla liczb ujemnych i wartość **0** dla dodatnich. Rozróżnianie znaku liczby opiera się na **wartości najwyższego bitu liczby**. Jeśli owy bit jest równy 1, liczba uznawana jest za ujemną - prowadzi to do sytuacji, gdzie dodając dwie liczby dodatnie, np. *70h (**0**111 0000)* i *60h (**0**110 0000)*, możemy uzyskać liczbę ujemną *D0h (**1**101 0000)*.
+
+**Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE
+
+**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - przyjmuje wartość **1**, jeśli w wyniku operacji arytmetycznej lub logicznej, działania przeprowadzone na **niższych półbajtach** nie mieszczą się w swoim obrębie i wymagają pobrania lub dodania jakiejś wartości do **wyższych półbajtów**.
+Przykład: DODAĆ PRZYKŁAD
+
+**Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**
+
 **Flaga Przeniesienia** (CF, z ang. *Carry Flag*) - ZASTOSOWANIE
-<!-- przyjmuje wartość **1** jeśli w wyniku wykonania instrukcji, jej wynik nie będzie mieścił się w komórce zapisu (*0-255* dla komórek 8-biotwych i *0-65535* dla komórek 16-bitowych). W przeciwnym wypadku flaga przyjmie wartość **0**. Przykład: W wyniku odejmowania komórek *AH* (o wartości *64*) oraz *AL* (o wartości *128*), do komórki AH ma zostać zapisany wynik *-64*. Wynik ten nie mieści się w obrębie *0-255*, więc musi zostać odpowiednio dostosowany - dodawana jest do niego wartość *256*, a flaga *CF* ustawiana jest na *1*, więc końcowa wartość AH wynosi *192*<br> -->
+<!-- przyjmuje wartość **1** jeśli w wyniku wykonania instrukcji, jej wynik nie będzie mieścił się w komórce zapisu (*0-255* dla komórek 8-biotwych i *0-65535* dla komórek 16-bitowych). W przeciwnym wypadku flaga przyjmie wartość **0**. Przykład: W wyniku odejmowania komórek *AH* (o wartości *64*) oraz *AL* (o wartości *128*), do komórki AH ma zostać zapisany wynik *-64*. Wynik ten nie mieści się w obrębie *0-255*, więc musi zostać odpowiednio dostosowany - dodawana jest do niego wartość *256*, a flaga *CF* ustawiana jest na *1*, więc końcowa wartość AH wynosi *192*
+ -->
 
 # Struktura Plików
 #### Base.cs
