@@ -390,7 +390,7 @@ namespace System
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
         //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
-        public static void DIV(string command)
+        public static void DIV(string command) //TODO FIX
         {
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
@@ -639,7 +639,7 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
-        //Moves (copies) data from [operand 2] to [operand 1]
+        //Exchange data between [operand 1] and [operand 2]
         public static void XCHG(string command)
         {
             //Check for number of operands

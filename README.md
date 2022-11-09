@@ -7,6 +7,10 @@
 Składnia:
 > AAA
 
+Instrukcja AAA służy do korekcji wyniku dodawania dwóch liczb w *rozpakowanym kodzie BCD* zapisanym w *operandzie domyślnym*. 
+
+Operandem domyślnym jest rejestr **AX**
+
 ### AAD
 Składnia:
 > AAD
@@ -19,6 +23,10 @@ Składnia:
 Składnia:
 > AAS
 
+Instrukcja AAA służy do korekcji wyniku odejmowania dwóch liczb w *rozpakowanym kodzie BCD* zapisanym w *operandzie domyślnym*.
+
+Operandem domyślnym jest rejestr **AX**
+
 ### ADC
 Składnia:
 > ADC operand1, operand2
@@ -26,6 +34,8 @@ Składnia:
 ### ADD
 Składnia:
 > ADD operand1, operand2
+
+Instrukcja ADD służy do dodania wartości *operanda drugiego* do wartości *operanda pierwszego* i zapisania wyniku na adresie *operanda pierwszego*
 
 ### CBW
 Składnia:
@@ -47,6 +57,8 @@ Składnia:
 Składnia:
 > DEC operand1
 
+Instrukcja INC służy do zmniejszenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
+
 ### DIV
 Składnia:
 > DIV operand1
@@ -55,17 +67,25 @@ Składnia:
 Składnia:
 > INC operand1
 
+Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
+
 ### MOV
 Składnia:
 > MOV operand1, operand2
 
-### NEG
-Składnia:
-> NEG operand1
+Instrukcja MOV służy do przeniesienia wartości *operanda drugiego* (źródła) do adresu *operanda pierwszego* (celu)
 
 ### MUL
 Składnia:
 > MUL operand1
+
+Instrukcja MUL służy do mnożenia *operanda pierwszego* i *domyślnego operanda*. W zależności od tego, czy operacja przeprowadzana jest na liczbach *8-bitowych* czy *16-bitowych*, wynik zapisywany jest do *AX* lub *AX i DX*.
+
+Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **AX** dla operacji 16-bitowych
+
+### NEG
+Składnia:
+> NEG operand1
 
 ### SBB
 Składnia:
@@ -75,9 +95,13 @@ Składnia:
 Składnia:
 > SUB operand1, operand2
 
+Instrukcja SUB służy do odjęcia wartości *operanda drugiego* od wartości *operanda pierwszego* i zapisania wyniku na adresie *operanda pierwszego*
+
 ### XCHG
 Składnie:
 > XCHG operand1, operand2
+
+Instrukcja XCHG służy do *wymiany wartości* między operandami. Operand pierwszy przyjmuje wartość drugiego, a operand drugi przyjmuje wartość pierwszego
 
 # Dostępna Pamięć
 ## Rejestr Podstawowy

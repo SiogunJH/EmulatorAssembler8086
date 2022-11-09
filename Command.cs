@@ -27,13 +27,13 @@
                 case "LES": //TODO
 
                     break;
-                case "LEA": //TODO
+                case "LEA": //TODO MUST
 
                     break;
-                case "LAHF": //TODO
+                case "LAHF": //TODO MUST
 
                     break;
-                case "SAHF": //TODO
+                case "SAHF": //TODO MUST
 
                     break;
                 case "XLAT": //TODO
@@ -43,19 +43,22 @@
                 case "XCHG":
                     Algorithms.XCHG(command);
                     break;
-                case "PUSH": //TODO
+                case "PUSH": //TODO MUST
 
                     break;
-                case "POP": //TODO
+                case "PUSHF": //TODO MUST
 
                     break;
-                case "POPF": //TODO
+                case "POP": //TODO MUST
 
                     break;
-                case "IN": //TODO
+                case "POPF": //TODO MUST
 
                     break;
-                case "OUT": //TODO
+                case "IN": //TODO MUST
+
+                    break;
+                case "OUT": //TODO MUST
 
                     break;
 
@@ -75,13 +78,13 @@
                 case "MUL":
                     Algorithms.MUL(command);
                     break;
-                case "IMUL": //TODO
+                case "IMUL": //TODO MUST
 
                     break;
                 case "DIV":
                     Algorithms.DIV(command);
                     break;
-                case "IDIV": //TODO
+                case "IDIV": //TODO MUST
 
                     break;
                 case "INC":
@@ -122,117 +125,117 @@
                     break;
 
                 //LOGICAL
-                case "AND": //TODO
+                case "AND": //TODO MUST
 
                     break;
-                case "OR": //TODO
+                case "OR": //TODO MUST
 
                     break;
-                case "XOR": //TODO
+                case "XOR": //TODO MUST
 
                     break;
-                case "NOT": //TODO
+                case "NOT": //TODO MUST
 
                     break;
-                case "TEST": //TODO
+                case "TEST": //TODO MUST
 
                     break;
 
                 //ROTATE
-                case "RCL": //TODO
+                case "RCL": //TODO MUST
 
                     break;
-                case "RCR": //TODO
+                case "RCR": //TODO MUST
 
                     break;
-                case "ROL": //TODO
+                case "ROL": //TODO MUST
 
                     break;
-                case "ROR": //TODO
+                case "ROR": //TODO MUST
 
                     break;
 
                 //SHIFT
-                case "SAL": //TODO
-                case "SHL": //TODO
+                case "SAL": //TODO MUST
+                case "SHL": //TODO MUST
 
                     break;
-                case "SAR": //TODO
+                case "SAR": //TODO MUST
 
                     break;
-                case "SHR": //TODO
+                case "SHR": //TODO MUST
 
                     break;
 
                 //BRANCH
-                case "JA": //TODO
-                case "JNBE": //TODO
+                case "JA": //TODO MUST
+                case "JNBE": //TODO MUST
 
                     break;
-                case "JAE": //TODO
-                case "JNB": //TODO
-                case "JNC": //TODO
+                case "JAE": //TODO MUST
+                case "JNB": //TODO MUST
+                case "JNC": //TODO MUST
 
                     break;
-                case "JB": //TODO
-                case "JNAE": //TODO
-                case "JC": //TODO
+                case "JB": //TODO MUST
+                case "JNAE": //TODO MUST
+                case "JC": //TODO MUST
 
                     break;
-                case "JBE": //TODO
-                case "JNA": //TODO
+                case "JBE": //TODO MUST
+                case "JNA": //TODO MUST
 
                     break;
-                case "JCXZ": //TODO
+                case "JCXZ": //TODO MUST
 
                     break;
-                case "JE": //TODO
-                case "JZ": //TODO
+                case "JE": //TODO MUST
+                case "JZ": //TODO MUST
 
                     break;
-                case "JG": //TODO
-                case "JNLE": //TODO
+                case "JG": //TODO MUST
+                case "JNLE": //TODO MUST
 
                     break;
-                case "JGE": //TODO
-                case "JNL": //TODO
+                case "JGE": //TODO MUST
+                case "JNL": //TODO MUST
 
                     break;
-                case "JL": //TODO
-                case "JNGE": //TODO
+                case "JL": //TODO MUST
+                case "JNGE": //TODO MUST
 
                     break;
-                case "JLE": //TODO
-                case "JNG": //TODO
+                case "JLE": //TODO MUST
+                case "JNG": //TODO MUST
 
                     break;
-                case "JMP": //TODO
+                case "JMP": //TODO MUST
 
                     break;
-                case "CALL": //TODO
+                case "CALL": //TODO MUST
 
                     break;
-                case "RET": //TODO
+                case "RET": //TODO MUST
 
                     break;
-                case "IRET": //TODO
+                case "IRET": //TODO MUST
 
                     break;
-                case "INT": //TODO
+                case "INT": //TODO MUST
 
                     break;
                 case "INTO": //TODO
 
                     break;
-                case "LOOP": //TODO
+                case "LOOP": //TODO MUST
 
                     break;
-                case "LOOPZ": //TODO
-                case "LOOPE": //TODO
+                case "LOOPZ": //TODO MUST
+                case "LOOPE": //TODO MUST
 
                     break;
-                case "LOOPNZ": //TODO
-                case "LOOPNE": //TODO
+                case "LOOPNZ": //TODO MUST
+                case "LOOPNE": //TODO MUST
 
                     break;
 
