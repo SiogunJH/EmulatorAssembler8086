@@ -125,7 +125,6 @@ Rejestr segmentów składa się z trzech **16-bitowych komórek**, oznaczonych *
 |16-bit|16-bit|16-bit|
 
 **Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE
-
 **Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE
 
 **Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE
