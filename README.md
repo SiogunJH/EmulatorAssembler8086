@@ -7,6 +7,8 @@
 Składnia:
 > AAA
 
+Test
+
 ### AAD
 Składnia:
 > AAD
@@ -151,9 +153,10 @@ Rejestr flag składa się z dziewięciu **1-bitowych komórek**, oznaczonych **O
 **Flaga Pułapki** (TF, z ang. *Trap Flag*) - ZASTOSOWANIE<br>
 **Flaga Znaku** (SF, z ang. *Sign Flag*) - odpowiada za określenie, czy wartość jest dodatnia czy ujemna. Przyjmuje wartość **1** dla liczb ujemnych i wartość **0** dla dodatnich. Rozróżnianie znaku liczby opiera się na **wartości najwyższego bitu liczby**. Jeśli owy bit jest równy 1, liczba uznawana jest za ujemną - prowadzi to do sytuacji, gdzie dodając dwie liczby dodatnie, np. *70h (**0**111 0000)* i *60h (**0**110 0000)*, możemy uzyskać liczbę ujemną *D0h (**1**101 0000)*.<br>
 **Flaga Zera** (ZF, z ang. *Zero Flag*) - ZASTOSOWANIE<br>
-**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - ZASTOSOWANIE<br>
+**Flaga Dopasowania** (AF, z ang. *Auxiliary Carry Flag*) - przyjmuje wartość **1**, jeśli w wyniku operacji arytmetycznej lub logicznej, działania przeprowadzone na **niższych półbajtach** nie mieszczą się w swoim obrębie i wymagają pobrania lub dodania jakiejś wartości do **wyższych półbajtów**.<br>Przykład: DODAĆ PRZYKŁAD<br>
 **Flaga Parzystości** (PF, z ang. *Parity Flag*) - wykorzystywana przy wykonywaniu obliczeń arytmetycznych. Jeśli ilość jedynek w danej liczbie binarnej jest parzysta, flaga przyjmuje wartość **1** - w przeciwnym wypadku przypisywana jest wartość **0**<br>
-**Flaga Przeniesienia** (CF, z ang. *Carry Flag*) - przyjmuje wartość **1** jeśli w wyniku wykonania instrukcji, jej wynik nie będzie mieścił się w komórce zapisu (*0-255* dla komórek 8-biotwych i *0-65535* dla komórek 16-bitowych). W przeciwnym wypadku flaga przyjmie wartość **0**. Przykład: W wyniku odejmowania komórek *AH* (o wartości *64*) oraz *AL* (o wartości *128*), do komórki AH ma zostać zapisany wynik *-64*. Wynik ten nie mieści się w obrębie *0-255*, więc musi zostać odpowiednio dostosowany - dodawana jest do niego wartość *256*, a flaga *CF* ustawiana jest na *1*, więc końcowa wartość AH wynosi *192*<br>
+**Flaga Przeniesienia** (CF, z ang. *Carry Flag*) - ZASTOSOWANIE
+<!-- przyjmuje wartość **1** jeśli w wyniku wykonania instrukcji, jej wynik nie będzie mieścił się w komórce zapisu (*0-255* dla komórek 8-biotwych i *0-65535* dla komórek 16-bitowych). W przeciwnym wypadku flaga przyjmie wartość **0**. Przykład: W wyniku odejmowania komórek *AH* (o wartości *64*) oraz *AL* (o wartości *128*), do komórki AH ma zostać zapisany wynik *-64*. Wynik ten nie mieści się w obrębie *0-255*, więc musi zostać odpowiednio dostosowany - dodawana jest do niego wartość *256*, a flaga *CF* ustawiana jest na *1*, więc końcowa wartość AH wynosi *192*<br> -->
 
 # Struktura Plików
 #### Base.cs
