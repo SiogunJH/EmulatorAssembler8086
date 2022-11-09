@@ -124,9 +124,11 @@ Rejestr segmentów składa się z trzech **16-bitowych komórek**, oznaczonych *
 |--|--|--|
 |16-bit|16-bit|16-bit|
 
-**Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE<br>
-**Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE<br>
-**Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE<br>
+**Segment Stosu** (SS, z ang. *Stack Segment*) - ZASTOSOWANIE
+
+**Segment Danych** (DS, z ang. *Data Segment*) - ZASTOSOWANIE
+
+**Segment Dodatkowy** (ES, z ang. *Extra Segment*) - ZASTOSOWANIE
 
 ## Rejestr Wskaźników
 Rejestr wskaźników składa się z czterech **16-bitowych komórek**, oznaczonych **SP**, **BP**, **SI** i **DI**.
