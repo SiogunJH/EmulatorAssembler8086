@@ -390,7 +390,7 @@ namespace System
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
         //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
-        public static void DIV(string command) //TODO FIX
+        public static void DIV(string command)
         {
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
@@ -411,16 +411,26 @@ namespace System
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
                 throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
-            //Read operand1 value
-            int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"];
-            int divisor = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+            //Read value(s)
+            int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
+            if (operandType[0] == "regX") //BIG DIVISION
+                divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
+            int divisor = Tools.ReadDataFromOperand(operand[0], operandType[0]); //BIG/SMALL DIVISION
 
             //Test if division is possible
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
 
+            //Determine if division does not generate overflow
+            int quotient = divident / divisor;
+            int reminder = divident % divisor;
+            if (operandType[0] == "regHL" && quotient > 255) //SMALL DIVISION
+                throw new Exception(String.Format("Quotient cannot exceed FF (255). Your quotient was {0:X} ({0})", quotient));
+            else if (operandType[0] == "regX" && quotient > 65535)//BIG DIVISION
+                throw new Exception(String.Format("Quotient cannot exceed FFFF (65535). Your quotient was {0:X} ({0})", quotient));
+
             //Determine and adjust final value(s)
-            int quotient = Tools.AdjustValue(divident / divisor, operandType[0], false);
-            int reminder = Tools.AdjustValue(divident % divisor, operandType[0], false);
+            quotient = Tools.AdjustValue(quotient, operandType[0], false);
+            reminder = Tools.AdjustValue(reminder, operandType[0], false);
 
             //Distinguish Small and Big division, and act accordingly
             if (operandType[0] == "regHL") //SMALL DIVISION
