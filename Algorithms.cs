@@ -386,7 +386,8 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
-        //Divide [AX] by [operand 1]
+        //IF [operand 1] i 8-bit, divide [AX] by [operand 1]
+        //IF [operand 1] i 16-bit, divide [DX][AX] by [operand 1]
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
         //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
@@ -516,6 +517,9 @@ namespace System
         //Negate the value of [operand1] and save to [operand1]
         public static void NEG(string command)
         {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("NEG:");
+
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
 
@@ -525,24 +529,78 @@ namespace System
             //Prepare operand(s)
             command = command.Substring(command.Split(' ')[0].Length);
             string operand = command.Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
 
             //Detect operand type(s)
             string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
             //Check if operation is not forbidden
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
             int operandValue = Tools.ReadDataFromOperand(operand, operandType);
-            int maxValue;
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
 
             //Update value(s)
-            if (operandType == "regHL" || operandType == "memory") maxValue = 255;
-            else maxValue = 65535;
+            int maxValue;
+            if (operandType == "regHL" || operandType == "memory") maxValue = 256;
+            else maxValue = 65536;
+            if (Storage.DebugMode) Console.WriteLine("\tMax Value: {0}", maxValue);
 
             //Determine and adjust final value(s)
             int valueToWrite = maxValue - operandValue;
-            if (Storage.DebugMode) Console.WriteLine("NEG:\n\tOperand: {0:X4}\n\tValue: {1:X4}\n\tNegated Value: {2:X4}\n\tMax Value: {3:X4}\n", operand, operandValue, valueToWrite, maxValue);
+            if (Storage.DebugMode) Console.WriteLine("\tNegated Value: {0}", valueToWrite);
+
+            //Adjust value(s)
+            valueToWrite = Tools.AdjustValue(valueToWrite, operandType, false);
+
+            //Write operand1 value
+            Tools.WriteDataToOperand(operand, operandType, valueToWrite);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType);
+        }
+
+        //Negate all bits of [operand 1]
+        public static void NOT(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("NOT:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Save instruction
+            string instruction = command.Split(' ')[0];
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
+
+            //Detect operand type(s)
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+
+            //Check if operation is not forbidden
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+
+            //Read value(s)
+            int operandValue = Tools.ReadDataFromOperand(operand, operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
+
+            //Negate all bits
+            int valueToWrite;
+            if (operandType == "regHL" || operandType == "memory")
+                valueToWrite = Tools.Parse(Convert.ToString(operandValue, 2).PadLeft(8, '0').Replace('0', '2').Replace('1', '0').Replace('2', '1'), 2); //8-bit
+            else
+                valueToWrite = Tools.Parse(Convert.ToString(operandValue, 2).PadLeft(16, '0').Replace('0', '2').Replace('1', '0').Replace('2', '1'), 2); //16-bit
+            if (Storage.DebugMode) Console.WriteLine("\tNegated Value: {0}", valueToWrite);
+
+            //Determine and adjust final value(s)
+            valueToWrite = Tools.AdjustValue(valueToWrite, operandType, false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand, operandType, valueToWrite);

@@ -135,6 +135,7 @@
 
                     break;
                 case "NOT": //TODO MUST
+                    Algorithms.NOT(command);
 
                     break;
                 case "TEST": //TODO MUST

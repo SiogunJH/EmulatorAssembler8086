@@ -34,9 +34,12 @@ namespace System
             Storage.MemoryDisplay();
         }
 
-        //Parse string number to a decimal
-        //number - value to be parsed
-        //systemSize - system size of a number that will be parsed
+        ///<summary> 
+        ///Funkcja <c>Parse</c> konwertuje liczbę w formie <c>string</c> z dowolnego systemu liczbowego w liczbę w formie <c>int</c> systemu dziesiętnego
+        ///</summary>
+        ///<param name="number">Liczba w formacie <c>string</c></param>
+        ///<param name="systemSize">Rozmiar systemu, z którego konwertowana jest liczba (np. <c>16</c> dla systemu szesnastkowego i <c>10</c> dla systemu dziesiętnego)</param>
+        ///<returns>Wartość <c>int</c> odpowiadająca wartością przyjętego parametru</returns>
         public static int Parse(string number, int systemSize)
         {
             //Define what characters are allowed in a system
@@ -98,22 +101,30 @@ namespace System
 
         public static int AdjustValue(int operandValue, string operandType, bool modifyFlags)
         {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("Adjust Value:");
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+
             //Determine max possible value
             int maxValue;
-            if (operandType == "register" || operandType == "memory") maxValue = 256;
+            if (operandType == "regHL" || operandType == "memory") maxValue = 256;
             else if (operandType == "flag") maxValue = 1;
             else maxValue = 65536;
+            if (Storage.DebugMode) Console.WriteLine("\tMax Value: {0}", maxValue);
 
             //Check if negative
-            while (operandValue < 0)
+            if (operandValue < 0)
             {
                 operandValue += maxValue;
+                if (Storage.DebugMode) Console.WriteLine("\tNegation Adjust: {0}", operandValue);
             }
 
             //Check if above limit
             if (operandValue >= maxValue)
             {
                 operandValue %= maxValue;
+                if (Storage.DebugMode) Console.WriteLine("\tOverflow Adjust: {0}", operandValue);
             }
 
             //Return new value
@@ -217,9 +228,17 @@ namespace System
             return addressValue;
         }
 
+        ///<summary>
+        ///Funkcja znajduje odpowiedni operand opdowiadający przesłanym danym i zapisuje nową wartość w jego miejscu
+        ///</summary>
         public static void WriteDataToOperand(string operand, string operandType, int operandValue)
         {
-            if (Storage.DebugMode) Console.WriteLine($"Write Data To Operand:\n\tOperand: {operand}\n\tOperand Type: {operandType}\n\tValue: {operandValue}\n");
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("Write Data to Operand:");
+            if (Storage.DebugMode) Console.WriteLine("\tOperand: {0}", operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
+
             switch (operandType)
             {
                 case "regHL": //REGISTER
