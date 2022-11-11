@@ -62,6 +62,7 @@ Instrukcja INC służy do zmniejszenia wartości *operanda pierwszego* o *1* i z
 ### DIV
 Składnia:
 > DIV operand1
+Instrukcja DIV służy do dzielenia *operanda domyślnego* przez wartość *operanda pierwszego*. Jesli podany operand jest 8-bitowy, operand domyślny przyjmuje wartość rejestru *AX*, a wyniki zapisywane są w rejestrach AH (modulo) oraz AL (iloraz). Jesli podany operand jest 16-bitowy, operand domyślny przyjmuje 32-bitową wartość wynikająca z zestawienia rejestró *DX* i *AX*, a wyniki zapisywane są w rejestrach DX (modulo) oraz AX (iloraz).
 
 ### INC
 Składnia:

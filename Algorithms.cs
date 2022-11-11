@@ -413,7 +413,7 @@ namespace System
 
             //Read value(s)
             int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
-            if (operandType[0] == "regX") //BIG DIVISION
+            if (operandType[0] != "regX" && operandType[0] != "memory") //BIG DIVISION
                 divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
             int divisor = Tools.ReadDataFromOperand(operand[0], operandType[0]); //BIG/SMALL DIVISION
 
@@ -423,9 +423,9 @@ namespace System
             //Determine if division does not generate overflow
             int quotient = divident / divisor;
             int reminder = divident % divisor;
-            if (operandType[0] == "regHL" && quotient > 255) //SMALL DIVISION
+            if ((operandType[0] == "regHL" || operandType[0] == "memory") && quotient > 255) //SMALL DIVISION
                 throw new Exception(String.Format("Quotient cannot exceed FF (255). Your quotient was {0:X} ({0})", quotient));
-            else if (operandType[0] == "regX" && quotient > 65535)//BIG DIVISION
+            else if (operandType[0] != "regHL" && operandType[0] != "memory" && quotient > 65535)//BIG DIVISION
                 throw new Exception(String.Format("Quotient cannot exceed FFFF (65535). Your quotient was {0:X} ({0})", quotient));
 
             //Determine and adjust final value(s)
@@ -433,7 +433,7 @@ namespace System
             reminder = Tools.AdjustValue(reminder, operandType[0], false);
 
             //Distinguish Small and Big division, and act accordingly
-            if (operandType[0] == "regHL") //SMALL DIVISION
+            if (operandType[0] == "regHL" || operandType[0] == "memory") //SMALL DIVISION
             {
                 //Write results value
                 Storage.Register["AH"] = reminder;
