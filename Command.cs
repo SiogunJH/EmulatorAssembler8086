@@ -134,9 +134,8 @@
                 case "XOR": //TODO MUST
 
                     break;
-                case "NOT": //TODO MUST
+                case "NOT":
                     Algorithms.NOT(command);
-
                     break;
                 case "TEST": //TODO MUST
 
