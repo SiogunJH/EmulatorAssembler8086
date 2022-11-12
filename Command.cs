@@ -78,8 +78,8 @@
                 case "MUL":
                     Algorithms.MUL(command);
                     break;
-                case "IMUL": //TODO MUST
-
+                case "IMUL":
+                    Algorithms.IMUL(command);
                     break;
                 case "DIV":
                     Algorithms.DIV(command);

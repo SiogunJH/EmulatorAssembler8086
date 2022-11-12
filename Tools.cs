@@ -242,18 +242,14 @@ namespace System
             switch (operandType)
             {
                 case "regHL": //REGISTER
-                    if (!(operandValue >= -128 && operandValue <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 255))
                         break;
-                    if (operandValue < 0)
-                        operandValue += 256;
                     Storage.Register[operand] = operandValue;
                     return;
 
                 case "regX": //REGISTER H+L
-                    if (!(operandValue >= -32768 && operandValue <= 65535))
+                    if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
-                    if (operandValue < 0)
-                        operandValue += 65536;
                     Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "H")] = operandValue / 256;
                     Storage.Register[String.Format("{0}{1}", operand.Substring(0, 1), "L")] = operandValue % 256;
                     return;
@@ -265,26 +261,20 @@ namespace System
                     return;
 
                 case "segment": //SEGMENT
-                    if (!(operandValue >= -32768 && operandValue <= 65535))
+                    if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
-                    if (operandValue < 0)
-                        operandValue += 65536;
                     Storage.Segments[operand] = operandValue;
                     return;
 
                 case "pointer": //POINTER
-                    if (!(operandValue >= -32768 && operandValue <= 65535))
+                    if (!(operandValue >= 0 && operandValue <= 65535))
                         break;
-                    if (operandValue < 0)
-                        operandValue += 65536;
                     Storage.Pointers[operand] = operandValue;
                     return;
 
                 case "memory": //MEMORY
-                    if (!(operandValue >= -128 && operandValue <= 255))
+                    if (!(operandValue >= 0 && operandValue <= 255))
                         break;
-                    if (operandValue < 0)
-                        operandValue += 256;
 
                     //Define address
                     string addressString = operand.Substring(1, operand.Length - 2);

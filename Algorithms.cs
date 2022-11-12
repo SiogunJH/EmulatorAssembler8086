@@ -450,6 +450,86 @@ namespace System
             //Modify flags
         }
 
+        //IF [operand 1] is 8-bit:
+        //Multiply [AL] by an [operand 1] and save to [AX]
+        //IF [operand 1] is 16-bit:
+        //Multiply [AX] by an [operand 1] and save to [DX AX]
+        public static void IMUL(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("MUL:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Split(',')[0].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
+
+            //Detect operand types
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+
+            //Check if operation is not forbidden
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+
+            //Read value(s)
+            int multiplicator = Tools.ReadDataFromOperand(operand, operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", multiplicator);
+            if ((operandType == "regHL" || operandType == "memory") && multiplicator >= 128)
+                multiplicator = multiplicator - 256;
+            else if (multiplicator >= 32768)
+                multiplicator = multiplicator - 65536;
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Signed Value: {0}", multiplicator);
+
+            int multiplicand;
+            if (operandType == "regHL" || operandType == "memory")
+            {
+                multiplicand = Tools.ReadDataFromOperand("AL", "regHL");
+                if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Type: {0}", "regHL");
+                if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
+                if (multiplicand >= 128) multiplicand = multiplicand - 256;
+            }
+            else
+            {
+                multiplicand = Tools.ReadDataFromOperand("AX", "regX");
+                if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Type: {0}", "regX");
+                if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
+                if (multiplicand >= 32768) multiplicand = multiplicand - 65536;
+            }
+            if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Signed Value: {0}", multiplicand);
+
+            //Determine value(s)
+            int product = multiplicand * multiplicator;
+            if (Storage.DebugMode) Console.WriteLine("\tProduct Raw Value: {0}", product);
+
+            //Adjust and write result value(s)
+            if (operandType == "regHL" || operandType == "memory")
+            {
+                product = Tools.AdjustValue(product, "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value: {0}", product);
+                Tools.WriteDataToOperand("AX", "regX", product);
+            }
+            else
+            {
+                int productOG = product;
+                product = Tools.AdjustValue(productOG / (256 * 256), "regX", false);
+                if (product == 0 && productOG < 0) product = Tools.AdjustValue(-1, "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Upper): {0}", product);
+                Tools.WriteDataToOperand("DX", "regX", product);
+                product = Tools.AdjustValue(productOG % (256 * 256), "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Lower): {0}", product);
+                Tools.WriteDataToOperand("AX", "regX", product);
+            }
+
+            //Modify flag(s)
+            Tools.UpdateParityFlag(product % (256 * 256));
+            Tools.UpdateSignFlag(product % (256 * 256), "regX");
+        }
+
         //Increment [operand 1] and save to [operand 1]
         public static void INC(string command)
         {
