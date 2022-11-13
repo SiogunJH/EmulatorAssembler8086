@@ -40,23 +40,23 @@ namespace System
         ///<param name="number">Liczba w formacie <c>string</c></param>
         ///<param name="systemSize">Rozmiar systemu, z którego konwertowana jest liczba (np. <c>16</c> dla systemu szesnastkowego i <c>10</c> dla systemu dziesiętnego)</param>
         ///<returns>Wartość <c>int</c> odpowiadająca wartością przyjętego parametru</returns>
-        public static int Parse(string number, int systemSize)
+        public static long Parse(string number, int systemSize)
         {
             //Define what characters are allowed in a system
             string systemNumbers = "0123456789ABCDEF".Substring(0, systemSize);
 
             //Check if all characters are correct for a number system
             char[] numberArray = number.ToCharArray();
-            for (int i = 0; i < numberArray.Length; i++)
+            for (long i = 0; i < numberArray.Length; i++)
             {
                 if (!(systemNumbers.Contains(numberArray[i])))
                     throw new Exception($"Niepoprawna wartość numeryczna '{number}' dla systemu o rozmiarze '{systemSize}'");
             }
-            return unchecked((int)Convert.ToInt64(number, systemSize));
+            return unchecked((long)Convert.ToInt64(number, systemSize));
         }
 
         //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
-        public static void UpdateZeroFlag(int number)
+        public static void UpdateZeroFlag(long number)
         {
             //Check if number is equal to zero
             if (number == 0)
@@ -66,13 +66,13 @@ namespace System
         }
 
         //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
-        public static void UpdateParityFlag(int number)
+        public static void UpdateParityFlag(long number)
         {
-            //[int] to [binary char array]
+            //[long] to [binary char array]
             char[] binary = Convert.ToString(number, 2).ToCharArray();
 
             //Count 1s and set Parity Flag accordingly
-            int length = Array.FindAll(binary, element => element == '1').Length;
+            long length = Array.FindAll(binary, element => element == '1').Length;
             if (length % 2 == 0)
                 Storage.Flags["PF"] = 1;
             else
@@ -80,13 +80,13 @@ namespace System
         }
 
         //Check for High Bit value and adjust the Sign Flag (SF) accordingly
-        public static void UpdateSignFlag(int number, string operandType)
+        public static void UpdateSignFlag(long number, string operandType)
         {
-            //[int] to [binary char array]
+            //[long] to [binary char array]
             char[] binary = Convert.ToString(number, 2).ToCharArray();
 
             //Determine number of bits needed to save a specific data type
-            int numOfBits;
+            long numOfBits;
             if (operandType == "register" || operandType == "memory")
                 numOfBits = 8;
             else
@@ -99,7 +99,7 @@ namespace System
                 Storage.Flags["SF"] = 0;
         }
 
-        public static int AdjustValue(int operandValue, string operandType, bool modifyFlags)
+        public static long AdjustValue(long operandValue, string operandType, bool modifyFlags)
         {
             //DEBUG Display
             if (Storage.DebugMode) Console.WriteLine("Adjust Value:");
@@ -107,7 +107,7 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
             //Determine max possible value
-            int maxValue;
+            long maxValue;
             if (operandType == "regHL" || operandType == "memory") maxValue = 256;
             else if (operandType == "flag") maxValue = 1;
             else maxValue = 65536;
@@ -132,7 +132,7 @@ namespace System
             return operandValue;
         }
 
-        public static void CheckForNumOfOperands(string command, int expectedNumOfOperands)
+        public static void CheckForNumOfOperands(string command, long expectedNumOfOperands)
         {
             //Save instruction name
             string instruction = command.Split(' ')[0];
@@ -140,7 +140,7 @@ namespace System
             //Split command into array of operands
             command = command.Substring(instruction.Length);
             string[] commandArray = command.Split(",");
-            int recievedNumOfOperands = commandArray.Length;
+            long recievedNumOfOperands = commandArray.Length;
 
             //Check for no operands
             if (commandArray.Length == 1 && commandArray[0].Trim() == "") recievedNumOfOperands = 0;
@@ -164,7 +164,7 @@ namespace System
                 return "segment";
             if ("SP;BP;SI;DI".Contains(operand)) //POINTER OPERAND
                 return "pointer";
-            if (int.TryParse(operand, out int temp)) //NUMBER OPERAND DECIMAL
+            if (long.TryParse(operand, out long temp)) //NUMBER OPERAND DECIMAL
                 return "numberD";
             if (operand.EndsWith("H")) //NUMBER OPERAND HEXADECIMAL
                 return "numberH";
@@ -180,7 +180,7 @@ namespace System
             throw new Exception($"Operand '{operand}' was not recognized!");
         }
 
-        public static int ReadDataFromOperand(string operand, string operandType)
+        public static long ReadDataFromOperand(string operand, string operandType)
         {
             switch (operandType)
             {
@@ -195,7 +195,7 @@ namespace System
                 case "pointer": //POINTER
                     return Storage.Pointers[operand];
                 case "numberD": //NUMBER DECIMAL
-                    return int.Parse(operand);
+                    return long.Parse(operand);
                 case "numberH": //NUMBER HEXA
                     return Tools.Parse(operand.Substring(0, operand.Length - 1), 16);
                 case "numberQ": //NUMBER OCTAL
@@ -211,17 +211,17 @@ namespace System
         }
 
         //Determines the memory address and reads data stored withing that address
-        public static int ReadDataFromMemory(string operand)
+        public static long ReadDataFromMemory(string operand)
         {
             //Przygotuj zmienne
-            int address;
+            long address;
             operand = operand.Substring(1, operand.Length - 2); //Usuń nawiasy kwadratowe
 
             //Określ adres
             address = Tools.ReadDataFromOperand(operand, Tools.DetectOperandType(operand));
 
             //Odczytaj zawartość konkretnego adresu
-            int addressValue = 0;
+            long addressValue = 0;
             bool results = Storage.Memory.TryGetValue(address, out addressValue);
             if (Storage.DebugMode) Console.WriteLine("Read Data From Memory:\n\tAddress: {0:X4}\n\tValue: {1:X2}\n", address, addressValue);
 
@@ -232,7 +232,7 @@ namespace System
         ///<summary>
         ///Funkcja znajduje odpowiedni operand opdowiadający przesłanym danym i zapisuje nową wartość w jego miejscu
         ///</summary>
-        public static void WriteDataToOperand(string operand, string operandType, int operandValue)
+        public static void WriteDataToOperand(string operand, string operandType, long operandValue)
         {
             //DEBUG Display
             if (Storage.DebugMode) Console.WriteLine("Write Data to Operand:");
@@ -280,7 +280,7 @@ namespace System
 
                     //Define address
                     string addressString = operand.Substring(1, operand.Length - 2);
-                    int address = Tools.ReadDataFromOperand(addressString, Tools.DetectOperandType(addressString));
+                    long address = Tools.ReadDataFromOperand(addressString, Tools.DetectOperandType(addressString));
 
                     //Save data to address
                     bool results = Storage.Memory.ContainsKey(address);

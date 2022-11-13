@@ -7,7 +7,7 @@ namespace System
         public static bool DebugMode = false;
 
         //MEMORY
-        public static Collections.Generic.SortedDictionary<Int32, Int32> Memory = new Collections.Generic.SortedDictionary<Int32, Int32>();
+        public static Collections.Generic.SortedDictionary<Int64, Int64> Memory = new Collections.Generic.SortedDictionary<Int64, Int64>();
 
         public static void MemoryInit()
         {
@@ -22,8 +22,8 @@ namespace System
         public static void MemoryDisplay()
         {
             Console.WriteLine();
-            int i = 0;
-            foreach (int key in Memory.Keys)
+            long i = 0;
+            foreach (long key in Memory.Keys)
             {
                 Console.Write("[{0:X4} -> {1:X2}]\t", key, Memory[key]);
                 if (i == 3)
@@ -40,7 +40,7 @@ namespace System
         }
 
         //REGISTER
-        public static Collections.Generic.Dictionary<String, Int32> Register = new Collections.Generic.Dictionary<String, Int32>();
+        public static Collections.Generic.Dictionary<String, Int64> Register = new Collections.Generic.Dictionary<String, Int64>();
         public static void RegisterInit()
         {
             Register.Add("AH", 0);
@@ -66,7 +66,7 @@ namespace System
         }
 
         //FLAGS
-        public static Collections.Generic.Dictionary<String, Int32> Flags = new Collections.Generic.Dictionary<String, Int32>();
+        public static Collections.Generic.Dictionary<String, Int64> Flags = new Collections.Generic.Dictionary<String, Int64>();
         public static void FlagsInit()
         {
             Flags.Add("OF", 0);
@@ -94,7 +94,7 @@ namespace System
         }
 
         //SEGMENTS
-        public static Collections.Generic.Dictionary<String, Int32> Segments = new Collections.Generic.Dictionary<String, Int32>();
+        public static Collections.Generic.Dictionary<String, Int64> Segments = new Collections.Generic.Dictionary<String, Int64>();
         public static void SegmentsInit()
         {
             Segments.Add("SS", 0);
@@ -110,7 +110,7 @@ namespace System
         }
 
         //POINTERS
-        public static Collections.Generic.Dictionary<String, Int32> Pointers = new Collections.Generic.Dictionary<String, Int32>();
+        public static Collections.Generic.Dictionary<String, Int64> Pointers = new Collections.Generic.Dictionary<String, Int64>();
         public static void PointersInit()
         {
             Pointers.Add("SP", 0);

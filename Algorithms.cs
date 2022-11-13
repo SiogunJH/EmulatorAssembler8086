@@ -14,8 +14,8 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read and test AL value
-            int valueToWriteAL = Storage.Register["AL"];
-            int valueToWriteAH = Storage.Register["AH"];
+            long valueToWriteAL = Storage.Register["AL"];
+            long valueToWriteAH = Storage.Register["AH"];
             if (valueToWriteAL % 16 > 9) //lower nibble
                 Storage.Flags["AF"] = 1;
 
@@ -53,8 +53,8 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read value(s)
-            int valueToWriteAL = Storage.Register["AL"];
-            int valueToWriteAH = Storage.Register["AH"];
+            long valueToWriteAL = Storage.Register["AL"];
+            long valueToWriteAH = Storage.Register["AH"];
 
             //Update value(s)
             valueToWriteAL += valueToWriteAH * 10;
@@ -82,8 +82,8 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read value(s)
-            int valueToWriteAL = Storage.Register["AL"];
-            int valueToWriteAH = Storage.Register["AH"];
+            long valueToWriteAL = Storage.Register["AL"];
+            long valueToWriteAH = Storage.Register["AH"];
 
             //Update value(s)
             valueToWriteAH = valueToWriteAL / 10;
@@ -115,8 +115,8 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read and test value(s)
-            int valueToWriteAL = Storage.Register["AL"];
-            int valueToWriteAH = Storage.Register["AH"];
+            long valueToWriteAL = Storage.Register["AL"];
+            long valueToWriteAH = Storage.Register["AH"];
             if (valueToWriteAL % 16 > 9) //lower nibble
                 Storage.Flags["AF"] = 1;
 
@@ -157,21 +157,21 @@ namespace System
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Read operand1 and operand2 value
-            int[] operandValue = new int[2];
-            for (int i = 0; i < operand.Length; i++)
+            long[] operandValue = new long[2];
+            for (long i = 0; i < operand.Length; i++)
                 operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1] + Storage.Flags["CF"], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -191,21 +191,21 @@ namespace System
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Read operand1 and operand2 value
-            int[] operandValue = new int[2];
-            for (int i = 0; i < operand.Length; i++)
+            long[] operandValue = new long[2];
+            for (long i = 0; i < operand.Length; i++)
                 operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue[0] + operandValue[1], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -280,7 +280,7 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read and test AL value
-            int valueToWrite = Storage.Register["AL"];
+            long valueToWrite = Storage.Register["AL"];
             if (valueToWrite / 16 > 9) //higher nibble
                 Storage.Flags["CF"] = 1;
             if (valueToWrite % 16 > 9) //lower nibble
@@ -312,7 +312,7 @@ namespace System
             Tools.CheckForNumOfOperands(command, 0);
 
             //Read and test AL value
-            int valueToWrite = Storage.Register["AL"];
+            long valueToWrite = Storage.Register["AL"];
             if (valueToWrite / 16 > 9) //higher nibble
                 Storage.Flags["CF"] = 1;
             if (valueToWrite % 16 > 9) //lower nibble
@@ -361,22 +361,22 @@ namespace System
             string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
-            int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+            long operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue - 1, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -414,10 +414,10 @@ namespace System
                 throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
 
             //Read value(s)
-            int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
+            long divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
             if (operandType != "regX" && operandType != "memory") //BIG DIVISION
                 divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
-            int divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
+            long divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
 
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): {0}", divisor);
             if (Storage.DebugMode) Console.WriteLine("\tDivident: {0}", divident);
@@ -426,8 +426,8 @@ namespace System
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
 
             //Determine if division does not generate overflow
-            int quotient = divident / divisor;
-            int reminder = divident % divisor;
+            long quotient = divident / divisor;
+            long reminder = divident % divisor;
 
             if (Storage.DebugMode) Console.WriteLine("\tQuotient Raw Value: {0}", quotient);
             if (Storage.DebugMode) Console.WriteLine("\tReminder Raw Value: {0}", reminder);
@@ -478,34 +478,41 @@ namespace System
             string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
             string operand = command.Trim();
-            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: ", operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
 
             //Detect operand types
             string operandType = Tools.DetectOperandType(operand);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: ", operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
             //Check if operation is not forbidden
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType))
                 throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
 
             //Read value(s)
-            int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
-            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
-                divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
-            int divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
 
-            if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): ", divisor);
-            if (Storage.DebugMode) Console.WriteLine("\tDivident: ", divident);
+            long divisor = Tools.ReadDataFromOperand(operand, operandType);
+            long divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
+            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
+                divident += Storage.Register["DH"] * (256 * 256 * 256) + Storage.Register["DL"] * 256 * 256;
+
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): {0}", divisor);
+            if (Storage.DebugMode) Console.WriteLine("\tDivident: {0}", divident);
+
+            //Translate unsigned to signed value(s)
+            if ((operandType == "regHL" || operandType == "memory") && (Convert.ToString(divident, 2).Length == 16 && Convert.ToString(divident, 2)[0] == '1')) //SMALL DIVISION
+                divident = divident - 65536;
+            else if (operandType != "regHL" && operandType != "memory" && (Convert.ToString(divident, 2).Length == 32 && Convert.ToString(divident, 2)[0] == '1')) //BIG DIVISION
+                divident = divident;
 
             //Test if division is possible
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
 
             //Determine if division does not generate overflow
-            int quotient = divident / divisor;
-            int reminder = divident % divisor;
+            long quotient = divident / divisor;
+            long reminder = divident % divisor;
 
-            if (Storage.DebugMode) Console.WriteLine("\tQuotient Raw Value: ", quotient);
-            if (Storage.DebugMode) Console.WriteLine("\tReminder Raw Value: ", reminder);
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Raw Value: {0}", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Raw Value: {0}", reminder);
 
             if ((operandType == "regHL" || operandType == "memory") && quotient > 255) //SMALL DIVISION
                 throw new Exception(String.Format("Quotient cannot exceed FF (255). Your quotient was {0:X} ({0})", quotient));
@@ -516,8 +523,8 @@ namespace System
             quotient = Tools.AdjustValue(quotient, operandType, false);
             reminder = Tools.AdjustValue(reminder, operandType, false);
 
-            if (Storage.DebugMode) Console.WriteLine("\tQuotient Value: ", quotient);
-            if (Storage.DebugMode) Console.WriteLine("\tReminder Value: ", reminder);
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Value: {0}", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Value: {0}", reminder);
 
             //Distinguish Small and Big division, and act accordingly
             if (operandType == "regHL" || operandType == "memory") //SMALL DIVISION
@@ -563,33 +570,35 @@ namespace System
                 throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
-            int multiplicator = Tools.ReadDataFromOperand(operand, operandType);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", multiplicator);
-            if ((operandType == "regHL" || operandType == "memory") && multiplicator >= 128)
+            long multiplicator = Tools.ReadDataFromOperand(operand, operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Multiplicator): {0}", multiplicator);
+            if ((operandType == "regHL" || operandType == "memory") && (Convert.ToString(multiplicator, 2).Length == 8 && Convert.ToString(multiplicator, 2)[0] == '1'))
                 multiplicator = multiplicator - 256;
-            else if (multiplicator >= 32768)
+            else if (operandType != "regHL" && operandType != "memory" && (Convert.ToString(multiplicator, 2).Length == 16 && Convert.ToString(multiplicator, 2)[0] == '1'))
                 multiplicator = multiplicator - 65536;
             if (Storage.DebugMode) Console.WriteLine("\tOperand Signed Value: {0}", multiplicator);
 
-            int multiplicand;
+            long multiplicand;
             if (operandType == "regHL" || operandType == "memory")
             {
                 multiplicand = Tools.ReadDataFromOperand("AL", "regHL");
                 if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Type: {0}", "regHL");
                 if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
-                if (multiplicand >= 128) multiplicand = multiplicand - 256;
+                if (Convert.ToString(multiplicand, 2).Length == 8 && Convert.ToString(multiplicand, 2)[0] == '1')
+                    multiplicand = multiplicand - 256;
             }
             else
             {
                 multiplicand = Tools.ReadDataFromOperand("AX", "regX");
                 if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Type: {0}", "regX");
                 if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
-                if (multiplicand >= 32768) multiplicand = multiplicand - 65536;
+                if (Convert.ToString(multiplicand, 2).Length == 16 && Convert.ToString(multiplicand, 2)[0] == '1')
+                    multiplicand = multiplicand - 65536;
             }
             if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Signed Value: {0}", multiplicand);
 
             //Determine value(s)
-            int product = multiplicand * multiplicator;
+            long product = multiplicand * multiplicator;
             if (Storage.DebugMode) Console.WriteLine("\tProduct Raw Value: {0}", product);
 
             //Adjust and write result value(s)
@@ -601,7 +610,7 @@ namespace System
             }
             else
             {
-                int productOG = product;
+                long productOG = product;
                 product = Tools.AdjustValue(productOG / (256 * 256), "regX", false);
                 if (product == 0 && productOG < 0) product = Tools.AdjustValue(-1, "regX", false);
                 if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Upper): {0}", product);
@@ -626,22 +635,22 @@ namespace System
             string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is not forbidden
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read operand1 value
-            int operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+            long operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -660,19 +669,19 @@ namespace System
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Read operand2 value
-            int operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue, operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue, operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -705,17 +714,17 @@ namespace System
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
-            int operandValue = Tools.ReadDataFromOperand(operand, operandType);
+            long operandValue = Tools.ReadDataFromOperand(operand, operandType);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
 
             //Update value(s)
-            int maxValue;
+            long maxValue;
             if (operandType == "regHL" || operandType == "memory") maxValue = 256;
             else maxValue = 65536;
             if (Storage.DebugMode) Console.WriteLine("\tMax Value: {0}", maxValue);
 
             //Determine and adjust final value(s)
-            int valueToWrite = maxValue - operandValue;
+            long valueToWrite = maxValue - operandValue;
             if (Storage.DebugMode) Console.WriteLine("\tNegated Value: {0}", valueToWrite);
 
             //Adjust value(s)
@@ -754,11 +763,11 @@ namespace System
             if (!"regHL;regX;segment;pointer;memory".Contains(operandType)) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
-            int operandValue = Tools.ReadDataFromOperand(operand, operandType);
+            long operandValue = Tools.ReadDataFromOperand(operand, operandType);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
 
             //Negate all bits
-            int valueToWrite;
+            long valueToWrite;
             if (operandType == "regHL" || operandType == "memory")
                 valueToWrite = Tools.Parse(Convert.ToString(operandValue, 2).PadLeft(8, '0').Replace('0', '2').Replace('1', '0').Replace('2', '1'), 2); //8-bit
             else
@@ -803,10 +812,10 @@ namespace System
                 throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
 
             //Read value(s)
-            int multiplicator = Tools.ReadDataFromOperand(operand, operandType);
+            long multiplicator = Tools.ReadDataFromOperand(operand, operandType);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", multiplicator);
 
-            int multiplicand;
+            long multiplicand;
             if (operandType == "regHL" || operandType == "memory")
                 multiplicand = Tools.ReadDataFromOperand("AL", "regHL");
             else
@@ -814,7 +823,7 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
 
             //Determine value(s)
-            int product = multiplicand * multiplicator;
+            long product = multiplicand * multiplicator;
             if (Storage.DebugMode) Console.WriteLine("\tProduct Raw Value: {0}", product);
 
             //Adjust and write result value(s)
@@ -826,7 +835,7 @@ namespace System
             }
             else
             {
-                int productOG = product;
+                long productOG = product;
                 product = Tools.AdjustValue(productOG / (256 * 256), "regX", false);
                 if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Upper): {0}", product);
                 Tools.WriteDataToOperand("DX", "regX", product);
@@ -851,21 +860,21 @@ namespace System
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Read operand1 and operand2 value
-            int[] operandValue = new int[2];
+            long[] operandValue = new long[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1] - Storage.Flags["CF"], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -885,21 +894,21 @@ namespace System
             //Prepare operands
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Read operand1 and operand2 value
-            int[] operandValue = new int[2];
+            long[] operandValue = new long[2];
             operandValue[0] = Tools.ReadDataFromOperand(operand[0], operandType[0]);
             operandValue[1] = Tools.ReadDataFromOperand(operand[1], operandType[1]);
 
             //Determine and adjust final value(s)
-            int valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0], false);
+            long valueToWrite = Tools.AdjustValue(operandValue[0] - operandValue[1], operandType[0], false);
 
             //Write operand1 value
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
@@ -917,15 +926,15 @@ namespace System
 
             //Prepare operands
             string instruction = command.Split(' ')[0];
-            int[] operandValue = new int[2];
+            long[] operandValue = new long[2];
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
+            for (long i = 0; i < operand.Length; i++)
                 operand[i] = operand[i].Trim();
 
             //Detect operand types
             string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
+            for (long i = 0; i < operandType.Length; i++)
                 operandType[i] = Tools.DetectOperandType(operand[i]);
 
             //Check if operation is allowed
