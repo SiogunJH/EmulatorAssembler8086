@@ -85,7 +85,7 @@
                     Algorithms.DIV(command);
                     break;
                 case "IDIV": //TODO MUST
-
+                    Algorithms.IDIV(command);
                     break;
                 case "INC":
                     Algorithms.INC(command);

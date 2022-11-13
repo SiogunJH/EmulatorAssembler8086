@@ -128,6 +128,7 @@ namespace System
             }
 
             //Return new value
+            if (Storage.DebugMode) Console.WriteLine("\t---");
             return operandValue;
         }
 
@@ -238,6 +239,7 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tOperand: {0}", operand);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
+            if (Storage.DebugMode) Console.WriteLine("\t---");
 
             switch (operandType)
             {

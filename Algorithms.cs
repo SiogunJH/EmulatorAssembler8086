@@ -387,36 +387,40 @@ namespace System
         }
 
         //IF [operand 1] is 8-bit, divide [AX] by [operand 1]
-        //IF [operand 1] is 16-bit, divide [DX][AX] by [operand 1]
+        //IF [operand 1] is 16-bit, divide [DX AX] by [operand 1]
         //[AL] or [AX] will contain results (/)
         //[AH] or [DX] will contain modulus (%)
         //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
         public static void DIV(string command)
         {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("DIV:");
+
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
 
             //Prepare operands
             string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
-            string[] operand = command.Split(',');
-            for (int i = 0; i < operand.Length; i++)
-                operand[i] = operand[i].Trim();
+            string operand = command.Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
 
             //Detect operand types
-            string[] operandType = new string[operand.Length];
-            for (int i = 0; i < operandType.Length; i++)
-                operandType[i] = Tools.DetectOperandType(operand[i]);
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
             //Check if operation is not forbidden
-            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
-                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
 
             //Read value(s)
             int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
-            if (operandType[0] != "regX" && operandType[0] != "memory") //BIG DIVISION
+            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
                 divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
-            int divisor = Tools.ReadDataFromOperand(operand[0], operandType[0]); //BIG/SMALL DIVISION
+            int divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
+
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): {0}", divisor);
+            if (Storage.DebugMode) Console.WriteLine("\tDivident: {0}", divident);
 
             //Test if division is possible
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
@@ -424,17 +428,99 @@ namespace System
             //Determine if division does not generate overflow
             int quotient = divident / divisor;
             int reminder = divident % divisor;
-            if ((operandType[0] == "regHL" || operandType[0] == "memory") && quotient > 255) //SMALL DIVISION
+
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Raw Value: {0}", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Raw Value: {0}", reminder);
+
+            if ((operandType == "regHL" || operandType == "memory") && quotient > 255) //SMALL DIVISION
                 throw new Exception(String.Format("Quotient cannot exceed FF (255). Your quotient was {0:X} ({0})", quotient));
-            else if (operandType[0] != "regHL" && operandType[0] != "memory" && quotient > 65535)//BIG DIVISION
+            else if (quotient > 65535)//BIG DIVISION
                 throw new Exception(String.Format("Quotient cannot exceed FFFF (65535). Your quotient was {0:X} ({0})", quotient));
 
             //Determine and adjust final value(s)
-            quotient = Tools.AdjustValue(quotient, operandType[0], false);
-            reminder = Tools.AdjustValue(reminder, operandType[0], false);
+            quotient = Tools.AdjustValue(quotient, operandType, false);
+            reminder = Tools.AdjustValue(reminder, operandType, false);
+
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Value: {0}", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Value: {0}", reminder);
 
             //Distinguish Small and Big division, and act accordingly
-            if (operandType[0] == "regHL" || operandType[0] == "memory") //SMALL DIVISION
+            if (operandType == "regHL" || operandType == "memory") //SMALL DIVISION
+            {
+                //Write results value
+                Storage.Register["AH"] = reminder;
+                Storage.Register["AL"] = quotient;
+            }
+            else //BIG DIVISION
+            {
+                //Write results value
+                Tools.WriteDataToOperand("DX", "regX", reminder);
+                Tools.WriteDataToOperand("AX", "regX", quotient);
+            }
+
+            //Modify flags
+        }
+
+        //IF [operand 1] is 8-bit, divide [AX] by [operand 1]
+        //IF [operand 1] is 16-bit, divide [DX AX] by [operand 1]
+        //[AL] or [AX] will contain results (/)
+        //[AH] or [DX] will contain modulus (%)
+        //Save location depends on wether diviser is of 'regHL/memory' type (Small Division) or not (Big Division)
+        public static void IDIV(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("DIV:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: ", operand);
+
+            //Detect operand types
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: ", operandType);
+
+            //Check if operation is not forbidden
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
+
+            //Read value(s)
+            int divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
+            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
+                divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
+            int divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
+
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): ", divisor);
+            if (Storage.DebugMode) Console.WriteLine("\tDivident: ", divident);
+
+            //Test if division is possible
+            if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
+
+            //Determine if division does not generate overflow
+            int quotient = divident / divisor;
+            int reminder = divident % divisor;
+
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Raw Value: ", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Raw Value: ", reminder);
+
+            if ((operandType == "regHL" || operandType == "memory") && quotient > 255) //SMALL DIVISION
+                throw new Exception(String.Format("Quotient cannot exceed FF (255). Your quotient was {0:X} ({0})", quotient));
+            else if (quotient > 65535)//BIG DIVISION
+                throw new Exception(String.Format("Quotient cannot exceed FFFF (65535). Your quotient was {0:X} ({0})", quotient));
+
+            //Determine and adjust final value(s)
+            quotient = Tools.AdjustValue(quotient, operandType, false);
+            reminder = Tools.AdjustValue(reminder, operandType, false);
+
+            if (Storage.DebugMode) Console.WriteLine("\tQuotient Value: ", quotient);
+            if (Storage.DebugMode) Console.WriteLine("\tReminder Value: ", reminder);
+
+            //Distinguish Small and Big division, and act accordingly
+            if (operandType == "regHL" || operandType == "memory") //SMALL DIVISION
             {
                 //Write results value
                 Storage.Register["AH"] = reminder;
