@@ -415,7 +415,7 @@ namespace System
 
             //Read value(s)
             long divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
-            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
+            if (operandType != "regHL " && operandType != "memory") //BIG DIVISION
                 divident += Storage.Register["DH"] * 256 * 256 * 256 + Storage.Register["DL"] * 256 * 256;
             long divisor = Tools.ReadDataFromOperand(operand, operandType); //BIG/SMALL DIVISION
 
@@ -492,7 +492,7 @@ namespace System
 
             long divisor = Tools.ReadDataFromOperand(operand, operandType);
             long divident = Storage.Register["AH"] * 256 + Storage.Register["AL"]; //SMALL DIVISION
-            if (operandType != "regX" && operandType != "memory") //BIG DIVISION
+            if (operandType != "regHL" && operandType != "memory") //BIG DIVISION
                 divident += Storage.Register["DH"] * (256 * 256 * 256) + Storage.Register["DL"] * 256 * 256;
 
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value (Divisor): {0}", divisor);
@@ -500,9 +500,18 @@ namespace System
 
             //Translate unsigned to signed value(s)
             if ((operandType == "regHL" || operandType == "memory") && (Convert.ToString(divident, 2).Length == 16 && Convert.ToString(divident, 2)[0] == '1')) //SMALL DIVISION
-                divident = divident - 65536;
+                divident = divident - (256 * 256);
             else if (operandType != "regHL" && operandType != "memory" && (Convert.ToString(divident, 2).Length == 32 && Convert.ToString(divident, 2)[0] == '1')) //BIG DIVISION
-                divident = divident;
+            {
+                long temp = 256 * 256 * 256;
+                temp *= 256;
+                divident = divident - (temp);
+            }
+
+            if ((operandType == "regHL" || operandType == "memory") && (Convert.ToString(divisor, 2).Length == 8 && Convert.ToString(divisor, 2)[0] == '1'))
+                divisor = divisor - 256;
+            else if (operandType != "regHL" && operandType != "memory" && (Convert.ToString(divisor, 2).Length == 16 && Convert.ToString(divisor, 2)[0] == '1'))
+                divisor = divisor - (256 * 256);
 
             //Test if division is possible
             if (divisor == 0) throw new Exception("Dividing by 0 is forbidden");
