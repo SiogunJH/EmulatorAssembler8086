@@ -62,13 +62,32 @@ Instrukcja INC służy do zmniejszenia wartości *operanda pierwszego* o *1* i z
 ### DIV
 Składnia:
 > DIV operand1
+
 Instrukcja DIV służy do dzielenia *operanda domyślnego* przez wartość *operanda pierwszego*. Jesli podany operand jest 8-bitowy, operand domyślny przyjmuje wartość rejestru *AX*, a wyniki zapisywane są w rejestrach AH (modulo) oraz AL (iloraz). Jesli podany operand jest 16-bitowy, operand domyślny przyjmuje 32-bitową wartość wynikająca z zestawienia rejestró *DX* i *AX*, a wyniki zapisywane są w rejestrach DX (modulo) oraz AX (iloraz).
+
+### IDIV
+Składnia:
+> IDIV operand1
+
+Instrukcja IDIV jest wariantem funkcji DIV - działa względem niej identycznie, z tą różnicą, że poprawnie interpretuje liczby ujemne.
+
+### IMUL
+Składnia:
+> IMUL operand1
+
+Instrukcja IMUL jest wariantem funkcji MUL - działa względem niej identycznie, z tą różnicą, że poprawnie interpretuje liczby ujemne.
 
 ### INC
 Składnia:
 > INC operand1
 
 Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
+
+### LEA
+Składnia:
+> LEA operand1, operand2
+
+Instrukcja LEA służy do przeniesienia wartości *operanda drugiego* (źródła) do adresu *operanda drugiego* (celu). W przeciwieństwie do MOV, instrukcja ta ma ograniczenia co do typu operandów. Jako operand pierwszy, musi zostać podany **wskaźnik**, a jako operand drugi, musi zostać podany **rejestr z końcówką X**, **wskaźnik** lub **pamięć**. Dodatkowo, jeśli operandem drugim jest **pamięć**, nie jest kopiowana wartość przechowywana pod danym adresem, tylko **adres pamięci**.
 
 ### MOV
 Składnia:
