@@ -669,6 +669,61 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
+        //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')
+        //IF [operand 2] is of 'memory' type, move (copy) the memory address instead of memory value
+        public static void LEA(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LEA:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+            {
+                operand[i] = operand[i].Trim();
+                if (Storage.DebugMode) Console.WriteLine("\tOperand {0} Name: {1}", i, operand[i]);
+            }
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+            {
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+                if (Storage.DebugMode) Console.WriteLine("\tOperand {0} Type: {1}", i, operand[i]);
+            }
+
+            //Check if operation is not forbidden
+            if (operandType[0] != "pointer" || !"regX;pointer;memory".Contains(operandType[1]))
+                throw new Exception($"Operand types for {instruction} instruction should only be 'pointer' and 'regX', 'pointer' or 'memory' - recieved '{operandType[0]}' and '{operandType[1]}'");
+
+            //Translate memory to number (memory address)
+            if (operandType[1] == "memory")
+            {
+                operand[1] = operand[1].Substring(1, operand[1].Length - 2);
+                operandType[1] = Tools.DetectOperandType(operand[1]);
+                if (Storage.DebugMode) Console.WriteLine("\tMemory to Address Translation (Name): {0}", operand[1]);
+                if (Storage.DebugMode) Console.WriteLine("\tMemory to Address Translation (Type): {0}", operandType[1]);
+            }
+
+            //Read value(s)
+            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Raw Value: {0}", operandValue);
+
+            //Determine and adjust final value(s)
+            operandValue = Tools.AdjustValue(operandValue, operandType[0], false);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
+
+            //Write operand1 value
+            Tools.WriteDataToOperand(operand[0], operandType[0], operandValue);
+
+            //Modify flags
+        }
+
         //Moves (copies) data from [operand 2] to [operand 1]
         public static void MOV(string command)
         {

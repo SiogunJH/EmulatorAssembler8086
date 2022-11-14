@@ -27,8 +27,8 @@
                 case "LES": //TODO
 
                     break;
-                case "LEA": //TODO MUST
-
+                case "LEA":
+                    Algorithms.LEA(command);
                     break;
                 case "LAHF": //TODO MUST
 
