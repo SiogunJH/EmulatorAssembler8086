@@ -83,6 +83,12 @@ Składnia:
 
 Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
 
+### LAHF
+Składnia:
+> LAHF
+
+Instrukcja LAHF służy do przypisania rejestrowi **AH** wartości, utworzonej na podstawie rejestru flag. Poszczególne flagi oznaczają wartości pojedynczych bitów, w następującym porządku:  *[SF], [ZF], [0], [AF], [0], [PF], [1], [CF]*. Przykład: Jeśli flaga AF i SF ma wartość 1, a pozostałe flagi wartość 0, wynikiem instrukcji LAHF będzie przypisanie do rejestru AH wartości *10010010*, czyli *92* (w formacie szesnastkowym).
+
 ### LEA
 Składnia:
 > LEA operand1, operand2

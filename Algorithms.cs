@@ -669,6 +669,39 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
+        //Sets AH value accordingly to flag values, as follows:
+        //AH Bits: 7[SF], 6[ZF], 5[0], 4[AF], 3[0], 2[PF], 1[1], 0[CF]
+        public static void LAHF(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LAHF:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Create binary string
+            string binaryValue = String.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
+            Convert.ToString(Storage.Flags["SF"]),
+            Convert.ToString(Storage.Flags["ZF"]),
+            "0",
+            Convert.ToString(Storage.Flags["AF"]),
+            "0",
+            Convert.ToString(Storage.Flags["PF"]),
+            "1",
+            Convert.ToString(Storage.Flags["CF"]));
+            if (Storage.DebugMode) Console.WriteLine("\tBinary Value: {0}", binaryValue);
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.Parse(binaryValue, 2);
+            if (Storage.DebugMode) Console.WriteLine("\tDecimal Value: {0}", valueToWrite);
+
+            //Write value(s)
+            Tools.WriteDataToOperand("AH", "regHL", valueToWrite);
+
+            //Modify flags
+        }
+
+
         //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')
         //IF [operand 2] is of 'memory' type, move (copy) the memory address instead of memory value
         public static void LEA(string command)

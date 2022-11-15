@@ -30,8 +30,8 @@
                 case "LEA":
                     Algorithms.LEA(command);
                     break;
-                case "LAHF": //TODO MUST
-
+                case "LAHF":
+                    Algorithms.LAHF(command);
                     break;
                 case "SAHF": //TODO MUST
 

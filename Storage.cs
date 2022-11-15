@@ -71,7 +71,7 @@ namespace System
         {
             Flags.Add("OF", 0);
             Flags.Add("DF", 0);
-            Flags.Add("IF", 0);
+            Flags.Add("IF", 1);
             Flags.Add("TF", 0);
             Flags.Add("SF", 0);
             Flags.Add("ZF", 0);
