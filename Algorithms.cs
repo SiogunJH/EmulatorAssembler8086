@@ -701,7 +701,6 @@ namespace System
             //Modify flags
         }
 
-
         //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')
         //IF [operand 2] is of 'memory' type, move (copy) the memory address instead of memory value
         public static void LEA(string command)
@@ -944,6 +943,32 @@ namespace System
             //Modify flag(s)
             Tools.UpdateParityFlag(product % (256 * 256));
             Tools.UpdateSignFlag(product % (256 * 256), "regX");
+        }
+
+        //Sets flag values according to AH binary value, as follows:
+        //AH Bits: 7[SF], 6[ZF], 5[-], 4[AF], 3[-], 2[PF], 1[-], 0[CF]
+        public static void SAHF(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LAHF:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Create binary string
+            string binaryValue = Convert.ToString(Storage.Register["AH"], 2);
+            for (long i = binaryValue.Length; i < 8; i++)
+                binaryValue = String.Format("{0}{1}", "0", binaryValue);
+            if (Storage.DebugMode) Console.WriteLine("\tBinary Value: {0}", binaryValue);
+
+            //Write value(s)
+            Storage.Flags["SF"] = (long)Convert.ToDouble(binaryValue[0].ToString());
+            Storage.Flags["ZF"] = (long)Convert.ToDouble(binaryValue[1].ToString());
+            Storage.Flags["AF"] = (long)Convert.ToDouble(binaryValue[3].ToString());
+            Storage.Flags["PF"] = (long)Convert.ToDouble(binaryValue[5].ToString());
+            Storage.Flags["CF"] = (long)Convert.ToDouble(binaryValue[7].ToString());
+
+            //Modify flags
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]

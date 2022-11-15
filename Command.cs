@@ -33,8 +33,8 @@
                 case "LAHF":
                     Algorithms.LAHF(command);
                     break;
-                case "SAHF": //TODO MUST
-
+                case "SAHF":
+                    Algorithms.SAHF(command);
                     break;
                 case "XLAT": //TODO
                 case "XLATB": //TODO

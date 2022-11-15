@@ -87,7 +87,7 @@ Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i z
 Składnia:
 > LAHF
 
-Instrukcja LAHF służy do przypisania rejestrowi **AH** wartości, utworzonej na podstawie rejestru flag. Poszczególne flagi oznaczają wartości pojedynczych bitów, w następującym porządku:  *[SF], [ZF], [0], [AF], [0], [PF], [1], [CF]*. Przykład: Jeśli flaga AF i SF ma wartość 1, a pozostałe flagi wartość 0, wynikiem instrukcji LAHF będzie przypisanie do rejestru AH wartości *10010010*, czyli *92* (w formacie szesnastkowym).
+Instrukcja LAHF służy do przypisania rejestrowi **AH** wartości, utworzonej na podstawie rejestru flag. Poszczególne flagi oznaczają wartości pojedynczych bitów, w następującym porządku:  *[SF], [ZF], [0], [AF], [0], [PF], [1], [CF]*. Przykład: Jeśli flaga AF i SF ma wartość 1, a pozostałe flagi wartość 0, wynikiem instrukcji LAHF będzie przypisanie do rejestru AH wartości *1001 0010*, czyli *92* (w formacie szesnastkowym).
 
 ### LEA
 Składnia:
@@ -112,6 +112,11 @@ Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **
 ### NEG
 Składnia:
 > NEG operand1
+
+### SAHF
+> SAHF
+
+Instrukcja SAHF służy do przeniesienia binarnej wartości rejestru **AH** do rejestru flag w następującym porządku bitów: *[SF], [ZF], [-], [AF], [-], [PF], [-], [CF]*. Przykład: Jeśli wartość rejestru **AH** wynosi *1000 0001*, to flagi *CF* oraz *SF* zostaną ustawione na **1**, a wszystkie pozostałe na **0**.
 
 ### SBB
 Składnia:
