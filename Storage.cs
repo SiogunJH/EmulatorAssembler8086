@@ -113,7 +113,7 @@ namespace System
         public static Collections.Generic.Dictionary<String, Int64> Pointers = new Collections.Generic.Dictionary<String, Int64>();
         public static void PointersInit()
         {
-            Pointers.Add("SP", 0);
+            Pointers.Add("SP", 65534);
             Pointers.Add("BP", 0);
             Pointers.Add("SI", 0);
             Pointers.Add("DI", 0);
