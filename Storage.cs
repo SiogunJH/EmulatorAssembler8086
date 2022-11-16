@@ -39,6 +39,35 @@ namespace System
             Console.WriteLine("\n");
         }
 
+        //STACK
+        public static Collections.Generic.SortedDictionary<Int64, Int64> Stack = new Collections.Generic.SortedDictionary<Int64, Int64>();
+
+        public static void StackInit()
+        {
+            //Default Stack
+            Stack.Add(Tools.Parse("FFFE", 16), Tools.Parse("FF00", 16));
+        }
+
+        public static void StackDisplay()
+        {
+            Console.WriteLine();
+            long i = 0;
+            foreach (long key in Stack.Keys)
+            {
+                Console.Write("[{0:X4} -> {1:X4}]\t", key, Stack[key]);
+                if (i == 3)
+                {
+                    Console.WriteLine();
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            Console.WriteLine("\n");
+        }
+
         //REGISTER
         public static Collections.Generic.Dictionary<String, Int64> Register = new Collections.Generic.Dictionary<String, Int64>();
         public static void RegisterInit()
@@ -113,7 +142,7 @@ namespace System
         public static Collections.Generic.Dictionary<String, Int64> Pointers = new Collections.Generic.Dictionary<String, Int64>();
         public static void PointersInit()
         {
-            Pointers.Add("SP", 65534);
+            Pointers.Add("SP", Tools.Parse("FFFE", 16));
             Pointers.Add("BP", 0);
             Pointers.Add("SI", 0);
             Pointers.Add("DI", 0);

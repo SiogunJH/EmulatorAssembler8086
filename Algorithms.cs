@@ -785,6 +785,70 @@ namespace System
             //Modify flags
         }
 
+        //IF [operand 1] is 8-bit:
+        //Multiply [AL] by an [operand 1] and save to [AX]
+        //IF [operand 1] is 16-bit:
+        //Multiply [AX] by an [operand 1] and save to [DX AX]
+        public static void MUL(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("MUL:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Split(',')[0].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
+
+            //Detect operand types
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+
+            //Check if operation is not forbidden
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+
+            //Read value(s)
+            long multiplicator = Tools.ReadDataFromOperand(operand, operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", multiplicator);
+
+            long multiplicand;
+            if (operandType == "regHL" || operandType == "memory")
+                multiplicand = Tools.ReadDataFromOperand("AL", "regHL");
+            else
+                multiplicand = Tools.ReadDataFromOperand("AX", "regX");
+            if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
+
+            //Determine value(s)
+            long product = multiplicand * multiplicator;
+            if (Storage.DebugMode) Console.WriteLine("\tProduct Raw Value: {0}", product);
+
+            //Adjust and write result value(s)
+            if (operandType == "regHL" || operandType == "memory")
+            {
+                product = Tools.AdjustValue(product, "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value: {0}", product);
+                Tools.WriteDataToOperand("AX", "regX", product);
+            }
+            else
+            {
+                long productOG = product;
+                product = Tools.AdjustValue(productOG / (256 * 256), "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Upper): {0}", product);
+                Tools.WriteDataToOperand("DX", "regX", product);
+                product = Tools.AdjustValue(productOG % (256 * 256), "regX", false);
+                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Lower): {0}", product);
+                Tools.WriteDataToOperand("AX", "regX", product);
+            }
+
+            //Modify flag(s)
+            Tools.UpdateParityFlag(product % (256 * 256));
+            Tools.UpdateSignFlag(product % (256 * 256), "regX");
+        }
+
         //Negate the value of [operand1] and save to [operand1]
         public static void NEG(string command)
         {
@@ -881,69 +945,50 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType);
         }
 
-        //IF [operand 1] is 8-bit:
-        //Multiply [AL] by an [operand 1] and save to [AX]
-        //IF [operand 1] is 16-bit:
-        //Multiply [AX] by an [operand 1] and save to [DX AX]
-        public static void MUL(string command)
+        //Stores 16-bit value in the stack
+        //Set said value at [SP-2] and then set [SP] to [SP-2]
+        public static void PUSH(string command)
         {
             //DEBUG Display
-            if (Storage.DebugMode) Console.WriteLine("MUL:");
+            if (Storage.DebugMode) Console.WriteLine("PUSH:");
 
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
 
-            //Prepare operands
+            //Prepare operand(s)
             string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
-            string operand = command.Split(',')[0].Trim();
+            string operand = command.Trim();
             if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
 
-            //Detect operand types
+            //Detect operand type(s)
             string operandType = Tools.DetectOperandType(operand);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
-            //Check if operation is not forbidden
-            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0]))
-                throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+            //Read operand value(s)
+            long operandValue = Tools.ReadDataFromOperand(operand, operandType);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
 
-            //Read value(s)
-            long multiplicator = Tools.ReadDataFromOperand(operand, operandType);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", multiplicator);
+            //Get stack address
+            long stackAddress = Storage.Pointers["SP"];
+            if (stackAddress - 2 < 0)
+                throw new Exception(String.Format("Cannot save to negative stack address. Requested address was {0}.", stackAddress - 2));
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address: {0}", stackAddress);
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address Adjusted: {0}", stackAddress - 2);
 
-            long multiplicand;
-            if (operandType == "regHL" || operandType == "memory")
-                multiplicand = Tools.ReadDataFromOperand("AL", "regHL");
-            else
-                multiplicand = Tools.ReadDataFromOperand("AX", "regX");
-            if (Storage.DebugMode) Console.WriteLine("\tMultiplicand Value: {0}", multiplicand);
+            //Put value on stack
+            bool results = Storage.Memory.ContainsKey(stackAddress);
+            if (results) //Stack address is in use
+                Storage.Stack[stackAddress - 2] = operandValue;
+            else //New stack address
+                Storage.Stack.Add(stackAddress - 2, operandValue);
 
-            //Determine value(s)
-            long product = multiplicand * multiplicator;
-            if (Storage.DebugMode) Console.WriteLine("\tProduct Raw Value: {0}", product);
+            //Update Stack Pointer
+            Storage.Pointers["SP"] = Storage.Pointers["SP"] - 2;
 
-            //Adjust and write result value(s)
-            if (operandType == "regHL" || operandType == "memory")
-            {
-                product = Tools.AdjustValue(product, "regX", false);
-                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value: {0}", product);
-                Tools.WriteDataToOperand("AX", "regX", product);
-            }
-            else
-            {
-                long productOG = product;
-                product = Tools.AdjustValue(productOG / (256 * 256), "regX", false);
-                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Upper): {0}", product);
-                Tools.WriteDataToOperand("DX", "regX", product);
-                product = Tools.AdjustValue(productOG % (256 * 256), "regX", false);
-                if (Storage.DebugMode) Console.WriteLine("\tProduct Final Value (Lower): {0}", product);
-                Tools.WriteDataToOperand("AX", "regX", product);
-            }
-
-            //Modify flag(s)
-            Tools.UpdateParityFlag(product % (256 * 256));
-            Tools.UpdateSignFlag(product % (256 * 256), "regX");
+            //Modify flags
         }
+
 
         //Sets flag values according to AH binary value, as follows:
         //AH Bits: 7[SF], 6[ZF], 5[-], 4[AF], 3[-], 2[PF], 1[-], 0[CF]

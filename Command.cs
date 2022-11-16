@@ -44,7 +44,7 @@
                     Algorithms.XCHG(command);
                     break;
                 case "PUSH": //TODO MUST
-
+                    Algorithms.PUSH(command);
                     break;
                 case "PUSHF": //TODO MUST
 
@@ -355,6 +355,9 @@
                     break;
                 case "MEMORY":
                     Storage.MemoryDisplay();
+                    break;
+                case "STACK":
+                    Storage.StackDisplay();
                     break;
                 case "STORAGE":
                     Tools.StorageDisplay();
