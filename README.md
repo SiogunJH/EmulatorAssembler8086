@@ -119,11 +119,23 @@ Składnia:
 
 Instrukcja POP pobiera wartość ze stosu (na adresie *[SP]*) i umieszcza ją na adresie *operanda pierwszego*, po czym zmienia wartość *[SP]* na *[SP]+2*. Operand pierwszy może byc wyłącznie typu *rejestr z końcówką X*, *rejestr segmentu*, *rejestr wskaźnika*, *pamięć*.
 
+### POPF
+Składnia:
+> POPF
+
+Instrukcja POPF działa dokładnie tak jak instrukcja SAHF, jednak pobiera wartość ze stosu
+
 ### PUSH
 Składnia:
 > PUSH operand1
 
 Instrukcja PUSH pobiera wartość *operanda pierwszego* i umieszcza ją na adresie *[SP]-2*, po czym zmienia wartość *[SP]* na *[SP]-2*. Operand pierwszy może byc wyłącznie typu *rejestr z końcówką X*, *rejestr segmentu*, *rejestr wskaźnika*, *pamięć*.
+
+### PUSHF
+Składnia:
+> PUSHF
+
+Instrukcja PUSHF działa dokładnie tak jak instrukcja LAHF, jednak umieszcza wartość na stosie
 
 ### SAHF
 > SAHF

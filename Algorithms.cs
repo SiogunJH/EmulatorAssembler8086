@@ -986,6 +986,48 @@ namespace System
             //Modify flags
         }
 
+        //Sets flags according to a value from stack
+        //Get said value from [SP] and then set [SP] to [SP+2]
+        //The value is as follows (in binary): 7[SF], 6[ZF], 5[0], 4[AF], 3[0], 2[PF], 1[1], 0[CF]
+        public static void POPF(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("POP:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Get stack address
+            long stackAddress = Storage.Pointers["SP"];
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address: {0}", stackAddress);
+
+            //Get value from stack
+            long stackValue;
+            bool results = Storage.Stack.ContainsKey(stackAddress);
+            if (results) //Stack address is in use
+                stackValue = Storage.Stack[stackAddress];
+            else //New stack address
+                stackValue = 0;
+
+            //Update Stack Pointer
+            Storage.Pointers["SP"] = stackAddress + 2;
+
+            //Create binary string
+            string binaryValue = Convert.ToString(stackValue, 2);
+            for (long i = binaryValue.Length; i < 8; i++)
+                binaryValue = String.Format("{0}{1}", "0", binaryValue);
+            if (Storage.DebugMode) Console.WriteLine("\tBinary Value: {0}", binaryValue);
+
+            //Write value(s)
+            Storage.Flags["SF"] = (long)Convert.ToDouble(binaryValue[0].ToString());
+            Storage.Flags["ZF"] = (long)Convert.ToDouble(binaryValue[1].ToString());
+            Storage.Flags["AF"] = (long)Convert.ToDouble(binaryValue[3].ToString());
+            Storage.Flags["PF"] = (long)Convert.ToDouble(binaryValue[5].ToString());
+            Storage.Flags["CF"] = (long)Convert.ToDouble(binaryValue[7].ToString());
+
+            //Modify flags
+        }
+
         //Stores value in the stack
         //Set said value at [SP-2] and then set [SP] to [SP-2]
         public static void PUSH(string command)
@@ -1026,6 +1068,52 @@ namespace System
                 Storage.Stack[stackAddress] = operandValue;
             else //New stack address
                 Storage.Stack.Add(stackAddress, operandValue);
+
+            //Update Stack Pointer
+            Storage.Pointers["SP"] = stackAddress;
+
+            //Modify flags
+        }
+
+        //Stores value made out of flags in the stack
+        //Set said value at [SP-2] and then set [SP] to [SP-2]
+        //The value is as follows (in binary): 7[SF], 6[ZF], 5[0], 4[AF], 3[0], 2[PF], 1[1], 0[CF]
+        public static void PUSHF(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("PUSHF:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Create binary string
+            string binaryValue = String.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
+            Convert.ToString(Storage.Flags["SF"]),
+            Convert.ToString(Storage.Flags["ZF"]),
+            "0",
+            Convert.ToString(Storage.Flags["AF"]),
+            "0",
+            Convert.ToString(Storage.Flags["PF"]),
+            "1",
+            Convert.ToString(Storage.Flags["CF"]));
+            if (Storage.DebugMode) Console.WriteLine("\tBinary Value: {0}", binaryValue);
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.Parse(binaryValue, 2);
+            if (Storage.DebugMode) Console.WriteLine("\tDecimal Value: {0}", valueToWrite);
+
+            //Get stack address
+            long stackAddress = Storage.Pointers["SP"] - 2;
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address: {0}", stackAddress);
+            stackAddress = Tools.AdjustValue(stackAddress, "segment", false);
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address Adjusted: {0}", stackAddress);
+
+            //Put value on stack
+            bool results = Storage.Stack.ContainsKey(stackAddress);
+            if (results) //Stack address is in use
+                Storage.Stack[stackAddress] = valueToWrite;
+            else //New stack address
+                Storage.Stack.Add(stackAddress, valueToWrite);
 
             //Update Stack Pointer
             Storage.Pointers["SP"] = stackAddress;

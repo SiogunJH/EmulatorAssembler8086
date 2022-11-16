@@ -43,17 +43,17 @@
                 case "XCHG":
                     Algorithms.XCHG(command);
                     break;
-                case "PUSH": //TODO MUST
+                case "PUSH":
                     Algorithms.PUSH(command);
                     break;
-                case "PUSHF": //TODO MUST
-
+                case "PUSHF":
+                    Algorithms.PUSHF(command);
                     break;
-                case "POP": //TODO MUST
+                case "POP":
                     Algorithms.POP(command);
                     break;
-                case "POPF": //TODO MUST
-
+                case "POPF":
+                    Algorithms.POPF(command);
                     break;
                 case "IN": //TODO MUST
 
