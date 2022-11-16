@@ -50,7 +50,7 @@
 
                     break;
                 case "POP": //TODO MUST
-
+                    Algorithms.POP(command);
                     break;
                 case "POPF": //TODO MUST
 

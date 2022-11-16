@@ -113,6 +113,12 @@ Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **
 Składnia:
 > NEG operand1
 
+### POP
+Składnia:
+> POP operand1
+
+Instrukcja POP pobiera wartość ze stosu (na adresie *[SP]*) i umieszcza ją na adresie *operanda pierwszego*, po czym zmienia wartość *[SP]* na *[SP]+2*. Operand pierwszy może byc wyłącznie typu *rejestr z końcówką X*, *rejestr segmentu*, *rejestr wskaźnika*, *pamięć*.
+
 ### PUSH
 Składnia:
 > PUSH operand1

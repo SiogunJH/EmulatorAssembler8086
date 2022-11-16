@@ -945,7 +945,48 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType);
         }
 
-        //Stores 16-bit value in the stack
+        //Get value from the stack
+        //Get said value from [SP] and then set [SP] to [SP+2]
+        public static void POP(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("POP:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operand(s)
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string operand = command.Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Name: {0}", operand);
+
+            //Detect operand type(s)
+            string operandType = Tools.DetectOperandType(operand);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
+
+            //Check if operation is not forbidden
+            if (!"regX;segment;pointer;memory".Contains(operandType))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
+
+            //Get stack address
+            long stackAddress = Storage.Pointers["SP"];
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address: {0}", stackAddress);
+
+            //Get value from stack
+            bool results = Storage.Stack.ContainsKey(stackAddress);
+            if (results) //Stack address is in use
+                Tools.WriteDataToOperand(operand, operandType, Storage.Stack[stackAddress]);
+            else //New stack address
+                Tools.WriteDataToOperand(operand, operandType, 0);
+
+            //Update Stack Pointer
+            Storage.Pointers["SP"] = stackAddress + 2;
+
+            //Modify flags
+        }
+
+        //Stores value in the stack
         //Set said value at [SP-2] and then set [SP] to [SP-2]
         public static void PUSH(string command)
         {
@@ -965,6 +1006,10 @@ namespace System
             string operandType = Tools.DetectOperandType(operand);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Type: {0}", operandType);
 
+            //Check if operation is not forbidden
+            if (!"regX;segment;pointer;memory".Contains(operandType))
+                throw new Exception($"Operand type for {instruction} instruction should only be 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType}'");
+
             //Read operand value(s)
             long operandValue = Tools.ReadDataFromOperand(operand, operandType);
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
@@ -976,7 +1021,7 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tStack Address Adjusted: {0}", stackAddress);
 
             //Put value on stack
-            bool results = Storage.Memory.ContainsKey(stackAddress);
+            bool results = Storage.Stack.ContainsKey(stackAddress);
             if (results) //Stack address is in use
                 Storage.Stack[stackAddress] = operandValue;
             else //New stack address
@@ -987,7 +1032,6 @@ namespace System
 
             //Modify flags
         }
-
 
         //Sets flag values according to AH binary value, as follows:
         //AH Bits: 7[SF], 6[ZF], 5[-], 4[AF], 3[-], 2[PF], 1[-], 0[CF]
