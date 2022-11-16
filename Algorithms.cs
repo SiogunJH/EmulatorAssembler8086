@@ -970,21 +970,20 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tOperand Value: {0}", operandValue);
 
             //Get stack address
-            long stackAddress = Storage.Pointers["SP"];
-            if (stackAddress - 2 < 0)
-                throw new Exception(String.Format("Cannot save to negative stack address. Requested address was {0}.", stackAddress - 2));
+            long stackAddress = Storage.Pointers["SP"] - 2;
             if (Storage.DebugMode) Console.WriteLine("\tStack Address: {0}", stackAddress);
-            if (Storage.DebugMode) Console.WriteLine("\tStack Address Adjusted: {0}", stackAddress - 2);
+            stackAddress = Tools.AdjustValue(stackAddress, "segment", false);
+            if (Storage.DebugMode) Console.WriteLine("\tStack Address Adjusted: {0}", stackAddress);
 
             //Put value on stack
             bool results = Storage.Memory.ContainsKey(stackAddress);
             if (results) //Stack address is in use
-                Storage.Stack[stackAddress - 2] = operandValue;
+                Storage.Stack[stackAddress] = operandValue;
             else //New stack address
-                Storage.Stack.Add(stackAddress - 2, operandValue);
+                Storage.Stack.Add(stackAddress, operandValue);
 
             //Update Stack Pointer
-            Storage.Pointers["SP"] = Storage.Pointers["SP"] - 2;
+            Storage.Pointers["SP"] = stackAddress;
 
             //Modify flags
         }
