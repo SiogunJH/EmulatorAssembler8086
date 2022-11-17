@@ -26,8 +26,10 @@
                 }
                 catch (Exception e)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(e.Message);
                     if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
 
             } while (Storage.ContinueSimulation);

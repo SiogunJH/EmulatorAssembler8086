@@ -215,6 +215,71 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
+        //Compare bits of [operand 1] and [operand 2] with AND, then save results in [operand 1]
+        public static void AND(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("AND:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long[] operandBitSize = new long[operand.Length];
+            for (long i = 0; i < operandBitSize.Length; i++)
+                if ("regHL;memory".Contains(operandType[i]))
+                    operandBitSize[i] = 8;
+                else
+                    operandBitSize[i] = 16;
+            if (operandBitSize[0] != operandBitSize[1])
+                throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string[] operandBitString = new string[operand.Length];
+            for (long i = 0; i < operandBitString.Length; i++)
+            {
+                operandBitString[i] = Convert.ToString(operandValue[i], 2);
+                for (long ii = operandBitString[i].Length; ii < operandBitSize[i]; ii++)
+                    operandBitString[i] = String.Format("{0}{1}", "0", operandBitString[i]);
+            }
+
+            //Make logical AND
+            string results = "";
+            for (long i = 0; i < operandBitSize[0]; i++)
+                if (operandBitString[0].ToCharArray()[i] == '1' && operandBitString[1].ToCharArray()[i] == '1')
+                    results += "1";
+                else
+                    results += "0";
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.Parse(results, 2);
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+
+            //Modify flags
+        }
+
         //Convert byte into signed word
         //If high bit of [AL] is 1:
         //      [AH]=255
@@ -993,6 +1058,71 @@ namespace System
             Tools.UpdateSignFlag(valueToWrite, operandType);
         }
 
+        //Compare bits of [operand 1] and [operand 2] with OR, then save results in [operand 1]
+        public static void OR(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("OR:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long[] operandBitSize = new long[operand.Length];
+            for (long i = 0; i < operandBitSize.Length; i++)
+                if ("regHL;memory".Contains(operandType[i]))
+                    operandBitSize[i] = 8;
+                else
+                    operandBitSize[i] = 16;
+            if (operandBitSize[0] != operandBitSize[1])
+                throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string[] operandBitString = new string[operand.Length];
+            for (long i = 0; i < operandBitString.Length; i++)
+            {
+                operandBitString[i] = Convert.ToString(operandValue[i], 2);
+                for (long ii = operandBitString[i].Length; ii < operandBitSize[i]; ii++)
+                    operandBitString[i] = String.Format("{0}{1}", "0", operandBitString[i]);
+            }
+
+            //Make logical OR
+            string results = "";
+            for (long i = 0; i < operandBitSize[0]; i++)
+                if (operandBitString[0].ToCharArray()[i] == '1' || operandBitString[1].ToCharArray()[i] == '1')
+                    results += "1";
+                else
+                    results += "0";
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.Parse(results, 2);
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+
+            //Modify flags
+        }
+
         //Moves (copies) data from [operand 2] to [port] with the address of an [operand 1]
         //[Operand 2] must be AX or AL
         public static void OUT(string command)
@@ -1308,6 +1438,71 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+        }
+
+        //Compare bits of [operand 1] and [operand 2] with XOR, then save results in [operand 1]
+        public static void XOR(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("XOR:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long[] operandBitSize = new long[operand.Length];
+            for (long i = 0; i < operandBitSize.Length; i++)
+                if ("regHL;memory".Contains(operandType[i]))
+                    operandBitSize[i] = 8;
+                else
+                    operandBitSize[i] = 16;
+            if (operandBitSize[0] != operandBitSize[1])
+                throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string[] operandBitString = new string[operand.Length];
+            for (long i = 0; i < operandBitString.Length; i++)
+            {
+                operandBitString[i] = Convert.ToString(operandValue[i], 2);
+                for (long ii = operandBitString[i].Length; ii < operandBitSize[i]; ii++)
+                    operandBitString[i] = String.Format("{0}{1}", "0", operandBitString[i]);
+            }
+
+            //Make logical XOR
+            string results = "";
+            for (long i = 0; i < operandBitSize[0]; i++)
+                if ((operandBitString[0].ToCharArray()[i] == '1' || operandBitString[1].ToCharArray()[i] == '1') && operandBitString[0].ToCharArray()[i] != operandBitString[1].ToCharArray()[i])
+                    results += "1";
+                else
+                    results += "0";
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.Parse(results, 2);
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+
+            //Modify flags
         }
 
         //Exchange data between [operand 1] and [operand 2]

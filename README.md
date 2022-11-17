@@ -37,6 +37,12 @@ Składnia:
 
 Instrukcja ADD służy do dodania wartości *operanda drugiego* do wartości *operanda pierwszego* i zapisania wyniku na adresie *operanda pierwszego*
 
+### AND
+Składnia:
+> AND operand1, operand2
+
+Instrukcja AND służy do porównania bitów *operanda pierwszego* i bitów *operanda drugiego* wyrażeniem logicznym **AND**. Wynik tej operacji logicznej zapisywany jest w *operandzie pierwszym*
+
 ### CBW
 Składnia:
 > CBW
@@ -119,6 +125,12 @@ Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **
 Składnia:
 > NEG operand1
 
+### OR
+Składnia:
+> OR operand1, operand2
+
+Instrukcja OR służy do porównania bitów *operanda pierwszego* i bitów *operanda drugiego* wyrażeniem logicznym **OR**. Wynik tej operacji logicznej zapisywany jest w *operandzie pierwszym*
+
 ### OUT
 Składnia:
 > OUT operand1, operand2
@@ -163,6 +175,12 @@ Składnia:
 > SUB operand1, operand2
 
 Instrukcja SUB służy do odjęcia wartości *operanda drugiego* od wartości *operanda pierwszego* i zapisania wyniku na adresie *operanda pierwszego*
+
+### XOR
+Składnia:
+> XOR operand1, operand2
+
+Instrukcja XOR służy do porównania bitów *operanda pierwszego* i bitów *operanda drugiego* wyrażeniem logicznym **XOR**. Wynik tej operacji logicznej zapisywany jest w *operandzie pierwszym*
 
 ### XCHG
 Składnie:

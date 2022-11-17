@@ -126,13 +126,13 @@
 
                 //LOGICAL
                 case "AND": //TODO MUST
-
+                    Algorithms.AND(command);
                     break;
                 case "OR": //TODO MUST
-
+                    Algorithms.OR(command);
                     break;
                 case "XOR": //TODO MUST
-
+                    Algorithms.XOR(command);
                     break;
                 case "NOT":
                     Algorithms.NOT(command);
