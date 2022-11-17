@@ -123,7 +123,7 @@ Instrukcja POP pobiera wartość ze stosu (na adresie *[SP]*) i umieszcza ją na
 Składnia:
 > POPF
 
-Instrukcja POPF działa dokładnie tak jak instrukcja SAHF, jednak pobiera wartość ze stosu
+Instrukcja POPF działa dokładnie tak jak instrukcja SAHF, jednak zamiast pobierać wartość utworzoną na podstawie flag z rejestru *AH*, pobiera ją ze stosu
 
 ### PUSH
 Składnia:
@@ -135,7 +135,7 @@ Instrukcja PUSH pobiera wartość *operanda pierwszego* i umieszcza ją na adres
 Składnia:
 > PUSHF
 
-Instrukcja PUSHF działa dokładnie tak jak instrukcja LAHF, jednak umieszcza wartość na stosie
+Instrukcja PUSHF działa dokładnie tak jak instrukcja LAHF, jednak zamiast umieszczać wartość utworzoną na podstawie flag w rejestrze *AH*, umieszcza ją na stosie
 
 ### SAHF
 > SAHF

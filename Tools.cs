@@ -13,6 +13,7 @@ namespace System
             Console.WriteLine("POINTERS - show all POINTERS values");
             Console.WriteLine("MEMORY - show all MEMORY values");
             Console.WriteLine("STACK - show all STACK values");
+            Console.WriteLine("PORTS - show all PORTS values");
             Console.WriteLine("STORAGE - show all data");
             Console.WriteLine("CLEAR - clear console buffer");
             Console.WriteLine("DEBUG - toggle additional information (off by default)");
@@ -26,6 +27,7 @@ namespace System
             Storage.PointersInit();
             Storage.MemoryInit();
             Storage.StackInit();
+            Storage.PortInit();
         }
         public static void StorageDisplay()
         {
@@ -34,6 +36,8 @@ namespace System
             Storage.SegmentsDisplay();
             Storage.PointersDisplay();
             Storage.MemoryDisplay();
+            Storage.StackDisplay();
+            Storage.PortDisplay();
         }
 
         ///<summary> 

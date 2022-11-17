@@ -39,6 +39,39 @@ namespace System
             Console.WriteLine("\n");
         }
 
+        //PORTS
+        public static Collections.Generic.SortedDictionary<Int64, Int64> Port = new Collections.Generic.SortedDictionary<Int64, Int64>();
+
+        public static void PortInit()
+        {
+            //Some sample ports
+            Port.Add(0, 0);
+            Port.Add(14, 157);
+            Port.Add(4, 222);
+            Port.Add(78, 757);
+            Port.Add(1, 15);
+        }
+
+        public static void PortDisplay()
+        {
+            Console.WriteLine();
+            long i = 0;
+            foreach (long key in Port.Keys)
+            {
+                Console.Write("[{0:X4} -> {1:X4}]\t", key, Port[key]);
+                if (i == 3)
+                {
+                    Console.WriteLine();
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            Console.WriteLine("\n");
+        }
+
         //STACK
         public static Collections.Generic.SortedDictionary<Int64, Int64> Stack = new Collections.Generic.SortedDictionary<Int64, Int64>();
 

@@ -55,11 +55,11 @@
                 case "POPF":
                     Algorithms.POPF(command);
                     break;
-                case "IN": //TODO MUST
-
+                case "IN":
+                    Algorithms.IN(command);
                     break;
-                case "OUT": //TODO MUST
-
+                case "OUT":
+                    Algorithms.OUT(command);
                     break;
 
                 //ARITHMETIC
@@ -157,7 +157,7 @@
 
                 //SHIFT
                 case "SAL": //TODO MUST
-                case "SHL": //TODO MUST
+                case "SHL":
 
                     break;
                 case "SAR": //TODO MUST
@@ -168,44 +168,44 @@
                     break;
 
                 //BRANCH
-                case "JA": //TODO MUST
+                case "JA":
                 case "JNBE": //TODO MUST
 
                     break;
-                case "JAE": //TODO MUST
-                case "JNB": //TODO MUST
+                case "JAE":
+                case "JNB":
                 case "JNC": //TODO MUST
 
                     break;
-                case "JB": //TODO MUST
-                case "JNAE": //TODO MUST
+                case "JB":
+                case "JNAE":
                 case "JC": //TODO MUST
 
                     break;
-                case "JBE": //TODO MUST
+                case "JBE":
                 case "JNA": //TODO MUST
 
                     break;
                 case "JCXZ": //TODO MUST
 
                     break;
-                case "JE": //TODO MUST
+                case "JE":
                 case "JZ": //TODO MUST
 
                     break;
-                case "JG": //TODO MUST
+                case "JG":
                 case "JNLE": //TODO MUST
 
                     break;
-                case "JGE": //TODO MUST
+                case "JGE":
                 case "JNL": //TODO MUST
 
                     break;
-                case "JL": //TODO MUST
+                case "JL":
                 case "JNGE": //TODO MUST
 
                     break;
-                case "JLE": //TODO MUST
+                case "JLE":
                 case "JNG": //TODO MUST
 
                     break;
@@ -230,11 +230,11 @@
                 case "LOOP": //TODO MUST
 
                     break;
-                case "LOOPZ": //TODO MUST
+                case "LOOPZ":
                 case "LOOPE": //TODO MUST
 
                     break;
-                case "LOOPNZ": //TODO MUST
+                case "LOOPNZ":
                 case "LOOPNE": //TODO MUST
 
                     break;
@@ -358,6 +358,9 @@
                     break;
                 case "STACK":
                     Storage.StackDisplay();
+                    break;
+                case "PORTS":
+                    Storage.PortDisplay();
                     break;
                 case "STORAGE":
                     Tools.StorageDisplay();

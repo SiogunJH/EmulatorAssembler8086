@@ -634,6 +634,49 @@ namespace System
             Tools.UpdateSignFlag(product % (256 * 256), "regX");
         }
 
+        //Moves (copies) data from [port] with the address of an [operand 2] to [operand 1]
+        //[Operand 1] must be AX or AL
+        public static void IN(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("IN:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Name: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Name: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Type: {0}", operandType[1]);
+
+            //Read operand value(s)
+            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Value: {0}", operandValue);
+
+            //Get value from port
+            long portValue;
+            bool results = Storage.Port.ContainsKey(operandValue);
+            if (results) //Port address is in use
+                portValue = Storage.Port[operandValue];
+            else //New port address
+                portValue = 0;
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], portValue);
+
+            //Modify flags
+        }
+
         //Increment [operand 1] and save to [operand 1]
         public static void INC(string command)
         {
@@ -943,6 +986,47 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType);
+        }
+
+        //Moves (copies) data from [operand 2] to [port] with the address of an [operand 1]
+        //[Operand 2] must be AX or AL
+        public static void OUT(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("OUT:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 (Port Address) Name: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Name: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 (Port Address) Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Read operand value(s)
+            long portAddress = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 (Port Address) Value: {0}", portAddress);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Value: {0}", operandValue);
+
+            //Set value to port
+            bool results = Storage.Port.ContainsKey(portAddress);
+            if (results) //Port address is in use
+                Storage.Port[portAddress] = operandValue;
+            else //New port address
+                Storage.Port.Add(portAddress, operandValue);
+
+            //Modify flags
         }
 
         //Get value from the stack
