@@ -461,6 +461,89 @@ namespace System
             //Modify flags
         }
 
+        //Moves (copies) data from [port] with the address of an [operand 2] to [operand 1]
+        //[Operand 1] must be AX or AL
+        public static void IN(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("IN:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Name: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Name: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Type: {0}", operandType[1]);
+
+            //Check if operation is not forbidden
+            if (!"AX;AH".Contains(operand[0]))
+                throw new Exception($"Operand 1 name for {instruction} instruction should only be 'AH' or 'AX' - recieved '{operand[0]}'");
+
+            //Read operand value(s)
+            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Value: {0}", operandValue);
+
+            //Get value from port
+            long portValue;
+            bool results = Storage.Port.ContainsKey(operandValue);
+            if (results) //Port address is in use
+                portValue = Storage.Port[operandValue];
+            else //New port address
+                portValue = 0;
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], portValue);
+
+            //Modify flags
+        }
+
+        //Increment [operand 1] and save to [operand 1]
+        public static void INC(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operands
+            string instruction = command.Split(' ')[0];
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+
+            //Check if operation is not forbidden
+            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
+
+            //Read operand1 value
+            long operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
+
+            //Determine and adjust final value(s)
+            long valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false);
+
+            //Write operand1 value
+            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
+
+            //Modify flags
+            Tools.UpdateParityFlag(valueToWrite);
+            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+        }
+
         //IF [operand 1] is 8-bit, divide [AX] by [operand 1]
         //IF [operand 1] is 16-bit, divide [DX AX] by [operand 1]
         //[AL] or [AX] will contain results (/)
@@ -632,84 +715,6 @@ namespace System
             //Modify flag(s)
             Tools.UpdateParityFlag(product % (256 * 256));
             Tools.UpdateSignFlag(product % (256 * 256), "regX");
-        }
-
-        //Moves (copies) data from [port] with the address of an [operand 2] to [operand 1]
-        //[Operand 1] must be AX or AL
-        public static void IN(string command)
-        {
-            //DEBUG Display
-            if (Storage.DebugMode) Console.WriteLine("IN:");
-
-            //Check for number of operands
-            Tools.CheckForNumOfOperands(command, 2);
-
-            //Prepare operands
-            command = command.Substring(command.Split(' ')[0].Length);
-            string[] operand = command.Split(',');
-            for (long i = 0; i < operand.Length; i++)
-                operand[i] = operand[i].Trim();
-            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Name: {0}", operand[0]);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Name: {0}", operand[1]);
-
-            //Detect operand types
-            string[] operandType = new string[operand.Length];
-            for (long i = 0; i < operandType.Length; i++)
-                operandType[i] = Tools.DetectOperandType(operand[i]);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Type: {0}", operandType[1]);
-
-            //Read operand value(s)
-            long operandValue = Tools.ReadDataFromOperand(operand[1], operandType[1]);
-            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 (Port Address) Value: {0}", operandValue);
-
-            //Get value from port
-            long portValue;
-            bool results = Storage.Port.ContainsKey(operandValue);
-            if (results) //Port address is in use
-                portValue = Storage.Port[operandValue];
-            else //New port address
-                portValue = 0;
-
-            //Write value(s)
-            Tools.WriteDataToOperand(operand[0], operandType[0], portValue);
-
-            //Modify flags
-        }
-
-        //Increment [operand 1] and save to [operand 1]
-        public static void INC(string command)
-        {
-            //Check for number of operands
-            Tools.CheckForNumOfOperands(command, 1);
-
-            //Prepare operands
-            string instruction = command.Split(' ')[0];
-            command = command.Substring(command.Split(' ')[0].Length);
-            string[] operand = command.Split(',');
-            for (long i = 0; i < operand.Length; i++)
-                operand[i] = operand[i].Trim();
-
-            //Detect operand types
-            string[] operandType = new string[operand.Length];
-            for (long i = 0; i < operandType.Length; i++)
-                operandType[i] = Tools.DetectOperandType(operand[i]);
-
-            //Check if operation is not forbidden
-            if (!"regHL;regX;segment;pointer;memory".Contains(operandType[0])) throw new Exception($"Operand type for {instruction} instruction should only be 'regHL', 'regX', 'pointer', 'segment' or 'memory' - recieved '{operandType[0]}'");
-
-            //Read operand1 value
-            long operandValue = Tools.ReadDataFromOperand(operand[0], operandType[0]);
-
-            //Determine and adjust final value(s)
-            long valueToWrite = Tools.AdjustValue(operandValue + 1, operandType[0], false);
-
-            //Write operand1 value
-            Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
-
-            //Modify flags
-            Tools.UpdateParityFlag(valueToWrite);
-            Tools.UpdateSignFlag(valueToWrite, operandType[0]);
         }
 
         //Sets AH value accordingly to flag values, as follows:
@@ -999,6 +1004,7 @@ namespace System
             Tools.CheckForNumOfOperands(command, 2);
 
             //Prepare operands
+            string instruction = command.Split(' ')[0];
             command = command.Substring(command.Split(' ')[0].Length);
             string[] operand = command.Split(',');
             for (long i = 0; i < operand.Length; i++)
@@ -1012,6 +1018,10 @@ namespace System
                 operandType[i] = Tools.DetectOperandType(operand[i]);
             if (Storage.DebugMode) Console.WriteLine("\tOperand 1 (Port Address) Type: {0}", operandType[0]);
             if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Check if operation is not forbidden
+            if (!"AX;AH".Contains(operand[1]))
+                throw new Exception($"Operand 2 name for {instruction} instruction should only be 'AH' or 'AX' - recieved '{operand[1]}'");
 
             //Read operand value(s)
             long portAddress = Tools.ReadDataFromOperand(operand[0], operandType[0]);

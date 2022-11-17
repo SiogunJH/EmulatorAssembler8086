@@ -65,6 +65,18 @@ Składnia:
 
 Instrukcja DIV służy do dzielenia *operanda domyślnego* przez wartość *operanda pierwszego*. Jesli podany operand jest 8-bitowy, operand domyślny przyjmuje wartość rejestru *AX*, a wyniki zapisywane są w rejestrach AH (modulo) oraz AL (iloraz). Jesli podany operand jest 16-bitowy, operand domyślny przyjmuje 32-bitową wartość wynikająca z zestawienia rejestró *DX* i *AX*, a wyniki zapisywane są w rejestrach DX (modulo) oraz AX (iloraz).
 
+### IN
+Składnia:
+> IN operand1, operand2
+
+Instrukcja IN służy do pobierania wartości portu o adresie *operanda drugiego* do *operanda pierwszego*. Operand pierwszy zawsze musi być rejestrem *AH* lub *AX*.
+
+### INC
+Składnia:
+> INC operand1
+
+Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
+
 ### IDIV
 Składnia:
 > IDIV operand1
@@ -76,12 +88,6 @@ Składnia:
 > IMUL operand1
 
 Instrukcja IMUL jest wariantem funkcji MUL - działa względem niej identycznie, z tą różnicą, że poprawnie interpretuje liczby ujemne.
-
-### INC
-Składnia:
-> INC operand1
-
-Instrukcja INC służy do zwiększenia wartości *operanda pierwszego* o *1* i zapisania wyniku na adresie *operanda pierwszego*
 
 ### LAHF
 Składnia:
@@ -112,6 +118,12 @@ Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **
 ### NEG
 Składnia:
 > NEG operand1
+
+### OUT
+Składnia:
+> OUT operand1, operand2
+
+Instrukcja OUT służy do zapisywania wartości *operanda drugiego* do portu o adresie *operanda pierwszego*. Operand drugi zawsze musi być rejestrem *AH* lub *AX*.
 
 ### POP
 Składnia:
