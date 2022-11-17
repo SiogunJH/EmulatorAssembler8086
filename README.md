@@ -161,6 +161,18 @@ Składnia:
 
 Instrukcja PUSHF działa dokładnie tak jak instrukcja LAHF, jednak zamiast umieszczać wartość utworzoną na podstawie flag w rejestrze *AH*, umieszcza ją na stosie
 
+### RCL
+Składnia:
+> RCL operand1, operand2
+
+Instrukcja RCL służy do przesunięcia bitowego *operanda pierwszego* w lewo w ilości równej *operandowi drugiemu*
+
+### RCR
+Składnia:
+> RCR operand1, operand2
+
+Instrukcja RCR służy do przesunięcia bitowego *operanda pierwszego* w prawo w ilości równej *operandowi drugiemu*
+
 ### SAHF
 > SAHF
 

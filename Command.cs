@@ -142,11 +142,11 @@
                     break;
 
                 //ROTATE
-                case "RCL": //TODO MUST
-
+                case "RCL":
+                    Algorithms.RCL(command);
                     break;
-                case "RCR": //TODO MUST
-
+                case "RCR":
+                    Algorithms.RCR(command);
                     break;
                 case "ROL": //TODO MUST
 
