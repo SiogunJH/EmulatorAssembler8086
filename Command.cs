@@ -148,11 +148,11 @@
                 case "RCR":
                     Algorithms.RCR(command);
                     break;
-                case "ROL": //TODO MUST
-
+                case "ROL":
+                    Algorithms.ROL(command);
                     break;
-                case "ROR": //TODO MUST
-
+                case "ROR":
+                    Algorithms.ROR(command);
                     break;
 
                 //SHIFT

@@ -1465,6 +1465,126 @@ namespace System
             //Modify flags
         }
 
+        //Rotate [operand 1] left
+        //The number of rotates is set by [operand 2]
+        public static void ROL(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("RCL:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long operandBitSize;
+            if ("regHL;memory".Contains(operandType[0]))
+                operandBitSize = 8;
+            else
+                operandBitSize = 16;
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string operandBitString;
+            operandBitString = Convert.ToString(operandValue[0], 2);
+            for (long i = operandBitString.Length; i < operandBitSize; i++)
+                operandBitString = String.Format("{0}{1}", "0", operandBitString);
+
+            //Rotate left
+            for (long i = 0; i < operandValue[1]; i++)
+            {
+                operandBitString += operandBitString[0];
+                Storage.Flags["CF"] = (long)Convert.ToDouble(operandBitString[0].ToString());
+                operandBitString = operandBitString.Substring(1, Convert.ToInt32(operandBitSize));
+            }
+
+            //Determine and adjust final value(s)
+            operandValue[0] = Tools.Parse(operandBitString, 2);
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
+
+            //Modify flags
+        }
+
+        //Rotate [operand 1] right
+        //The number of rotates is set by [operand 2]
+        public static void ROR(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("RCR:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long operandBitSize;
+            if ("regHL;memory".Contains(operandType[0]))
+                operandBitSize = 8;
+            else
+                operandBitSize = 16;
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string operandBitString;
+            operandBitString = Convert.ToString(operandValue[0], 2);
+            for (long i = operandBitString.Length; i < operandBitSize; i++)
+                operandBitString = String.Format("{0}{1}", "0", operandBitString);
+
+            //Rotate right
+            for (long i = 0; i < operandValue[1]; i++)
+            {
+                operandBitString = String.Format("{0}{1}", operandBitString[operandBitString.Length - 1], operandBitString);
+                Storage.Flags["CF"] = (long)Convert.ToDouble(operandBitString[operandBitString.Length - 1].ToString());
+                operandBitString = operandBitString.Substring(0, Convert.ToInt32(operandBitSize));
+            }
+
+            //Determine and adjust final value(s)
+            operandValue[0] = Tools.Parse(operandBitString, 2);
+
+            //Write value(s)
+            Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
+
+            //Modify flags
+        }
+
         //Sets flag values according to AH binary value, as follows:
         //AH Bits: 7[SF], 6[ZF], 5[-], 4[AF], 3[-], 2[PF], 1[-], 0[CF]
         public static void SAHF(string command)
