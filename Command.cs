@@ -21,11 +21,11 @@
                 case "MOV":
                     Algorithms.MOV(command);
                     break;
-                case "LDS": //TODO
-
+                case "LDS":
+                    Tools.NotImplemented();
                     break;
-                case "LES": //TODO
-
+                case "LES":
+                    Tools.NotImplemented();
                     break;
                 case "LEA":
                     Algorithms.LEA(command);
@@ -36,9 +36,9 @@
                 case "SAHF":
                     Algorithms.SAHF(command);
                     break;
-                case "XLAT": //TODO
-                case "XLATB": //TODO
-
+                case "XLAT":
+                case "XLATB":
+                    Tools.NotImplemented();
                     break;
                 case "XCHG":
                     Algorithms.XCHG(command);
@@ -120,18 +120,18 @@
                 case "NEG":
                     Algorithms.NEG(command);
                     break;
-                case "CMP": //TODO
-
+                case "CMP":
+                    Tools.NotImplemented();
                     break;
 
                 //LOGICAL
-                case "AND": //TODO MUST
+                case "AND":
                     Algorithms.AND(command);
                     break;
-                case "OR": //TODO MUST
+                case "OR":
                     Algorithms.OR(command);
                     break;
-                case "XOR": //TODO MUST
+                case "XOR":
                     Algorithms.XOR(command);
                     break;
                 case "NOT":
@@ -224,8 +224,8 @@
                 case "INT": //TODO MUST
 
                     break;
-                case "INTO": //TODO
-
+                case "INTO":
+                    Tools.NotImplemented();
                     break;
                 case "LOOP": //TODO MUST
 
@@ -300,41 +300,41 @@
                     break;
 
                 //STRING
-                case "MOVS": //TODO
-                case "MOVSB": //TODO
-                case "MOVSW": //TODO
-
+                case "MOVS":
+                case "MOVSB":
+                case "MOVSW":
+                    Tools.NotImplemented();
                     break;
-                case "CMPS": //TODO
-                case "CMPSB": //TODO
-                case "CMPSW": //TODO
-
+                case "CMPS":
+                case "CMPSB":
+                case "CMPSW":
+                    Tools.NotImplemented();
                     break;
-                case "SCAS": //TODO
-                case "SCASB": //TODO
-                case "SCASW": //TODO
-
+                case "SCAS":
+                case "SCASB":
+                case "SCASW":
+                    Tools.NotImplemented();
                     break;
-                case "LODS": //TODO
-                case "LODSB": //TODO
-                case "LODSW": //TODO
-
+                case "LODS":
+                case "LODSB":
+                case "LODSW":
+                    Tools.NotImplemented();
                     break;
-                case "STOS": //TODO
-                case "STOSB": //TODO
-                case "STOSW": //TODO
-
+                case "STOS":
+                case "STOSB":
+                case "STOSW":
+                    Tools.NotImplemented();
                     break;
-                case "REP": //TODO
-
+                case "REP":
+                    Tools.NotImplemented();
                     break;
-                case "REPE": //TODO
-                case "REPZ": //TODO
-
+                case "REPE":
+                case "REPZ":
+                    Tools.NotImplemented();
                     break;
-                case "REPNE": //TODO
-                case "REPNZ": //TODO
-
+                case "REPNE":
+                case "REPNZ":
+                    Tools.NotImplemented();
                     break;
 
                 //META

@@ -4,8 +4,12 @@ namespace System
     {
         public static void WelcomeMessage()
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Welcome to 8086 Simulator made by Hojda");
-            Console.WriteLine("Here is a list of meta-commands available:\n");
+            Console.WriteLine("Here is a list of meta-commands available:");
+            Console.WriteLine("");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("QUIT - exit the simulator");
             Console.WriteLine("FLAGS - show all FLAG values");
             Console.WriteLine("REGISTER - show all REGISTER values");
@@ -18,7 +22,16 @@ namespace System
             Console.WriteLine("CLEAR - clear console buffer");
             Console.WriteLine("DEBUG - toggle additional information (off by default)");
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.White;
         }
+
+        public static void NotImplemented()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("This instruction is not implemented");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
         public static void StorageInit()
         {
             Storage.RegisterInit();
