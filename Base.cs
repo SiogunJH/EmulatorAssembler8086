@@ -15,31 +15,12 @@
             string userInput;
             do
             {
-                //USER INPUT
+                //User Input
                 Console.Write("> ");
                 userInput = Console.ReadLine();
 
-                //PROCESS COMMAND
-                try
-                {
-                    //Execute instruction
-                    Recognize.Init(userInput);
-
-                    //Add instruction to saved code
-                    if (!Storage.DoNotSaveToCode)
-                        Storage.SavedCode.Add(userInput.ToUpper());
-                }
-                //SEND ERROR MESSAGE
-                catch (Exception e)
-                {
-                    //Send error message
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(e.Message);
-
-                    //Send additional debug data
-                    if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                //Execute instruction
+                Recognize.Init(userInput);
 
             } while (Storage.ContinueSimulation);
 

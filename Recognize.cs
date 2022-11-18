@@ -28,8 +28,27 @@
             }
 
             //Detect and execute a command
-            //Send error if failed to do so
-            Recognize.Command(command, command.Split(' ')[0]);
+            try
+            {
+                Recognize.Command(command.Split(' ')[0], command);
+            }
+            catch (Exception e)
+            {
+                //Send error message
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(e.Message);
+
+                //Send additional debug data
+                if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                //Do not save to code
+                Storage.DoNotSaveToCode = true;
+            }
+
+            //Add instruction to saved code
+            if (!Storage.DoNotSaveToCode)
+                Storage.SavedCode.Add(command);
         }
 
         public static void Command(string instruction, string command)
