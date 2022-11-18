@@ -4,35 +4,37 @@
     {
         public static void Init(string command)
         {
-            DetectCommand(command.ToUpper());
-        }
-        public static void DetectCommand(string command)
-        {
             //Reset variable(s)
             Storage.DoNotSaveToCode = false;
 
             //Prepare command for analyze
-            command = command.Split(";")[0]; //ignore comment
-            command = command.Trim();
+            command = command
+                .Split(";")[0] //Remove comment
+                .Trim() //Remove whitespaces
+                .ToUpper(); //Go all caps
 
-            //No response nor action
+            //Check for empty command
             if (command == "" || command == null)
             {
                 Storage.DoNotSaveToCode = true;
                 return;
             }
 
-            //Detect label
+            //Check if command is a label
             if (command.Split(' ').Length == 1 && command.EndsWith(':'))
             {
                 if (Storage.DebugMode) Console.WriteLine("LABEL DETECTED");
                 return;
             }
 
-            //Detect command
-            string[] commandArray = command.Split(" ", StringSplitOptions.RemoveEmptyEntries); // commandArray[] = {Instruction, Operand1, Operand2}
+            //Detect and execute a command
+            //Send error if failed to do so
+            DetectCommand(command, command.Split(' ')[0]);
+        }
 
-            switch (commandArray[0])
+        public static void DetectCommand(string instruction, string command)
+        {
+            switch (instruction)
             {
                 //DATA TRANSFER
                 case "MOV":
@@ -408,9 +410,8 @@
 
                 //ERROR
                 default:
-                    throw new Exception($"Command '{commandArray[0]}' was not recognized - make sure there are no typos, champ");
+                    throw new Exception($"Command '{instruction}' was not recognized - make sure there are no typos, champ");
             }
         }
     }
-
 }
