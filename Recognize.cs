@@ -29,10 +29,10 @@
 
             //Detect and execute a command
             //Send error if failed to do so
-            DetectCommand(command, command.Split(' ')[0]);
+            Recognize.Command(command, command.Split(' ')[0]);
         }
 
-        public static void DetectCommand(string instruction, string command)
+        public static void Command(string instruction, string command)
         {
             switch (instruction)
             {

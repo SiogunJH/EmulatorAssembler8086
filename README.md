@@ -332,7 +332,7 @@ Przykład: DODAĆ PRZYKŁAD
 Rrozpoczyna pracę programu.
 Odpowiada za pracę konsoli i jej zapętlanie.
 
-#### Command.cs
+#### Recognize.cs
 Odpowiada za rozpoznanie polecenia i wysłanie informacji zwrotnej.
 
 #### Algorithms.cs
