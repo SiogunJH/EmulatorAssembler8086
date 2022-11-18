@@ -23,7 +23,7 @@
                 try
                 {
                     //Execute instruction
-                    Command.Recognize(userInput.ToUpper());
+                    Recognize.Init(userInput);
 
                     //Add instruction to saved code
                     if (!Storage.DoNotSaveToCode)
@@ -44,7 +44,7 @@
             } while (Storage.ContinueSimulation);
 
             //Output saved code
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\nCode written:");
             Storage.CodeDisplay();
         }

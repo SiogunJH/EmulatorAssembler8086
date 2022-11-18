@@ -12,11 +12,17 @@ namespace System
 
         public static void CodeDisplay()
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine();
             foreach (var line in SavedCode)
             {
+                //DEFUALT
+                Console.ForegroundColor = ConsoleColor.Yellow;
 
+                //LABEL
+                if (line.Split(";")[0].Trim().EndsWith(':'))
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+                //DISPLAY
                 Console.WriteLine(line);
             }
             Console.ForegroundColor = ConsoleColor.White;

@@ -1,8 +1,12 @@
 ﻿namespace System
 {
-    public class Command
+    public class Recognize
     {
-        public static void Recognize(string command)
+        public static void Init(string command)
+        {
+            DetectCommand(command.ToUpper());
+        }
+        public static void DetectCommand(string command)
         {
             //Reset variable(s)
             Storage.DoNotSaveToCode = false;
@@ -13,7 +17,17 @@
 
             //No response nor action
             if (command == "" || command == null)
+            {
+                Storage.DoNotSaveToCode = true;
                 return;
+            }
+
+            //Detect label
+            if (command.Split(' ').Length == 1 && command.EndsWith(':'))
+            {
+                if (Storage.DebugMode) Console.WriteLine("LABEL DETECTED");
+                return;
+            }
 
             //Detect command
             string[] commandArray = command.Split(" ", StringSplitOptions.RemoveEmptyEntries); // commandArray[] = {Instruction, Operand1, Operand2}
