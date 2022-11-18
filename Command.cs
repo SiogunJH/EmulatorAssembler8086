@@ -4,6 +4,9 @@
     {
         public static void Recognize(string command)
         {
+            //Reset variable(s)
+            Storage.DoNotSaveToCode = false;
+
             //Prepare command for analyze
             command = command.Split(";")[0]; //ignore comment
             command = command.Trim();
@@ -340,38 +343,53 @@
                 //META
                 case "QUIT":
                     Storage.ContinueSimulation = false;
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "FLAGS":
                     Storage.FlagsDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "REGISTER":
                     Storage.RegisterDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "SEGMENTS":
                     Storage.SegmentsDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "POINTERS":
                     Storage.PointersDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "MEMORY":
                     Storage.MemoryDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "STACK":
                     Storage.StackDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "PORTS":
                     Storage.PortDisplay();
+                    Storage.DoNotSaveToCode = true;
+                    break;
+                case "CODE":
+                    Storage.CodeDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "STORAGE":
                     Tools.StorageDisplay();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "DEBUG":
                     Algorithms.DEBUG();
+                    Storage.DoNotSaveToCode = true;
                     break;
                 case "CLEAR":
                 case "CLS":
                 case "CLEANSE":
                     Console.Clear();
+                    Storage.DoNotSaveToCode = true;
                     break;
 
                 //ERROR

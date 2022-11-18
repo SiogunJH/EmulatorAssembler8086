@@ -5,6 +5,23 @@ namespace System
         //GLOBAL VARIABLES
         public static bool ContinueSimulation = true;
         public static bool DebugMode = false;
+        public static bool DoNotSaveToCode = false;
+
+        //SAVED CODE
+        public static Collections.Generic.List<string> SavedCode = new Collections.Generic.List<string>();
+
+        public static void CodeDisplay()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine();
+            foreach (var line in SavedCode)
+            {
+
+                Console.WriteLine(line);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+        }
 
         //MEMORY
         public static Collections.Generic.SortedDictionary<Int64, Int64> Memory = new Collections.Generic.SortedDictionary<Int64, Int64>();
