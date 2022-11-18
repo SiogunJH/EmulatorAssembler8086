@@ -185,11 +185,23 @@ Składnia:
 
 Instrukcja ROR służy do przesunięcia bitowego *operanda pierwszego* w prawo z rotacją w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
 
+### SAR
+Składnia:
+> SAR operand1, operand2
+
+Instrukcja SAR służy do przesunięcia bitowego *operanda pierwszego* arytmetycznie w prawo bez rotacji w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
+
 ### SAL/SHL
 Składnia:
 > SAL/SHL operand1, operand2
 
 Instrukcja ROL służy do przesunięcia bitowego *operanda pierwszego* w lewo bez rotacji w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
+
+### SHR
+Składnia:
+> SHR operand1, operand2
+
+Instrukcja SHR służy do przesunięcia bitowego *operanda pierwszego* w prawo bez rotacji w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
 
 ### SAHF
 > SAHF

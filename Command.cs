@@ -160,11 +160,11 @@
                 case "SHL":
                     Algorithms.SHL(command);
                     break;
-                case "SAR": //TODO MUST
-
+                case "SAR":
+                    Algorithms.SAR(command);
                     break;
-                case "SHR": //TODO MUST
-
+                case "SHR":
+                    Algorithms.SHR(command);
                     break;
 
                 //BRANCH
