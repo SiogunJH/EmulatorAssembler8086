@@ -156,9 +156,9 @@
                     break;
 
                 //SHIFT
-                case "SAL": //TODO MUST
+                case "SAL":
                 case "SHL":
-
+                    Algorithms.SHL(command);
                     break;
                 case "SAR": //TODO MUST
 

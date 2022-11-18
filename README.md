@@ -165,13 +165,31 @@ Instrukcja PUSHF działa dokładnie tak jak instrukcja LAHF, jednak zamiast umie
 Składnia:
 > RCL operand1, operand2
 
-Instrukcja RCL służy do przesunięcia bitowego *operanda pierwszego* w lewo w ilości równej *operandowi drugiemu*
+Instrukcja RCL służy do przesunięcia bitowego *operanda pierwszego* w lewo z rotacją w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako dodatkowego bitu
 
 ### RCR
 Składnia:
 > RCR operand1, operand2
 
-Instrukcja RCR służy do przesunięcia bitowego *operanda pierwszego* w prawo w ilości równej *operandowi drugiemu*
+Instrukcja RCR służy do przesunięcia bitowego *operanda pierwszego* w prawo z rotacją w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako dodatkowego bitu
+
+### ROL
+Składnia:
+> ROL operand1, operand2
+
+Instrukcja ROL służy do przesunięcia bitowego *operanda pierwszego* w lewo z rotacją w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
+
+### ROR
+Składnia:
+> ROR operand1, operand2
+
+Instrukcja ROR służy do przesunięcia bitowego *operanda pierwszego* w prawo z rotacją w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
+
+### SAL/SHL
+Składnia:
+> SAL/SHL operand1, operand2
+
+Instrukcja ROL służy do przesunięcia bitowego *operanda pierwszego* w lewo bez rotacji w ilości równej *operandowi drugiemu*, z użyciem flagi CF jako kopii przesuwanego bitu
 
 ### SAHF
 > SAHF
