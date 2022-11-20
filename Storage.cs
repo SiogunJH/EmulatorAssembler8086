@@ -6,6 +6,7 @@ namespace System
         public static bool ContinueSimulation = true;
         public static bool DebugMode = false;
         public static bool DoNotSaveToCode = false;
+        public static bool CodeFromFile = false;
 
         //SAVED CODE
         public static Collections.Generic.List<string> SavedCode = new Collections.Generic.List<string>();

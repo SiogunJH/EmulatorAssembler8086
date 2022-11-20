@@ -2,15 +2,16 @@ namespace System
 {
     class Tools
     {
-        public static void WelcomeMessage()
+        public static void StartupMessage()
         {
+            //Welcome message with basic information
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Welcome to 8086 Simulator made by Hojda");
             Console.WriteLine("Here is a list of meta-commands available:");
-            Console.WriteLine("");
+            Console.WriteLine();
 
+            //Data display
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("QUIT - exit the simulator");
             Console.WriteLine("FLAGS - show all FLAG values");
             Console.WriteLine("REGISTER - show all REGISTER values");
             Console.WriteLine("SEGMENTS - show all SEGMENTS values");
@@ -19,9 +20,33 @@ namespace System
             Console.WriteLine("STACK - show all STACK values");
             Console.WriteLine("PORTS - show all PORTS values");
             Console.WriteLine("STORAGE - show all data");
-            Console.WriteLine("CLEAR - clear console buffer");
+            Console.WriteLine();
+
+            //Debug display
             Console.WriteLine("DEBUG - toggle additional information (off by default)");
-            Console.WriteLine("");
+            Console.WriteLine();
+
+            //Save/Load data
+            Console.WriteLine("SAVE <FileName> - save written code to a named .txt file");
+            Console.WriteLine("LOAD <FileName> - load code from a named .txt file");
+            Console.WriteLine("RUN - run written/loaded code");
+            Console.WriteLine();
+
+            //Clear and quit
+            Console.WriteLine("CLEAR - clear console buffer");
+            Console.WriteLine("QUIT - exit the simulator");
+            Console.WriteLine();
+
+            //Additional information
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Additional Information");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("- JUMP type instructions will only work via use of 'RUN' meta command");
+            //Console.WriteLine("- ...");
+            Console.WriteLine();
+
+            //Reset color
             Console.ForegroundColor = ConsoleColor.White;
         }
 

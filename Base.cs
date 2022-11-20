@@ -6,7 +6,7 @@
         {
             //Startup
             Console.Clear();
-            Tools.WelcomeMessage();
+            Tools.StartupMessage();
             Tools.StorageInit();
 
             //Testfield
@@ -15,7 +15,7 @@
             string userInput;
             do
             {
-                //User Input
+                //Await user input
                 Console.Write("> ");
                 userInput = Console.ReadLine();
 

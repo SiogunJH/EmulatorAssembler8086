@@ -814,6 +814,25 @@ namespace System
             //Modify flags
         }
 
+        //Loads data from file to SavedCode
+        //Saves written code to as file
+        public static void LOAD(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string fileName = command.Trim();
+
+            //Read from file
+            Storage.SavedCode.Clear();
+            foreach (string lineOfCode in System.IO.File.ReadAllLines(String.Format("Programs/{0}.txt", fileName)))
+            {
+                Storage.SavedCode.Add(lineOfCode);
+            }
+        }
+
         //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')
         //IF [operand 2] is of 'memory' type, move (copy) the memory address instead of memory value
         public static void LEA(string command)
@@ -1609,6 +1628,24 @@ namespace System
             Storage.Flags["CF"] = (long)Convert.ToDouble(binaryValue[7].ToString());
 
             //Modify flags
+        }
+
+        //Saves written code to as file
+        public static void SAVE(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string fileName = command.Trim();
+
+            //Save to file
+            using System.IO.StreamWriter file = new(String.Format("Programs/{0}.txt", fileName));
+            foreach (string lineOfCode in Storage.SavedCode)
+            {
+                file.WriteLine(lineOfCode);
+            }
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]

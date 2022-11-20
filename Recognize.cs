@@ -23,27 +23,28 @@
             //Check if command is a label
             if (command.Split(' ').Length == 1 && command.EndsWith(':'))
             {
-                if (Storage.DebugMode) Console.WriteLine("LABEL DETECTED");
-                return;
+                if (Storage.DebugMode) Console.WriteLine("Label detected: {0}", command.Substring(0, command.Length - 1));
             }
-
             //Detect and execute a command
-            try
+            else
             {
-                Recognize.Command(command.Split(' ')[0], command);
-            }
-            catch (Exception e)
-            {
-                //Send error message
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
+                try
+                {
+                    Recognize.Command(command.Split(' ')[0], command);
+                }
+                catch (Exception e)
+                {
+                    //Send error message
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(e.Message);
 
-                //Send additional debug data
-                if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
-                Console.ForegroundColor = ConsoleColor.White;
+                    //Send additional debug data
+                    if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
+                    Console.ForegroundColor = ConsoleColor.White;
 
-                //Do not save to code
-                Storage.DoNotSaveToCode = true;
+                    //Do not save to code
+                    Storage.DoNotSaveToCode = true;
+                }
             }
 
             //Add instruction to saved code
@@ -424,6 +425,14 @@
                 case "CLS":
                 case "CLEANSE":
                     Console.Clear();
+                    Storage.DoNotSaveToCode = true;
+                    break;
+                case "SAVE":
+                    Algorithms.SAVE(command);
+                    Storage.DoNotSaveToCode = true;
+                    break;
+                case "LOAD":
+                    Algorithms.LOAD(command);
                     Storage.DoNotSaveToCode = true;
                     break;
 
