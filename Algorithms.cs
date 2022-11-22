@@ -42,6 +42,10 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
             Tools.UpdateSignFlag(valueToWriteAL, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+            Console.WriteLine(Storage.Pointers["IP"]);
         }
 
         //Prepare the ASCII values of AL and AH to division
@@ -71,6 +75,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
             Tools.UpdateSignFlag(valueToWriteAL, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Correct the result of multiplication of BCD values
@@ -101,6 +108,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
             Tools.UpdateSignFlag(valueToWriteAL, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Correct the result of addition of two ASCII values
@@ -144,6 +154,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWriteAL);
             Tools.UpdateSignFlag(valueToWriteAL, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
@@ -179,6 +192,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Add [operand 2] to [operand 1] and save to [operand 1]
@@ -213,6 +229,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Compare bits of [operand 1] and [operand 2] with AND, then save results in [operand 1]
@@ -278,6 +297,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Convert byte into signed word
@@ -303,6 +325,9 @@ namespace System
             //Write value(s)
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Convert word into double word
@@ -334,6 +359,9 @@ namespace System
             //Write value(s)
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Correct the result of addition of two packed BCD values
@@ -366,6 +394,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Correct the result of subtraction of two packed BCD values
@@ -398,6 +429,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, "regHL");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //META COMMAND
@@ -414,6 +448,9 @@ namespace System
                 Storage.DebugMode = true;
                 Console.WriteLine("Debug Mode is On");
             }
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Decrement [operand 1] and save to [operand 1]
@@ -449,6 +486,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //IF [operand 1] is 8-bit, divide [AX] by [operand 1]
@@ -524,6 +564,9 @@ namespace System
             }
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Moves (copies) data from [port] with the address of an [operand 2] to [operand 1]
@@ -572,6 +615,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], portValue);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Increment [operand 1] and save to [operand 1]
@@ -607,6 +653,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //IF [operand 1] is 8-bit, divide [AX] by [operand 1]
@@ -698,6 +747,9 @@ namespace System
             }
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //IF [operand 1] is 8-bit:
@@ -780,6 +832,9 @@ namespace System
             //Modify flag(s)
             Tools.UpdateParityFlag(product % (256 * 256));
             Tools.UpdateSignFlag(product % (256 * 256), "regX");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Sets AH value accordingly to flag values, as follows:
@@ -812,6 +867,9 @@ namespace System
             Tools.WriteDataToOperand("AH", "regHL", valueToWrite);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Loads data from file to SavedCode
@@ -831,6 +889,9 @@ namespace System
             {
                 Storage.SavedCode.Add(lineOfCode);
             }
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')
@@ -886,6 +947,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Moves (copies) data from [operand 2] to [operand 1]
@@ -915,6 +979,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //IF [operand 1] is 8-bit:
@@ -979,6 +1046,9 @@ namespace System
             //Modify flag(s)
             Tools.UpdateParityFlag(product % (256 * 256));
             Tools.UpdateSignFlag(product % (256 * 256), "regX");
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Negate the value of [operand1] and save to [operand1]
@@ -1028,6 +1098,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Negate all bits of [operand 1]
@@ -1075,6 +1148,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Compare bits of [operand 1] and [operand 2] with OR, then save results in [operand 1]
@@ -1140,6 +1216,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Moves (copies) data from [operand 2] to [port] with the address of an [operand 1]
@@ -1186,6 +1265,9 @@ namespace System
                 Storage.Port.Add(portAddress, operandValue);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Get value from the stack
@@ -1227,6 +1309,9 @@ namespace System
             Storage.Pointers["SP"] = stackAddress + 2;
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Sets flags according to a value from stack
@@ -1269,6 +1354,9 @@ namespace System
             Storage.Flags["CF"] = (long)Convert.ToDouble(binaryValue[7].ToString());
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Stores value in the stack
@@ -1316,6 +1404,9 @@ namespace System
             Storage.Pointers["SP"] = stackAddress;
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Stores value made out of flags in the stack
@@ -1362,6 +1453,9 @@ namespace System
             Storage.Pointers["SP"] = stackAddress;
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Rotate [operand 1] left through [Carry Flag]
@@ -1422,6 +1516,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Rotate [operand 1] right through [Carry Flag]
@@ -1482,6 +1579,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Rotate [operand 1] left
@@ -1542,6 +1642,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Rotate [operand 1] right
@@ -1602,6 +1705,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Sets flag values according to AH binary value, as follows:
@@ -1628,6 +1734,9 @@ namespace System
             Storage.Flags["CF"] = (long)Convert.ToDouble(binaryValue[7].ToString());
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Saves written code to as file
@@ -1640,12 +1749,18 @@ namespace System
             command = command.Substring(command.Split(' ')[0].Length);
             string fileName = command.Trim();
 
+            //Create directory
+            System.IO.Directory.CreateDirectory("Programs");
+
             //Save to file
             using System.IO.StreamWriter file = new(String.Format("Programs/{0}.txt", fileName));
             foreach (string lineOfCode in Storage.SavedCode)
             {
                 file.WriteLine(lineOfCode);
             }
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -1681,6 +1796,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Shift [operand 1] right (arithmetic)
@@ -1741,6 +1859,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Shift [operand 1] left
@@ -1801,6 +1922,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Shift [operand 1] right
@@ -1861,6 +1985,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], operandValue[0]);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -1895,6 +2022,9 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Compare bits of [operand 1] and [operand 2] with XOR, then save results in [operand 1]
@@ -1960,6 +2090,9 @@ namespace System
             Tools.WriteDataToOperand(operand[0], operandType[0], valueToWrite);
 
             //Modify flags
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
         }
 
         //Exchange data between [operand 1] and [operand 2]

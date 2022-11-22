@@ -7,6 +7,7 @@ namespace System
         public static bool DebugMode = false;
         public static bool DoNotSaveToCode = false;
         public static bool CodeFromFile = false;
+        public static bool AutoRun = false;
 
         //SAVED CODE
         public static Collections.Generic.List<string> SavedCode = new Collections.Generic.List<string>();
@@ -43,6 +44,12 @@ namespace System
             Memory.Add(5, 5);
         }
 
+        public static void MemoryDump()
+        {
+            Memory.Clear();
+            MemoryInit();
+        }
+
         public static void MemoryDisplay()
         {
             Console.WriteLine();
@@ -76,6 +83,12 @@ namespace System
             Port.Add(1, 15);
         }
 
+        public static void PortDump()
+        {
+            Port.Clear();
+            PortInit();
+        }
+
         public static void PortDisplay()
         {
             Console.WriteLine();
@@ -103,6 +116,12 @@ namespace System
         {
             //Default Stack
             Stack.Add(Tools.Parse("FFFE", 16), Tools.Parse("FF00", 16));
+        }
+
+        public static void StackDump()
+        {
+            Stack.Clear();
+            StackInit();
         }
 
         public static void StackDisplay()
@@ -138,6 +157,13 @@ namespace System
             Register.Add("CL", 0);
             Register.Add("DL", 0);
         }
+
+        public static void RegisterDump()
+        {
+            Register.Clear();
+            RegisterInit();
+        }
+
         public static void RegisterDisplay()
         {
             Console.WriteLine("\nAH AL BH BL CH CL DH DL");
@@ -165,6 +191,13 @@ namespace System
             Flags.Add("PF", 0);
             Flags.Add("CF", 0);
         }
+
+        public static void FlagsDump()
+        {
+            Flags.Clear();
+            FlagsInit();
+        }
+
         public static void FlagsDisplay()
         {
             Console.WriteLine("\nOF DF IF TF SF ZF AF PF CF");
@@ -187,6 +220,13 @@ namespace System
             Segments.Add("DS", 0);
             Segments.Add("ES", 0);
         }
+
+        public static void SegmentsDump()
+        {
+            Segments.Clear();
+            SegmentsInit();
+        }
+
         public static void SegmentsDisplay()
         {
             Console.WriteLine("\n SS   DS   ES");
@@ -201,14 +241,23 @@ namespace System
         {
             Pointers.Add("SP", Tools.Parse("FFFE", 16));
             Pointers.Add("BP", 0);
+            Pointers.Add("IP", 0);
             Pointers.Add("SI", 0);
             Pointers.Add("DI", 0);
         }
+
+        public static void PointersDump()
+        {
+            Pointers.Clear();
+            PointersInit();
+        }
+
         public static void PointersDisplay()
         {
-            Console.WriteLine("\n SP   BP   SI   DI");
+            Console.WriteLine("\n SP   BP   IP   SI   DI");
             Console.Write("{0:X4} ", Pointers["SP"]);
             Console.Write("{0:X4} ", Pointers["BP"]);
+            Console.Write("{0:X4} ", Pointers["IP"]);
             Console.Write("{0:X4} ", Pointers["SI"]);
             Console.WriteLine("{0:X4}\n", Pointers["DI"]);
         }

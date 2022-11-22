@@ -67,6 +67,7 @@ namespace System
             Storage.StackInit();
             Storage.PortInit();
         }
+
         public static void StorageDisplay()
         {
             Storage.RegisterDisplay();
@@ -76,6 +77,17 @@ namespace System
             Storage.MemoryDisplay();
             Storage.StackDisplay();
             Storage.PortDisplay();
+        }
+
+        public static void StorageDump()
+        {
+            Storage.RegisterDump();
+            Storage.FlagsDump();
+            Storage.SegmentsDump();
+            Storage.PointersDump();
+            Storage.MemoryDump();
+            Storage.StackDump();
+            Storage.PortDump();
         }
 
         ///<summary> 

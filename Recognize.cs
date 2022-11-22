@@ -21,10 +21,11 @@
             }
 
             //Check if command is a label
-            if (command.Split(' ').Length == 1 && command.EndsWith(':'))
+            else if (command.Split(' ').Length == 1 && command.EndsWith(':'))
             {
                 if (Storage.DebugMode) Console.WriteLine("Label detected: {0}", command.Substring(0, command.Length - 1));
             }
+
             //Detect and execute a command
             else
             {
@@ -50,6 +51,53 @@
             //Add instruction to saved code
             if (!Storage.DoNotSaveToCode)
                 Storage.SavedCode.Add(command);
+        }
+
+        public static void AutoRun()
+        {
+            //Storage dump
+            Tools.StorageDump();
+
+            //Set variables
+            Storage.AutoRun = true;
+
+            //Run loaded code
+            try
+            {
+                while (Storage.ContinueSimulation)
+                {
+                    //Skip labels
+                    if (Storage.SavedCode[(int)Storage.Pointers["IP"]].Split(' ').Length == 1 && Storage.SavedCode[(int)Storage.Pointers["IP"]].EndsWith(':'))
+                        continue;
+
+                    //Recognize and execute command
+                    Recognize.Command(Storage.SavedCode[(int)Storage.Pointers["IP"]].Split(' ')[0], Storage.SavedCode[(int)Storage.Pointers["IP"]]);
+
+                    //Display instruction
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(Storage.SavedCode[(int)Storage.Pointers["IP"]]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            catch (Exception e)
+            {
+                //Display instruction
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(Storage.SavedCode[(int)Storage.Pointers["IP"]]);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                //Send error message
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(e.Message);
+
+                //Send additional debug data
+                if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            //Reset variables
+            Storage.AutoRun = false;
+            Storage.ContinueSimulation = true;
         }
 
         public static void Command(string instruction, string command)
@@ -255,7 +303,7 @@
 
                     break;
                 case "RET": //TODO MUST
-
+                    if (Storage.AutoRun) Storage.ContinueSimulation = false;
                     break;
                 case "IRET": //TODO MUST
 
@@ -433,6 +481,10 @@
                     break;
                 case "LOAD":
                     Algorithms.LOAD(command);
+                    Storage.DoNotSaveToCode = true;
+                    break;
+                case "RUN":
+                    Recognize.AutoRun();
                     Storage.DoNotSaveToCode = true;
                     break;
 
