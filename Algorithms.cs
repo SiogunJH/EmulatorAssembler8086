@@ -837,8 +837,16 @@ namespace System
             Storage.Pointers["IP"]++;
         }
 
-        public static void JMP(string command)
+        //Conditional jump to a label
+        //Condition: CF==0 and ZF==0
+        public static void JA(string command)
         {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JA:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
             //Do not jump if typing code 'by hand'
             if (!Storage.AutoRun)
             {
@@ -848,8 +856,360 @@ namespace System
                 return;
             }
 
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("CF: {0}", Storage.Flags["CF"]);
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
+            if (Storage.Flags["CF"] != 0 || Storage.Flags["ZF"] != 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: CF==1
+        public static void JB(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JAE:");
+
             //Check for number of operands
             Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("CF: {0}", Storage.Flags["CF"]);
+            if (Storage.Flags["CF"] != 1)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: ZF==1
+        public static void JE(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
+            if (Storage.Flags["ZF"] != 1)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: SF==OF and ZF==0
+        public static void JG(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JG:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("SF: {0}", Storage.Flags["SF"]);
+            if (Storage.DebugMode) Console.WriteLine("OF: {0}", Storage.Flags["OF"]);
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
+            if (Storage.Flags["SF"] != Storage.Flags["OF"] || Storage.Flags["ZF"] != 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: SF!=OF
+        public static void JL(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JL:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("SF: {0}", Storage.Flags["SF"]);
+            if (Storage.DebugMode) Console.WriteLine("OF: {0}", Storage.Flags["OF"]);
+            if (Storage.Flags["SF"] == Storage.Flags["OF"])
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: CF==0
+        public static void JAE(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JAE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("CF: {0}", Storage.Flags["CF"]);
+            if (Storage.Flags["CF"] != 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: CF==1 and ZF==1
+        public static void JBE(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JBE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("CF: {0}", Storage.Flags["CF"]);
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
+            if (Storage.Flags["CF"] != 1 || Storage.Flags["ZF"] != 1)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: SF==OF
+        public static void JGE(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JGE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("SF: {0}", Storage.Flags["SF"]);
+            if (Storage.DebugMode) Console.WriteLine("OF: {0}", Storage.Flags["OF"]);
+            if (Storage.Flags["SF"] != Storage.Flags["OF"])
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: SF!=OF
+        public static void JLE(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JLE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("SF: {0}", Storage.Flags["SF"]);
+            if (Storage.DebugMode) Console.WriteLine("OF: {0}", Storage.Flags["OF"]);
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
+            if (Storage.Flags["SF"] == Storage.Flags["OF"] || Storage.Flags["ZF"] != 1)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Uncoditional jump to a label
+        public static void JMP(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
 
             //Prepare operand(s)
             command = command.Substring(command.Split(' ')[0].Length);
@@ -857,6 +1217,45 @@ namespace System
 
             //Condition of a jump
             //NONE
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional jump to a label
+        //Condition: CX==0
+        public static void JCXZ(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("JAE:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Tools.ReadDataFromOperand("CX", "regX") != 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                return;
+            }
 
             //Find label
             int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
@@ -921,6 +1320,137 @@ namespace System
 
             //Increment instruction pointer
             Storage.Pointers["IP"]++;
+        }
+
+        //Conditional loop to a label
+        //Every loop: CX=CX-1
+        //Condition: CX!=0
+        public static void LOOP(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LOOP:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Loop instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Decrement loop
+            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+
+            //Condition of a loop
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional loop to a label
+        //Every loop: CX=CX-1
+        //Condition: CX!=0 and ZF==1
+        public static void LOOPZ(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LOOPZ:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Loop instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Decrement loop
+            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+
+            //Condition of a loop
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Storage.DebugMode) Console.WriteLine("ZX: {0}", Storage.Flags["ZF"]);
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0 || Storage.Flags["ZF"] != 1)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
+        //Conditional loop to a label
+        //Every loop: CX=CX-1
+        //Condition: CX!=0 and ZF==0
+        public static void LOOPNZ(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("LOOPNZ:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Loop instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Decrement loop
+            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+
+            //Condition of a loop
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Storage.DebugMode) Console.WriteLine("ZX: {0}", Storage.Flags["ZF"]);
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0 || Storage.Flags["ZF"] != 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                return;
+            }
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
         }
 
         //Moves (copies) data from [operand 2] (must be 'regX', 'pointer' or 'memory') to [operand 1] (must be 'pointer')

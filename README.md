@@ -95,6 +95,12 @@ Składnia:
 
 Instrukcja IMUL jest wariantem funkcji MUL - działa względem niej identycznie, z tą różnicą, że poprawnie interpretuje liczby ujemne.
 
+### JMP
+Składnia:
+> JMP operand1
+
+Instrukcja JMP służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
 ### LAHF
 Składnia:
 > LAHF

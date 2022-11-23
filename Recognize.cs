@@ -262,53 +262,53 @@
 
                 //BRANCH
                 case "JA":
-                case "JNBE": //TODO MUST
-
+                case "JNBE":
+                    Algorithms.JA(command);
                     break;
                 case "JAE":
                 case "JNB":
-                case "JNC": //TODO MUST
-
+                case "JNC":
+                    Algorithms.JAE(command);
                     break;
                 case "JB":
                 case "JNAE":
-                case "JC": //TODO MUST
-
+                case "JC":
+                    Algorithms.JB(command);
                     break;
                 case "JBE":
-                case "JNA": //TODO MUST
-
+                case "JNA":
+                    Algorithms.JBE(command);
                     break;
-                case "JCXZ": //TODO MUST
-
+                case "JCXZ":
+                    Algorithms.JCXZ(command);
                     break;
                 case "JE":
-                case "JZ": //TODO MUST
-
+                case "JZ":
+                    Algorithms.JE(command);
                     break;
                 case "JG":
-                case "JNLE": //TODO MUST
-
+                case "JNLE":
+                    Algorithms.JG(command);
                     break;
                 case "JGE":
-                case "JNL": //TODO MUST
-
+                case "JNL":
+                    Algorithms.JGE(command);
                     break;
                 case "JL":
-                case "JNGE": //TODO MUST
-
+                case "JNGE":
+                    Algorithms.JL(command);
                     break;
                 case "JLE":
-                case "JNG": //TODO MUST
-
+                case "JNG":
+                    Algorithms.JLE(command);
                     break;
-                case "JMP": //TODO MUST
+                case "JMP":
                     Algorithms.JMP(command);
                     break;
                 case "CALL": //TODO MUST
 
                     break;
-                case "RET": //TODO MUST
+                case "RET":
                     if (Storage.AutoRun) Storage.ContinueSimulation = false;
                     break;
                 case "IRET": //TODO MUST
@@ -320,16 +320,16 @@
                 case "INTO":
                     Tools.NotImplemented();
                     break;
-                case "LOOP": //TODO MUST
-
+                case "LOOP":
+                    Algorithms.LOOP(command);
                     break;
                 case "LOOPZ":
-                case "LOOPE": //TODO MUST
-
+                case "LOOPE":
+                    Algorithms.LOOPZ(command);
                     break;
                 case "LOOPNZ":
-                case "LOOPNE": //TODO MUST
-
+                case "LOOPNE":
+                    Algorithms.LOOPNZ(command);
                     break;
 
                 //FLAGS
@@ -373,23 +373,19 @@
 
                 //CONTROL
                 case "HLT":
-                    //Halt processing. It stops program execution
-                    Storage.ContinueSimulation = false;
+                    if (Storage.AutoRun) Storage.ContinueSimulation = false;
                     break;
                 case "NOP":
-                    //Do nothing for one tick
                     ;
                     break;
-                case "ESC": //VERIFY
-                    //Provides access to the data bus for other resident processors. The CPU treats it as a NOP but places memory operand on bus.
-                    ;
+                case "ESC":
+                    Tools.NotImplemented();
                     break;
-                case "WAIT": //VERIFY
-                    //Just... waits? I guess?
-                    ;
+                case "WAIT":
+                    Tools.NotImplemented();
                     break;
-                case "LOCK": //VERIFY
-                    //I dunno
+                case "LOCK":
+                    Tools.NotImplemented();
                     break;
 
                 //STRING
