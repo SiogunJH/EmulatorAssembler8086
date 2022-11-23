@@ -837,6 +837,35 @@ namespace System
             Storage.Pointers["IP"]++;
         }
 
+        public static void JMP(string command)
+        {
+            //Do not jump if typing code 'by hand'
+            if (!Storage.AutoRun)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Jump instruction was saved, but not executed!");
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 1);
+
+            //Prepare operand(s)
+            command = command.Substring(command.Split(' ')[0].Length);
+            string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a jump
+            //NONE
+
+            //Find label
+            int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
+            if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
+
+            //Execute jump
+            Storage.Pointers["IP"] = jumpIndex;
+        }
+
         //Sets AH value accordingly to flag values, as follows:
         //AH Bits: 7[SF], 6[ZF], 5[0], 4[AF], 3[0], 2[PF], 1[1], 0[CF]
         public static void LAHF(string command)

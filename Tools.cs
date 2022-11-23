@@ -12,29 +12,30 @@ namespace System
 
             //Data display
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("FLAGS - show all FLAG values");
+            Console.WriteLine("FLAGS    - show all FLAG values");
             Console.WriteLine("REGISTER - show all REGISTER values");
             Console.WriteLine("SEGMENTS - show all SEGMENTS values");
             Console.WriteLine("POINTERS - show all POINTERS values");
-            Console.WriteLine("MEMORY - show all MEMORY values");
-            Console.WriteLine("STACK - show all STACK values");
-            Console.WriteLine("PORTS - show all PORTS values");
-            Console.WriteLine("STORAGE - show all data");
+            Console.WriteLine("MEMORY   - show all MEMORY values");
+            Console.WriteLine("STACK    - show all STACK values");
+            Console.WriteLine("PORTS    - show all PORTS values");
+            Console.WriteLine("STORAGE  - show all data");
+            Console.WriteLine("DUMP     - reset all data");
             Console.WriteLine();
 
             //Debug display
-            Console.WriteLine("DEBUG - toggle additional information (off by default)");
+            Console.WriteLine("DEBUG    - toggle additional information (off by default)");
             Console.WriteLine();
 
             //Save/Load data
-            Console.WriteLine("SAVE <FileName> - save written code to a named .txt file");
-            Console.WriteLine("LOAD <FileName> - load code from a named .txt file");
-            Console.WriteLine("RUN - run written/loaded code");
+            Console.WriteLine("SAVE <FileName>  - save written code to a named .txt file");
+            Console.WriteLine("LOAD <FileName>  - load code from a named .txt file");
+            Console.WriteLine("RUN              - dump current storage data and run written/loaded code");
             Console.WriteLine();
 
             //Clear and quit
-            Console.WriteLine("CLEAR - clear console buffer");
-            Console.WriteLine("QUIT - exit the simulator");
+            Console.WriteLine("CLEAR    - clear console buffer");
+            Console.WriteLine("QUIT     - exit the simulator");
             Console.WriteLine();
 
             //Additional information

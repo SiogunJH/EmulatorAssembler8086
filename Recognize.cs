@@ -53,7 +53,7 @@
                 Storage.SavedCode.Add(command);
         }
 
-        public static void AutoRun()
+        public static void AutoRun(int interval)
         {
             //Storage dump
             Tools.StorageDump();
@@ -66,17 +66,23 @@
             {
                 while (Storage.ContinueSimulation)
                 {
-                    //Skip labels
-                    if (Storage.SavedCode[(int)Storage.Pointers["IP"]].Split(' ').Length == 1 && Storage.SavedCode[(int)Storage.Pointers["IP"]].EndsWith(':'))
-                        continue;
+                    //Store old index for later use
+                    int oldIndex = (int)Storage.Pointers["IP"];
 
+                    //Skip labels
+                    if (Storage.SavedCode[oldIndex].Split(' ').Length == 1 && Storage.SavedCode[oldIndex].EndsWith(':'))
+                        Storage.Pointers["IP"]++;
                     //Recognize and execute command
-                    Recognize.Command(Storage.SavedCode[(int)Storage.Pointers["IP"]].Split(' ')[0], Storage.SavedCode[(int)Storage.Pointers["IP"]]);
+                    else
+                        Recognize.Command(Storage.SavedCode[oldIndex].Split(' ')[0], Storage.SavedCode[oldIndex]);
 
                     //Display instruction
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(Storage.SavedCode[(int)Storage.Pointers["IP"]]);
+                    Console.WriteLine(Storage.SavedCode[oldIndex]);
                     Console.ForegroundColor = ConsoleColor.White;
+
+                    //Interval
+                    System.Threading.Thread.Sleep(interval);
                 }
             }
             catch (Exception e)
@@ -297,7 +303,7 @@
 
                     break;
                 case "JMP": //TODO MUST
-
+                    Algorithms.JMP(command);
                     break;
                 case "CALL": //TODO MUST
 
@@ -465,6 +471,10 @@
                     Tools.StorageDisplay();
                     Storage.DoNotSaveToCode = true;
                     break;
+                case "DUMP":
+                    Tools.StorageDump();
+                    Storage.DoNotSaveToCode = true;
+                    break;
                 case "DEBUG":
                     Algorithms.DEBUG();
                     Storage.DoNotSaveToCode = true;
@@ -484,7 +494,7 @@
                     Storage.DoNotSaveToCode = true;
                     break;
                 case "RUN":
-                    Recognize.AutoRun();
+                    Recognize.AutoRun(250);
                     Storage.DoNotSaveToCode = true;
                     break;
 

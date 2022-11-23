@@ -20,10 +20,6 @@ namespace System
                 //DEFUALT
                 Console.ForegroundColor = ConsoleColor.Yellow;
 
-                //LABEL
-                if (line.Split(";")[0].Trim().EndsWith(':'))
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-
                 //DISPLAY
                 Console.WriteLine(line);
             }
