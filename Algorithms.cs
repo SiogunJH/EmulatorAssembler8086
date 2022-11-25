@@ -866,6 +866,7 @@ namespace System
             if (Storage.Flags["CF"] != 0 || Storage.Flags["ZF"] != 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -905,6 +906,7 @@ namespace System
             if (Storage.Flags["CF"] != 1)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -944,6 +946,7 @@ namespace System
             if (Storage.Flags["ZF"] != 1)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -985,6 +988,7 @@ namespace System
             if (Storage.Flags["SF"] != Storage.Flags["OF"] || Storage.Flags["ZF"] != 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1025,6 +1029,7 @@ namespace System
             if (Storage.Flags["SF"] == Storage.Flags["OF"])
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1064,6 +1069,7 @@ namespace System
             if (Storage.Flags["CF"] != 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1104,6 +1110,7 @@ namespace System
             if (Storage.Flags["CF"] != 1 || Storage.Flags["ZF"] != 1)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1144,6 +1151,7 @@ namespace System
             if (Storage.Flags["SF"] != Storage.Flags["OF"])
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1185,6 +1193,7 @@ namespace System
             if (Storage.Flags["SF"] == Storage.Flags["OF"] || Storage.Flags["ZF"] != 1)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1254,6 +1263,7 @@ namespace System
             if (Tools.ReadDataFromOperand("CX", "regX") != 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("Jump Failed");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1346,22 +1356,25 @@ namespace System
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
 
-            //Decrement loop
-            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
-
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
-            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
+            if (Tools.ReadDataFromOperand("CX", "regX") == 1)
             {
-                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
+                Storage.Pointers["IP"]++;
                 return;
             }
+
+            //Decrement loop
+            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+            if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Find label
             int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
             if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
 
             //Execute jump
+            if (Storage.DebugMode) Console.WriteLine("\tJump executed");
             Storage.Pointers["IP"] = jumpIndex;
         }
 
@@ -1391,13 +1404,15 @@ namespace System
 
             //Decrement loop
             Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+            if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
             if (Storage.DebugMode) Console.WriteLine("ZX: {0}", Storage.Flags["ZF"]);
             if (Tools.ReadDataFromOperand("CX", "regX") == 0 || Storage.Flags["ZF"] != 1)
             {
-                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1406,6 +1421,7 @@ namespace System
             if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
 
             //Execute jump
+            if (Storage.DebugMode) Console.WriteLine("\tJump executed");
             Storage.Pointers["IP"] = jumpIndex;
         }
 
@@ -1435,13 +1451,15 @@ namespace System
 
             //Decrement loop
             Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+            if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
             if (Storage.DebugMode) Console.WriteLine("ZX: {0}", Storage.Flags["ZF"]);
             if (Tools.ReadDataFromOperand("CX", "regX") == 0 || Storage.Flags["ZF"] != 0)
             {
-                if (Storage.DebugMode) Console.WriteLine("Loop Ended");
+                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
+                Storage.Pointers["IP"]++;
                 return;
             }
 
@@ -1450,6 +1468,7 @@ namespace System
             if (jumpIndex == -1) throw new Exception(String.Format("Could not find requested label '{0}'", label));
 
             //Execute jump
+            if (Storage.DebugMode) Console.WriteLine("\tJump executed");
             Storage.Pointers["IP"] = jumpIndex;
         }
 
