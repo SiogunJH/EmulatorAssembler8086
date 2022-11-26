@@ -115,11 +115,9 @@
                     Algorithms.MOV(command);
                     break;
                 case "LDS":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "LES":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "LEA":
                     Algorithms.LEA(command);
                     break;
@@ -131,8 +129,7 @@
                     break;
                 case "XLAT":
                 case "XLATB":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "XCHG":
                     Algorithms.XCHG(command);
                     break;
@@ -214,8 +211,7 @@
                     Algorithms.NEG(command);
                     break;
                 case "CMP":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
 
                 //LOGICAL
                 case "AND":
@@ -230,8 +226,8 @@
                 case "NOT":
                     Algorithms.NOT(command);
                     break;
-                case "TEST": //TODO MUST
-
+                case "TEST":
+                    Algorithms.TEST(command);
                     break;
 
                 //ROTATE
@@ -306,20 +302,16 @@
                     Algorithms.JMP(command);
                     break;
                 case "CALL": //TODO MUST
-
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "RET":
                     if (Storage.AutoRun) Storage.ContinueSimulation = false;
                     break;
                 case "IRET": //TODO MUST
-
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "INT": //TODO MUST
-
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "INTO":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "LOOP":
                     Algorithms.LOOP(command);
                     break;
@@ -334,41 +326,25 @@
 
                 //FLAGS
                 case "CLC":
-                    //This instruction resets the carry flag CF to 0.
-                    Storage.Flags["CF"] = 0;
+                    Algorithms.CLC(command);
                     break;
                 case "CLD":
-                    //This instruction resets the direction flag DF to 0.
-                    Storage.Flags["DF"] = 0;
+                    Algorithms.CLD(command);
                     break;
                 case "CLI":
-                    //This instruction resets the interrupt flag IF to 0.
-                    Storage.Flags["IF"] = 0;
+                    Algorithms.CLI(command);
                     break;
                 case "CMC":
-                    //Inverts value of CF.
-                    if (Storage.Flags["CF"] == 1)
-                    {
-                        //Console.WriteLine("CF: 1->0");
-                        Storage.Flags["CF"] = 0;
-                    }
-                    else
-                    {
-                        //Console.WriteLine("CF: 0->1");
-                        Storage.Flags["CF"] = 1;
-                    }
+                    Algorithms.CMC(command);
                     break;
                 case "STC":
-                    //Set carry flag CF to 1.
-                    Storage.Flags["CF"] = 1;
+                    Algorithms.STC(command);
                     break;
                 case "STD":
-                    //Set direction flag DF to 1.
-                    Storage.Flags["DF"] = 1;
+                    Algorithms.STD(command);
                     break;
                 case "STI":
-                    //Set interrupt flag IF to 1.
-                    Storage.Flags["IF"] = 1;
+                    Algorithms.STI(command);
                     break;
 
                 //CONTROL
@@ -376,55 +352,43 @@
                     if (Storage.AutoRun) Storage.ContinueSimulation = false;
                     break;
                 case "NOP":
-                    ;
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "ESC":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "WAIT":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "LOCK":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
 
                 //STRING
                 case "MOVS":
                 case "MOVSB":
                 case "MOVSW":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "CMPS":
                 case "CMPSB":
                 case "CMPSW":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "SCAS":
                 case "SCASB":
                 case "SCASW":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "LODS":
                 case "LODSB":
                 case "LODSW":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "STOS":
                 case "STOSB":
                 case "STOSW":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "REP":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "REPE":
                 case "REPZ":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
                 case "REPNE":
                 case "REPNZ":
-                    Tools.NotImplemented();
-                    break;
+                    throw new NotImplementedException("This instruction is not implemented");
 
                 //META
                 case "QUIT":
@@ -490,7 +454,7 @@
                     Storage.DoNotSaveToCode = true;
                     break;
                 case "RUN":
-                    Recognize.AutoRun(250);
+                    Recognize.AutoRun(100);
                     Storage.DoNotSaveToCode = true;
                     break;
 

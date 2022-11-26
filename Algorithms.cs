@@ -330,6 +330,64 @@ namespace System
             Storage.Pointers["IP"]++;
         }
 
+        //This instruction resets the carry flag CF to 0
+        public static void CLC(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["CF"] = 0;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+
+        }
+
+        //This instruction resets the direction flag DF to 0
+        public static void CLD(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["DF"] = 0;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+
+        }
+
+        //This instruction resets the interrupt flag IF to 0
+        public static void CLI(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["IF"] = 0;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+
+        }
+
+        //This instruction resets the interrupt flag IF to 0
+        public static void CMC(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            if (Storage.Flags["CF"] == 1)
+                Storage.Flags["CF"] = 0;
+            else
+                Storage.Flags["CF"] = 1;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+        }
+
         //Convert word into double word
         //If high bit of [AX] is 1:
         //      [DX]=255
@@ -1327,9 +1385,6 @@ namespace System
             {
                 Storage.SavedCode.Add(lineOfCode);
             }
-
-            //Increment instruction pointer
-            Storage.Pointers["IP"]++;
         }
 
         //Conditional loop to a label
@@ -1358,7 +1413,7 @@ namespace System
 
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
-            if (Tools.ReadDataFromOperand("CX", "regX") == 1)
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
                 Storage.Pointers["IP"]++;
@@ -1401,6 +1456,15 @@ namespace System
             //Prepare operand(s)
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
+
+            //Condition of a loop
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
+                Storage.Pointers["IP"]++;
+                return;
+            }
 
             //Decrement loop
             Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
@@ -1449,13 +1513,22 @@ namespace System
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
 
+            //Condition of a loop
+            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
+            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
+            {
+                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
+                Storage.Pointers["IP"]++;
+                return;
+            }
+
             //Decrement loop
             Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
             if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
-            if (Storage.DebugMode) Console.WriteLine("ZX: {0}", Storage.Flags["ZF"]);
+            if (Storage.DebugMode) Console.WriteLine("ZF: {0}", Storage.Flags["ZF"]);
             if (Tools.ReadDataFromOperand("CX", "regX") == 0 || Storage.Flags["ZF"] != 0)
             {
                 if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
@@ -2288,6 +2361,45 @@ namespace System
             Storage.Pointers["IP"]++;
         }
 
+        //Set carry flag CF to 1.
+        public static void STC(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["CF"] = 1;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+        }
+
+        //Set direction flag DF to 1.
+        public static void STD(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["DF"] = 1;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+        }
+
+        //Set interrupt flag IF to 1.
+        public static void STI(string command)
+        {
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 0);
+
+            //Modify flags
+            Storage.Flags["IF"] = 1;
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+        }
+
         //Sets flag values according to AH binary value, as follows:
         //AH Bits: 7[SF], 6[ZF], 5[-], 4[AF], 3[-], 2[PF], 1[-], 0[CF]
         public static void SAHF(string command)
@@ -2336,9 +2448,6 @@ namespace System
             {
                 file.WriteLine(lineOfCode);
             }
-
-            //Increment instruction pointer
-            Storage.Pointers["IP"]++;
         }
 
         //Substract [operand 2] from [operand 1] and save to [operand 1]
@@ -2600,6 +2709,74 @@ namespace System
             //Modify flags
             Tools.UpdateParityFlag(valueToWrite);
             Tools.UpdateSignFlag(valueToWrite, operandType[0]);
+
+            //Increment instruction pointer
+            Storage.Pointers["IP"]++;
+        }
+
+        //Compare bits of [operand 1] and [operand 2] with AND, then update flags without saving
+        public static void TEST(string command)
+        {
+            //DEBUG Display
+            if (Storage.DebugMode) Console.WriteLine("TEST:");
+
+            //Check for number of operands
+            Tools.CheckForNumOfOperands(command, 2);
+
+            //Prepare operands
+            command = command.Substring(command.Split(' ')[0].Length);
+            string[] operand = command.Split(',');
+            for (long i = 0; i < operand.Length; i++)
+                operand[i] = operand[i].Trim();
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1: {0}", operand[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2: {0}", operand[1]);
+
+            //Detect operand types
+            string[] operandType = new string[operand.Length];
+            for (long i = 0; i < operandType.Length; i++)
+                operandType[i] = Tools.DetectOperandType(operand[i]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
+            if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
+
+            //Detect operand number of bits
+            long[] operandBitSize = new long[operand.Length];
+            for (long i = 0; i < operandBitSize.Length; i++)
+                if ("regHL;memory".Contains(operandType[i]))
+                    operandBitSize[i] = 8;
+                else
+                    operandBitSize[i] = 16;
+            if (operandBitSize[0] != operandBitSize[1])
+                throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
+
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
+            //Convert value(s) to bit strings
+            string[] operandBitString = new string[operand.Length];
+            for (long i = 0; i < operandBitString.Length; i++)
+            {
+                operandBitString[i] = Convert.ToString(operandValue[i], 2);
+                for (long ii = operandBitString[i].Length; ii < operandBitSize[i]; ii++)
+                    operandBitString[i] = String.Format("{0}{1}", "0", operandBitString[i]);
+            }
+
+            //Make logical AND
+            string results = "";
+            for (long i = 0; i < operandBitSize[0]; i++)
+                if (operandBitString[0].ToCharArray()[i] == '1' && operandBitString[1].ToCharArray()[i] == '1')
+                    results += "1";
+                else
+                    results += "0";
+
+            //Determine and adjust final value(s)
+            long finalValue = Tools.Parse(results, 2);
+
+            //Modify flags
+            Tools.UpdateParityFlag(finalValue);
+            Tools.UpdateZeroFlag(finalValue);
+            Tools.UpdateSignFlag(finalValue, operandType[0]);
 
             //Increment instruction pointer
             Storage.Pointers["IP"]++;

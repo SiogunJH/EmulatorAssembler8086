@@ -339,10 +339,10 @@ Rrozpoczyna pracę programu.
 Odpowiada za pracę konsoli i jej zapętlanie.
 
 #### Recognize.cs
-Odpowiada za rozpoznanie polecenia i wysłanie informacji zwrotnej.
+Odpowiada za rozpoznanie polecenia, zlecenie wykonania algorytmu i wysłanie informacji zwrotnej.
 
 #### Algorithms.cs
-Odpowiada za wykonywanie złożonych instrukcji.
+Odpowiada za wykonywanie złożonych instrukcji. Zawiera wszystkie zaimplementowane algorytmy instrukcji procesora 8086.
 
 #### Storage.cs
 Odpowiada za utworzenie struktur i zmiennych przechowujących dane, które mają być dostępne z dowolnego miejsca w kodzie.

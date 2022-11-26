@@ -43,7 +43,7 @@ namespace System
             Console.WriteLine("Additional Information");
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("- JUMP type instructions will only work via use of 'RUN' meta command");
+            Console.WriteLine("- JUMP and LOOP type instructions will only work via use of 'RUN' meta command");
             //Console.WriteLine("- ...");
             Console.WriteLine();
 
@@ -53,9 +53,7 @@ namespace System
 
         public static void NotImplemented()
         {
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("This instruction is not implemented");
-            Console.ForegroundColor = ConsoleColor.White;
+            throw new NotImplementedException("This instruction is not implemented");
         }
 
         public static void StorageInit()
@@ -112,7 +110,7 @@ namespace System
             return unchecked((long)Convert.ToInt64(number, systemSize));
         }
 
-        //Test number for Bit Parity and adjust the Parity Flag (PF) accordingly
+        //Test if number is equal to 0 and update Zero Flag (ZF) accordingly
         public static void UpdateZeroFlag(long number)
         {
             //Check if number is equal to zero

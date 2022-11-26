@@ -26,7 +26,8 @@
 
             //Output saved code
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\nCode written:");
+            Console.WriteLine("\nCode saved to LATEST.txt file:");
+            Algorithms.SAVE("SAVE latest");
             Storage.CodeDisplay();
         }
     }
