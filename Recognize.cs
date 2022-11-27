@@ -427,6 +427,10 @@
                     Storage.CodeDisplay();
                     Storage.DoNotSaveToCode = true;
                     break;
+                case "DROP":
+                    Storage.CodeDump();
+                    Storage.DoNotSaveToCode = true;
+                    break;
                 case "STORAGE":
                     Tools.StorageDisplay();
                     Storage.DoNotSaveToCode = true;

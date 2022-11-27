@@ -27,6 +27,11 @@ namespace System
             Console.WriteLine();
         }
 
+        public static void CodeDump()
+        {
+            SavedCode.Clear();
+        }
+
         //MEMORY
         public static Collections.Generic.SortedDictionary<Int64, Int64> Memory = new Collections.Generic.SortedDictionary<Int64, Int64>();
 

@@ -28,6 +28,8 @@ namespace System
             Console.WriteLine();
 
             //Save/Load data
+            Console.WriteLine("CODE             - display written/loaded code");
+            Console.WriteLine("DROP             - drop all written/loaded code (start over)");
             Console.WriteLine("SAVE <FileName>  - save written code to a named .txt file");
             Console.WriteLine("LOAD <FileName>  - load code from a named .txt file");
             Console.WriteLine("RUN              - dump current storage data and run written/loaded code");
@@ -49,11 +51,6 @@ namespace System
 
             //Reset color
             Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        public static void NotImplemented()
-        {
-            throw new NotImplementedException("This instruction is not implemented");
         }
 
         public static void StorageInit()

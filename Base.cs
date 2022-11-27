@@ -12,23 +12,21 @@
             //Testfield
 
             //Simulation
-            string userInput;
             do
             {
-                //Await user input
+                //Await user input and execute instruction
                 Console.Write("> ");
-                userInput = Console.ReadLine();
-
-                //Execute instruction
-                Recognize.Init(userInput);
+                Recognize.Init(Console.ReadLine());
 
             } while (Storage.ContinueSimulation);
 
-            //Output saved code
+            //Output written code
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\nCode saved to LATEST.txt file:");
-            Algorithms.SAVE("SAVE latest");
             Storage.CodeDisplay();
+
+            //Save code
+            Algorithms.SAVE("SAVE LATEST");
         }
     }
 }
