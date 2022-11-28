@@ -1411,6 +1411,10 @@ namespace System
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
 
+            //Decrement loop
+            Tools.WriteDataToOperand("CX", "regX", Tools.AdjustValue(Tools.ReadDataFromOperand("CX", "regX") - 1, "regX", false));
+            if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
+
             //Condition of a loop
             if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
             if (Tools.ReadDataFromOperand("CX", "regX") == 0)
@@ -1419,10 +1423,6 @@ namespace System
                 Storage.Pointers["IP"]++;
                 return;
             }
-
-            //Decrement loop
-            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
-            if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Find label
             int jumpIndex = Storage.SavedCode.FindIndex(el => el == label);
@@ -1457,17 +1457,8 @@ namespace System
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
 
-            //Condition of a loop
-            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
-            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
-            {
-                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
-                Storage.Pointers["IP"]++;
-                return;
-            }
-
             //Decrement loop
-            Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
+            Tools.WriteDataToOperand("CX", "regX", Tools.AdjustValue(Tools.ReadDataFromOperand("CX", "regX") - 1, "regX", false));
             if (Storage.DebugMode) Console.WriteLine(String.Format("\tCX value after decrementation: {0}", Tools.ReadDataFromOperand("CX", "regX")));
 
             //Condition of a loop
@@ -1512,15 +1503,6 @@ namespace System
             //Prepare operand(s)
             command = command.Substring(command.Split(' ')[0].Length);
             string label = String.Format("{0}{1}", command.Trim(), ":");
-
-            //Condition of a loop
-            if (Storage.DebugMode) Console.WriteLine("CX: {0:X4}", Tools.ReadDataFromOperand("CX", "regX"));
-            if (Tools.ReadDataFromOperand("CX", "regX") == 0)
-            {
-                if (Storage.DebugMode) Console.WriteLine("\tLoop Ended");
-                Storage.Pointers["IP"]++;
-                return;
-            }
 
             //Decrement loop
             Tools.WriteDataToOperand("CX", "regX", Tools.ReadDataFromOperand("CX", "regX") - 1);
@@ -2233,6 +2215,45 @@ namespace System
 
             //Increment instruction pointer
             Storage.Pointers["IP"]++;
+        }
+
+        //Run loaded/written code at specific speed
+        public static void RUN(string command)
+        {
+            //Check for number of operands and prepare accordingly
+            string operand;
+            try
+            {
+                Tools.CheckForNumOfOperands(command, 0);
+                operand = "FAST";
+            }
+            catch
+            {
+                Tools.CheckForNumOfOperands(command, 1);
+                command = command.Substring(command.Split(' ')[0].Length);
+                operand = command.Trim();
+            }
+            switch (operand)
+            {
+                case "VSLOW":
+                    Recognize.AutoRun(1000);
+                    break;
+                case "SLOW":
+                    Recognize.AutoRun(500);
+                    break;
+                case "AVERAGE":
+                    Recognize.AutoRun(250);
+                    break;
+                case "FAST":
+                    Recognize.AutoRun(100);
+                    break;
+                case "VFAST":
+                    Recognize.AutoRun(50);
+                    break;
+                case "INSTANT":
+                    Recognize.AutoRun(1);
+                    break;
+            }
         }
 
         //Rotate [operand 1] left

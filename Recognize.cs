@@ -458,7 +458,7 @@
                     Storage.DoNotSaveToCode = true;
                     break;
                 case "RUN":
-                    Recognize.AutoRun(100);
+                    Algorithms.RUN(command);
                     Storage.DoNotSaveToCode = true;
                     break;
 
