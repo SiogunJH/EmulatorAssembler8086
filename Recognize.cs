@@ -100,10 +100,6 @@
                 //Send additional debug data
                 if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
                 Console.ForegroundColor = ConsoleColor.White;
-
-                //Reset variables
-                Storage.AutoRun = false;
-                Storage.ContinueSimulation = true;
             }
 
             //Reset variables
