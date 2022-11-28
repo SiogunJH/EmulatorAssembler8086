@@ -372,7 +372,7 @@ namespace System
 
         }
 
-        //This instruction resets the interrupt flag IF to 0
+        //Toggle CF value
         public static void CMC(string command)
         {
             //Check for number of operands

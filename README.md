@@ -15,21 +15,27 @@ Operandem domyślnym jest rejestr **AX**
 Składnia:
 > AAD
 
+Instrukcja nieobowiązkowa.
+
 ### AAM
 Składnia:
 > AAM
+
+Instrukcja nieobowiązkowa.
 
 ### AAS
 Składnia:
 > AAS
 
-Instrukcja AAA służy do korekcji wyniku odejmowania dwóch liczb w *rozpakowanym kodzie BCD* zapisanym w *operandzie domyślnym*.
+Instrukcja AAS służy do korekcji wyniku odejmowania dwóch liczb w *rozpakowanym kodzie BCD* zapisanym w *operandzie domyślnym*.
 
 Operandem domyślnym jest rejestr **AX**
 
 ### ADC
 Składnia:
 > ADC operand1, operand2
+
+Instrukcja nieobowiązkowa.
 
 ### ADD
 Składnia:
@@ -43,21 +49,53 @@ Składnia:
 
 Instrukcja AND służy do porównania bitów *operanda pierwszego* i bitów *operanda drugiego* wyrażeniem logicznym **AND**. Wynik tej operacji logicznej zapisywany jest w *operandzie pierwszym*
 
-### CBW
+### CBW (Convert Byte to Word)
 Składnia:
 > CBW
+
+Instrukcja nieobowiązkowa.
+
+### CLC (Clear Carry)
+Składnia:
+> CLC
+
+Instrukcja CLC ustawia flagę **CF** na 0
+
+### CLD (Clear Direction)
+Składnia:
+> CLD
+
+Instrukcja CLD ustawia flagę **DF** na 0
+
+### CLI (Clear Interrupt)
+Składnia:
+> CLI
+
+Instrukcja CLI ustawia flagę **IF** na 0
+
+### CMC
+Składnia:
+> CMC
+
+Instrukcja CMC neguje wartość flagi **CF**
 
 ### CWD
 Składnia:
 > CWD
 
+Instrukcja nieobowiązkowa.
+
 ### DAA
 Składnia:
 > DAA
 
+Instrukcja nieobowiązkowa.
+
 ### DAS
 Składnia:
 > DAS
+
+Instrukcja nieobowiązkowa.
 
 ### DEC
 Składnia:
@@ -95,17 +133,151 @@ Składnia:
 
 Instrukcja IMUL jest wariantem funkcji MUL - działa względem niej identycznie, z tą różnicą, że poprawnie interpretuje liczby ujemne.
 
+### JA
+Składnia:
+> JA operand1
+
+Instrukcja JA służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*. 
+
+Warunek skoku:
+- CF wynosi 0
+- ZF wynosi 0
+
+### JB
+Składnia:
+> JB operand1
+
+Instrukcja JB służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*. 
+
+Warunek skoku:
+- CF wynosi 1
+
+### JE
+Składnia:
+> JE operand1
+
+Instrukcja JE służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*. 
+
+Warunek skoku:
+- ZF wynosi 1
+
+### JG
+Składnia:
+> JG operand1
+
+Instrukcja JG służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- ZF wynosi 0
+- SF jest równe OF
+
+### JL
+Składnia:
+> JL operand1
+
+Instrukcja JL służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- SF jest różne od OF
+
+### JAE
+Składnia:
+> JAE operand1
+
+Instrukcja JAE służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- CF wynosi 0
+
+### JBE
+Składnia:
+> JBE operand1
+
+Instrukcja JBE służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- CF wynosi 1
+- ZF wynosi 1
+
+### JGE
+Składnia:
+> JGE operand1
+
+Instrukcja JGE służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- SF jest równe OF
+
+### JLE
+Składnia:
+> JLE operand1
+
+Instrukcja JLE służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- SF jest różne od OF
+
 ### JMP
 Składnia:
 > JMP operand1
 
 Instrukcja JMP służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
 
+Warunek skoku: 
+- Brak
+
+### JCXZ
+Składnia:
+> JCXZ operand1
+
+Instrukcja JCXZ służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Warunek skoku:
+- CX wynosi 0
+
 ### LAHF
 Składnia:
 > LAHF
 
 Instrukcja LAHF służy do przypisania rejestrowi **AH** wartości, utworzonej na podstawie rejestru flag. Poszczególne flagi oznaczają wartości pojedynczych bitów, w następującym porządku:  *[SF], [ZF], [0], [AF], [0], [PF], [1], [CF]*. Przykład: Jeśli flaga AF i SF ma wartość 1, a pozostałe flagi wartość 0, wynikiem instrukcji LAHF będzie przypisanie do rejestru AH wartości *1001 0010*, czyli *92* (w formacie szesnastkowym).
+
+### LOOP
+Składnia:
+> LOOP operand1
+
+Instrukcja LOOP służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Działanie pętli:
+- CX = CX - 1
+
+Warunek skoku:
+- CX nie wynosi 0
+
+### LOOPZ
+Składnia:
+> LOOPZ operand1
+
+Instrukcja LOOPZ służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Działanie pętli:
+- CX = CX - 1
+
+Warunek skoku:
+- CX nie wynosi 0
+- ZF wynosi 1
+
+### LOOPNZ
+Składnia:
+> LOOPNZ operand1
+
+Instrukcja LOOPNZ służy do zmiany numeru wykonywanej instrukcji w kodzie, przez "skok" do "etykiety", nazwanej tak jak *operand pierwszy*.
+
+Działanie pętli:
+- CX = CX - 1
+
+Warunek skoku:
+- CX nie wynosi 0
+- ZF wynosi 0
 
 ### LEA
 Składnia:
@@ -130,6 +302,12 @@ Operandem domyślnym jest rejestr **AL**, dla operacji 8-bitowych lub rejestr **
 ### NEG
 Składnia:
 > NEG operand1
+
+### NOT
+Składnia:
+> NOT operand1
+
+Instrukcja NOT służy do zanegowania wszystkich bitów *operanda pierwszego* i nadpisania go wynikiem tej operacji. Przykład: Wynikiem operacji NOT na wartości *00110101* (53) jest *11001010* (202)
 
 ### OR
 Składnia:
@@ -214,6 +392,24 @@ Instrukcja SHR służy do przesunięcia bitowego *operanda pierwszego* w prawo b
 
 Instrukcja SAHF służy do przeniesienia binarnej wartości rejestru **AH** do rejestru flag w następującym porządku bitów: *[SF], [ZF], [-], [AF], [-], [PF], [-], [CF]*. Przykład: Jeśli wartość rejestru **AH** wynosi *1000 0001*, to flagi *CF* oraz *SF* zostaną ustawione na **1**, a wszystkie pozostałe na **0**.
 
+### STC (Set Carry)
+Składnia:
+> STC
+
+Instrukcja STC ustawia flagę **CF** na 1
+
+### STD (Set Direction)
+Składnia:
+> STD
+
+Instrukcja STD ustawia flagę **DF** na 1
+
+### STI (Set Interrupt)
+Składnia:
+> STI
+
+Instrukcja STI ustawia flagę **IF** na 1
+
 ### SBB
 Składnia:
 > SBB operand1, operand2
@@ -223,6 +419,12 @@ Składnia:
 > SUB operand1, operand2
 
 Instrukcja SUB służy do odjęcia wartości *operanda drugiego* od wartości *operanda pierwszego* i zapisania wyniku na adresie *operanda pierwszego*
+
+### TEST
+Składnia:
+> TEST operand1, operand2
+
+Instrukcja TEST wynokuje logiczną operację AND na wszystkich bitach obu wartości. Wynik nie jest nigdzie zapisywane, ale na jego podstawie aktualizowane są flagi 
 
 ### XOR
 Składnia:
