@@ -72,6 +72,7 @@
                     //Skip labels
                     if (Storage.SavedCode[oldIndex].Split(' ').Length == 1 && Storage.SavedCode[oldIndex].EndsWith(':'))
                         Storage.Pointers["IP"]++;
+
                     //Recognize and execute command
                     else
                         Recognize.Command(Storage.SavedCode[oldIndex].Split(' ')[0], Storage.SavedCode[oldIndex]);
@@ -99,6 +100,10 @@
                 //Send additional debug data
                 if (Storage.DebugMode) Console.WriteLine(e.StackTrace);
                 Console.ForegroundColor = ConsoleColor.White;
+
+                //Reset variables
+                Storage.AutoRun = false;
+                Storage.ContinueSimulation = true;
             }
 
             //Reset variables
