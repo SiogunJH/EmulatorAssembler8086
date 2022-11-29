@@ -471,6 +471,10 @@
                     Algorithms.RUN(command);
                     Storage.DoNotSaveToCode = true;
                     break;
+                case "AUTHOR":
+                    Algorithms.AUTHOR();
+                    Storage.DoNotSaveToCode = true;
+                    break;
 
                 //ERROR
                 default:

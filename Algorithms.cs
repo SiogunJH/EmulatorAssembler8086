@@ -304,6 +304,34 @@ namespace System
             Storage.Pointers["IP"]++;
         }
 
+        //Display data in regard to author
+        public static void AUTHOR()
+        {
+            //Display author
+            Console.Write("Author: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Jakub Hojda");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            //Display language
+            Console.Write("Language used: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("C#");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            //Display language emulated
+            Console.Write("Language emulated: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Assembler 8086");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            //Display date of creation
+            Console.Write("Year of creation: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("2022");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
         //Convert byte into signed word
         //If high bit of [AL] is 1:
         //      [AH]=255
@@ -2237,25 +2265,19 @@ namespace System
             }
             switch (operand)
             {
-                case "VSLOW":
-                    Recognize.AutoRun(1000);
-                    break;
                 case "SLOW":
                     Recognize.AutoRun(500);
-                    break;
-                case "AVERAGE":
-                    Recognize.AutoRun(250);
-                    break;
+                    return;
                 case "FAST":
                     Recognize.AutoRun(100);
-                    break;
-                case "VFAST":
-                    Recognize.AutoRun(50);
-                    break;
+                    return;
                 case "INSTANT":
                     Recognize.AutoRun(1);
-                    break;
+                    return;
             }
+
+            //Not a matching speed
+            throw new Exception(String.Format("Speed type of {0} was not recognized. Speed types available: 'SLOW', 'FAST', 'INSTANT'", operand));
         }
 
         //Rotate [operand 1] left

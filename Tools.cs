@@ -25,16 +25,17 @@ namespace System
             Console.WriteLine("DUMP     - reset all data");
             Console.WriteLine();
 
-            //Debug display
-            Console.WriteLine("DEBUG    - toggle additional information (off by default)");
-            Console.WriteLine();
-
             //Save/Load data
             Console.WriteLine("CODE             - display written/loaded code");
             Console.WriteLine("DROP             - drop all written/loaded code (start over)");
             Console.WriteLine("SAVE <FileName>  - save written code to a named .txt file");
             Console.WriteLine("LOAD <FileName>  - load code from a named .txt file");
-            Console.WriteLine("RUN              - dump current storage data and run written/loaded code");
+            Console.WriteLine("RUN <Speed>      - dump current storage data and run written/loaded code");
+            Console.WriteLine();
+
+            //Debug display
+            Console.WriteLine("AUTHOR   - display information about the code and its author");
+            Console.WriteLine("DEBUG    - toggle additional information (off by default)");
             Console.WriteLine();
 
             //Clear and quit
@@ -48,7 +49,7 @@ namespace System
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("- JUMP and LOOP type instructions will only work via use of 'RUN' meta command");
-            //Console.WriteLine("- ...");
+            // Console.WriteLine("- ...");
             Console.WriteLine();
 
             //Reset color
