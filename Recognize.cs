@@ -54,6 +54,9 @@
             //Add instruction to saved code
             if (!Storage.DoNotSaveToCode)
                 Storage.SavedCode.Add(command);
+
+            //Reset variables
+            Storage.AutoRun = false;
         }
 
         ///<summary>
