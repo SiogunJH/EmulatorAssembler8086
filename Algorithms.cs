@@ -258,20 +258,22 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
             if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
 
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
             //Detect operand number of bits
             long[] operandBitSize = new long[operand.Length];
             for (long i = 0; i < operandBitSize.Length; i++)
-                if ("regHL;memory".Contains(operandType[i]))
+                if ("regHL;memory".Contains(operandType[i]) ||
+                    ("numberB;numberD;numberH;numberQ".Contains(operandType[i]) && operandValue[i] < 256)
+                )
                     operandBitSize[i] = 8;
                 else
                     operandBitSize[i] = 16;
             if (operandBitSize[0] != operandBitSize[1])
                 throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
-
-            //Read value(s)
-            long[] operandValue = new long[operand.Length];
-            for (long i = 0; i < operandValue.Length; i++)
-                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Convert value(s) to bit strings
             string[] operandBitString = new string[operand.Length];
@@ -2759,20 +2761,22 @@ namespace System
             if (Storage.DebugMode) Console.WriteLine("\tOperand 1 Type: {0}", operandType[0]);
             if (Storage.DebugMode) Console.WriteLine("\tOperand 2 Type: {0}", operandType[1]);
 
+            //Read value(s)
+            long[] operandValue = new long[operand.Length];
+            for (long i = 0; i < operandValue.Length; i++)
+                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
+
             //Detect operand number of bits
             long[] operandBitSize = new long[operand.Length];
             for (long i = 0; i < operandBitSize.Length; i++)
-                if ("regHL;memory".Contains(operandType[i]))
+                if ("regHL;memory".Contains(operandType[i]) ||
+                    ("numberB;numberD;numberH;numberQ".Contains(operandType[i]) && operandValue[i] < 256)
+                )
                     operandBitSize[i] = 8;
                 else
                     operandBitSize[i] = 16;
             if (operandBitSize[0] != operandBitSize[1])
                 throw new Exception(String.Format("Both operand must have the same maximum bit size. Recieved size of {0} for type of {1} and size of {2} for type of {3}", operandBitSize[0], operandType[0], operandBitSize[1], operandType[1]));
-
-            //Read value(s)
-            long[] operandValue = new long[operand.Length];
-            for (long i = 0; i < operandValue.Length; i++)
-                operandValue[i] = Tools.ReadDataFromOperand(operand[i], operandType[i]);
 
             //Convert value(s) to bit strings
             string[] operandBitString = new string[operand.Length];

@@ -2,6 +2,9 @@
 {
     public class Recognize
     {
+        ///<summary>
+        ///Funkcja przyjmuje instrukcję wpisaną przez użytkownika, formatuje ją, interpretuje i zapisuje w pamięci tymczasowej
+        ///</summary>
         public static void Init(string command)
         {
             //Reset variable(s)
@@ -53,6 +56,9 @@
                 Storage.SavedCode.Add(command);
         }
 
+        ///<summary>
+        ///Funkcja przetwarza odpowiednio przygotowany i sformatowany kod, linijka po linijce z uwzględnieniem pętli i skoków
+        ///</summary>
         public static void AutoRun(int interval)
         {
             //Storage dump
@@ -107,6 +113,9 @@
             Storage.ContinueSimulation = true;
         }
 
+        ///<summary>
+        ///Funkcja rozpoznaje odpowiednio sfotmaowaną instrukcję i uruchamia jej algorytm
+        ///</summary>
         public static void Command(string instruction, string command)
         {
             switch (instruction)

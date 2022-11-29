@@ -2,6 +2,8 @@ namespace System
 {
     class Tools
     {
+        //Message that will disply on startup
+        //It contains all meta commands and info needed to use this simulator
         public static void StartupMessage()
         {
             //Welcome message with basic information
@@ -53,6 +55,7 @@ namespace System
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        //Prepare storage for use
         public static void StorageInit()
         {
             Storage.RegisterInit();
@@ -64,6 +67,7 @@ namespace System
             Storage.PortInit();
         }
 
+        //Display all data within storage
         public static void StorageDisplay()
         {
             Storage.RegisterDisplay();
@@ -75,6 +79,7 @@ namespace System
             Storage.PortDisplay();
         }
 
+        //Dump all data within storage and reinitiate its base values
         public static void StorageDump()
         {
             Storage.RegisterDump();
@@ -151,6 +156,7 @@ namespace System
                 Storage.Flags["SF"] = 0;
         }
 
+        //Modify value, so it may fit to operand
         public static long AdjustValue(long operandValue, string operandType, bool modifyFlags)
         {
             //DEBUG Display
@@ -184,6 +190,8 @@ namespace System
             return operandValue;
         }
 
+        //Check if correct number of operand were used
+        //Throw error if incorrect
         public static void CheckForNumOfOperands(string command, long expectedNumOfOperands)
         {
             //Save instruction name
@@ -204,6 +212,8 @@ namespace System
             }
         }
 
+        //Detect operand type
+        //Throw error if no match is found
         public static string DetectOperandType(string operand)
         {
             if ("AH;BH;CH;DH;AL;BL;CL;DL".Contains(operand)) //REGISTER OPERAND
@@ -226,12 +236,14 @@ namespace System
                 return "numberB";
             if (operand.StartsWith('[') && operand.EndsWith(']')) //MEMORY
                 return "memory";
-            if (operand.Contains('+') || operand.Contains('-') || operand.Contains('*') || operand.Contains('/')) //TODO
-                return "equation";
+            // if (operand.Contains('+') || operand.Contains('-') || operand.Contains('*') || operand.Contains('/')) //TODO
+            //     return "equation";
 
             throw new Exception($"Operand '{operand}' was not recognized!");
         }
 
+        //Read data from operand
+        //Throw error if cannot reach address
         public static long ReadDataFromOperand(string operand, string operandType)
         {
             switch (operandType)

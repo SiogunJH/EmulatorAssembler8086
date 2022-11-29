@@ -18,7 +18,20 @@ namespace System
             foreach (var line in SavedCode)
             {
                 //DEFUALT
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.White;
+
+                //LABEL
+                if (line.EndsWith(':'))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine();
+                }
+
+                //RET
+                if (line == "RET")
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
 
                 //DISPLAY
                 Console.WriteLine(line);
@@ -53,7 +66,7 @@ namespace System
 
         public static void MemoryDisplay()
         {
-            Console.WriteLine();
+            Console.WriteLine("Memory:");
             long i = 0;
             foreach (long key in Memory.Keys)
             {
@@ -92,7 +105,7 @@ namespace System
 
         public static void PortDisplay()
         {
-            Console.WriteLine();
+            Console.WriteLine("Ports:");
             long i = 0;
             foreach (long key in Port.Keys)
             {
@@ -127,7 +140,7 @@ namespace System
 
         public static void StackDisplay()
         {
-            Console.WriteLine();
+            Console.WriteLine("Stack:");
             long i = 0;
             foreach (long key in Stack.Keys)
             {
@@ -167,7 +180,7 @@ namespace System
 
         public static void RegisterDisplay()
         {
-            Console.WriteLine("\nAH AL BH BL CH CL DH DL");
+            Console.WriteLine("Register:\nAH AL BH BL CH CL DH DL");
             Console.Write("{0:X2} ", Register["AH"]);
             Console.Write("{0:X2} ", Register["AL"]);
             Console.Write("{0:X2} ", Register["BH"]);
@@ -201,7 +214,7 @@ namespace System
 
         public static void FlagsDisplay()
         {
-            Console.WriteLine("\nOF DF IF TF SF ZF AF PF CF");
+            Console.WriteLine("Flags:\nOF DF IF TF SF ZF AF PF CF");
             Console.Write(" {0}  ", Flags["OF"]);
             Console.Write("{0}  ", Flags["DF"]);
             Console.Write("{0}  ", Flags["IF"]);
@@ -230,7 +243,7 @@ namespace System
 
         public static void SegmentsDisplay()
         {
-            Console.WriteLine("\n SS   DS   ES");
+            Console.WriteLine("Segments:\n SS   DS   ES");
             Console.Write("{0:X4} ", Segments["SS"]);
             Console.Write("{0:X4} ", Segments["DS"]);
             Console.WriteLine("{0:X4}\n", Segments["ES"]);
@@ -255,7 +268,7 @@ namespace System
 
         public static void PointersDisplay()
         {
-            Console.WriteLine("\n SP   BP   IP   SI   DI");
+            Console.WriteLine("Pointers:\n SP   BP   IP   SI   DI");
             Console.Write("{0:X4} ", Pointers["SP"]);
             Console.Write("{0:X4} ", Pointers["BP"]);
             Console.Write("{0:X4} ", Pointers["IP"]);
